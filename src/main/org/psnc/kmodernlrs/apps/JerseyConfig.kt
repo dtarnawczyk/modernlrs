@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component
 
 @Component
 @ApplicationPath("/")
-open class JerseyConfig() : ResourceConfig() {
-	init {
+open class JerseyConfig : ResourceConfig {
+	
+	constructor() {
 		register(StatementsController())
 		
 		property(ServletProperties.FILTER_FORWARD_ON_404, true);
