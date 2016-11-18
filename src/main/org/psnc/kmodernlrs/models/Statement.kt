@@ -25,6 +25,7 @@ public data class Statement(
 //		val stored: String,
 //		val authority: Actor?,
 		val version: String?) {
+	
 	fun validate() {
 		if (id == null) throw JsonParseException("'uuid' is null!")
 	}
