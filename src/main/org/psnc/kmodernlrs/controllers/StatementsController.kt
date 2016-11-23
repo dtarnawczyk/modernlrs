@@ -7,25 +7,30 @@ import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
 import javax.ws.rs.FormParam
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 import com.google.gson.Gson
 import org.psnc.kmodernlrs.models.Statement
 
-@Component
+const val JSON_TYPE:String = "application/json"
 
+@Component
 @Path("/xAPI/statements")
 class StatementsController {
 	
+//	@GET
+//	fun statementsList(): String {
+//		return "List of statements"
+//	}
+	
 	@GET
-	fun statementsList() : String {
-		return "List of statements";
+	fun getStatement(): Statement {
+		return Statement("1", "1.0")
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	fun register(@FormParam("inputData") inputData: String): Response {
+	@Consumes(JSON_TYPE)
+	@Produces(JSON_TYPE)
+	fun register(@FormParam("inputData") inputData: String) {
 		var statement: Statement = Gson().fromJson(inputData, Statement::class.java)
 	}
 }
