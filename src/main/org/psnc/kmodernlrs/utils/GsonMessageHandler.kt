@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder
 
 open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>{
 	
-	lateinit var gson: Gson
+    lateinit var gson: Gson
 		
 	var charset:Charset = StandardCharsets.UTF_8
 	
