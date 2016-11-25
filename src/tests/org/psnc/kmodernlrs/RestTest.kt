@@ -27,12 +27,13 @@ import com.google.gson.GsonBuilder
 open class RestTest {
 	
 	@Autowired lateinit var template: TestRestTemplate
-	val log = LoggerFactory.getLogger(RestTest::class.java)	
 	
-//	@Test
-//	fun getStatement() {
-//		var entity: ResponseEntity<String> = this.template.getForEntity("/xAPI/statements/", String::class.java)
-//		log.debug(entity.body)
-//		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//	}
+//	val log = LoggerFactory.getLogger(RestTest::class.java)	
+	
+	@Test
+	fun getStatement() {
+		var entity: ResponseEntity<String> = this.template.getForEntity("/xAPI/statements/", String::class.java)
+		println(">>>>>>>>>>>>>>>> BODY: "+ entity.body)
+		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
 }

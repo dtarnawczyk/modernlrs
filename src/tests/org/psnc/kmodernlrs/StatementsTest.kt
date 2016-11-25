@@ -33,17 +33,14 @@ open class StatementsTest {
 	@Before
 	fun initialize() {
 		statement = Statement("1", "1.0")
-		
 		var gson:Gson = GsonBuilder().create();
 		GsonTester.initFields(this, gson);
 	}
 	
 	@Test
 	fun testJson() {
-		var stmnt = Statement("1", "1.0")
-		log.debug(">>>>>>>>>> Json object id: ", stmnt.id)
-		log.debug(">>>>>>>>>> Json object version: ", stmnt.version)
-		assertThat(json.write(stmnt)).isEqualToJson("{ \"Id\": \"1\", \"Version\": \"1.0\" }")
+		log.debug(">>>>> json.write(statement) -> "+ json.write(statement))
+		assertThat(json.write(statement)).isEqualToJson("{ \"id\": \"1\", \"version\": \"1.0\" }")
 	}
 	
 }

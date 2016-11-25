@@ -12,7 +12,8 @@ import javax.ws.rs.FormParam
 import javax.ws.rs.core.Response
 import com.google.gson.Gson
 import org.psnc.kmodernlrs.models.Statement
-import org.springframework.beans.factory.annotation.Autowired
+//import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpEntity
 
 const val JSON_TYPE:String = "application/json"
 
@@ -22,28 +23,18 @@ open class StatementsController {
 	
 	val log = LoggerFactory.getLogger(StatementsController::class.java)
 	
-	@Autowired
-	lateinit var statement:Statement
-	
-//	@GET
-//	fun statementsList(): String {
-//		return "List of statements"
-//	}
-	
 	@GET
 	@Produces(JSON_TYPE)
-	fun getStmnt(): Statement {
-		statement = Statement("1", "1.0")
-		log.debug(">>>>>>>>>> Json object id: ", statement.id)
-		log.debug(">>>>>>>>>> Json object version: ", statement.version)
-		log.debug(">>>>>>>>>> Json toString: ", statement.toString())
-		return statement
-	}
+	fun getStmnt() = Statement("2222", "2222.0")
+	
 	
 	@POST
 	@Consumes(JSON_TYPE)
 	@Produces(JSON_TYPE)
-	fun register(@FormParam("inputData") inputData: String) {
-		var statement: Statement = Gson().fromJson(inputData, Statement::class.java)
+	fun register(json: String): Statement {
+		log.debug(">>> Input json: " + json)
+		var statement: Statement = Gson().fromJson(json, Statement::class.java)
+		log.debug(">>> statement: " + statement)
+		return statement
 	}
 }
