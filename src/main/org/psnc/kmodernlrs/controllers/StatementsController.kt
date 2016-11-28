@@ -12,29 +12,38 @@ import javax.ws.rs.FormParam
 import javax.ws.rs.core.Response
 import com.google.gson.Gson
 import org.psnc.kmodernlrs.models.Statement
-//import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
+import org.psnc.kmodernlrs.repo.StatementRepository
+import org.apache.commons.lang3.StringUtils
+import java.util.UUID
 
 const val JSON_TYPE:String = "application/json"
 
 @Component
 @Path("/xAPI/statements")
-open class StatementsController {
+open class StatementsController() {
+	
+	@Autowired lateinit var repo: StatementRepository
 	
 	val log = LoggerFactory.getLogger(StatementsController::class.java)
 	
 	@GET
 	@Produces(JSON_TYPE)
-	fun getStmnt() = Statement("2222", "2222.0")
-	
+	fun getStmnt() = Gson().toJson(repo.findAll())
 	
 	@POST
 	@Consumes(JSON_TYPE)
 	@Produces(JSON_TYPE)
 	fun register(json: String): Statement {
-		log.debug(">>> Input json: " + json)
 		var statement: Statement = Gson().fromJson(json, Statement::class.java)
-		log.debug(">>> statement: " + statement)
+		if(StringUtils.isBlank(statement.id)) {
+			statement.id = UUID.randomUUID().toString()
+		} else {
+			// TODO: check if exists
+		}
+		log.debug(">>> Saving Statement: " + statement)
+		repo.save(statement)
 		return statement
 	}
 }
