@@ -9,7 +9,7 @@ import org.psnc.kmodernlrs.gson.GsonMessageHandler
 import org.psnc.kmodernlrs.serializers.*
 
 @Component
-@ApplicationPath("/")
+@ApplicationPath("/v1/")
 open class JerseyConfig : ResourceConfig {
 	
 	constructor() {

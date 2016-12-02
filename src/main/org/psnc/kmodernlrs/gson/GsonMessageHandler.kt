@@ -39,7 +39,7 @@ open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>, G
 		var gsonBuilder:GsonBuilder = GsonBuilder()
 		gson = gsonBuilder
 				.disableHtmlEscaping()
-				.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
 				.registerTypeAdapter(Statement::class.java, StatementSerializer())
 				.registerTypeAdapter(Statement::class.java, StatementDeserializer())
 //				.registerTypeAdapter(Actor::class.java, ActorSerializer())
