@@ -5,15 +5,16 @@ import javax.ws.rs.ApplicationPath
 import org.glassfish.jersey.servlet.ServletProperties
 import org.psnc.kmodernlrs.controllers.StatementsController
 import org.springframework.stereotype.Component
-import org.psnc.kmodernlrs.utils.GsonMessageHandler
+import org.psnc.kmodernlrs.gson.GsonMessageHandler
+import org.psnc.kmodernlrs.serializers.*
 
 @Component
 @ApplicationPath("/")
 open class JerseyConfig : ResourceConfig {
 	
 	constructor() {
-		register(StatementsController())
 		register(GsonMessageHandler())
+		register(StatementsController())
 		
 		property(ServletProperties.FILTER_FORWARD_ON_404, true);
 	}	

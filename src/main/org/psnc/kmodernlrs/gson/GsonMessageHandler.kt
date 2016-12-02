@@ -1,4 +1,4 @@
-package org.psnc.kmodernlrs.utils
+package org.psnc.kmodernlrs.gson
 
 import java.io.IOException
 import java.io.InputStream
@@ -22,7 +22,14 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>{
+import org.psnc.kmodernlrs.models.*
+import org.psnc.kmodernlrs.serializers.*
+import org.psnc.kmodernlrs.deserializers.*
+
+import org.springframework.stereotype.Component
+
+@Component
+open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>, GsonFactoryProvider{
 	
     lateinit var gson: Gson
 		
@@ -30,11 +37,20 @@ open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>{
 	
 	init {
 		var gsonBuilder:GsonBuilder = GsonBuilder()
-		gson = gsonBuilder.disableHtmlEscaping()
+		gson = gsonBuilder
+				.disableHtmlEscaping()
 				.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+				.registerTypeAdapter(Statement::class.java, StatementSerializer())
+				.registerTypeAdapter(Statement::class.java, StatementDeserializer())
+//				.registerTypeAdapter(Actor::class.java, ActorSerializer())
+//				.registerTypeAdapter(Actor::class.java, ActorDeserializer())
                 .setPrettyPrinting()
                 .serializeNulls()
                 .create()
+	}
+	
+	override fun gsonFactory(): Gson{
+		return gson 
 	}
 	
 	@Override

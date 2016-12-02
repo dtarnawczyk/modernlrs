@@ -1,4 +1,4 @@
 package org.psnc.kmodernlrs.models
 
-class XapiObject {
+public data class XapiObject(var id: String) {
 }
