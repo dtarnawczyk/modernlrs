@@ -6,10 +6,10 @@ import org.glassfish.jersey.servlet.ServletProperties
 import org.psnc.kmodernlrs.controllers.StatementsController
 import org.springframework.stereotype.Component
 import org.psnc.kmodernlrs.gson.GsonMessageHandler
-import org.psnc.kmodernlrs.serializers.*
+import org.psnc.kmodernlrs.ApiEndpoints
 
 @Component
-@ApplicationPath("/v1/")
+@ApplicationPath(ApiEndpoints.API_PATH)
 open class JerseyConfig : ResourceConfig {
 	
 	constructor() {

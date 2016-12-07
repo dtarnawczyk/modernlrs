@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Bean
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
 
 //@SpringBootApplication
 @Configuration
@@ -19,4 +21,12 @@ open class Application {
             SpringApplication.run(Application::class.java, *args)
         }
     }
+	
+	@Bean
+	open fun kotlinPropertyConfigurer() : PropertySourcesPlaceholderConfigurer {
+	    val propertyConfigurer = PropertySourcesPlaceholderConfigurer()
+	    propertyConfigurer.setPlaceholderPrefix("&{")
+	    propertyConfigurer.setIgnoreUnresolvablePlaceholders(true)
+	    return propertyConfigurer
+	}
 }

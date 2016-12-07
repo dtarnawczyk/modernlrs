@@ -22,6 +22,7 @@ import java.lang.reflect.Type
 import org.psnc.kmodernlrs.models.*
 import org.psnc.kmodernlrs.serializers.*
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
+import org.psnc.kmodernlrs.ApiEndpoints
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.psnc.kmodernlrs.repo.Repository
@@ -31,7 +32,7 @@ import java.util.UUID
 const val JSON_TYPE:String = "application/json"
 
 @Component
-@Path("/xAPI/statements")
+@Path(ApiEndpoints.STATEMENTS_ENDPOINT)
 open class StatementsController {
 	
 	@Autowired lateinit var repo: Repository
@@ -59,7 +60,7 @@ open class StatementsController {
 		} else {
 			// TODO: check if exists
 		}
-		log.debug(">>> Saving Statement: " + statement)
+		log.debug(String.format(">>> Saving Statement: %s", statement))
 		repo.add(statement)
 		return statement
 	}
