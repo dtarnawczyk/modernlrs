@@ -15,7 +15,7 @@
 Properties - **application.properties** file:
 -------------
 
-## Server configuration
+##### Server configuration
 
 server.port= 8090
 security.user.name= admin
@@ -23,35 +23,35 @@ security.user.password= admin321
 management.security.roles= SUPERUSER
 spring.jmx.enabled= false
 
-## Spring MVC dispatcher servlet path. Path needs to be different than Jersey's to enable/disable Actuator endpoints access (/info, /health, ...)
+##### Spring MVC dispatcher servlet path. Path needs to be different than Jersey's to enable/disable Actuator endpoints access (/info, /health, ...)
 server.servlet-path= /
-## Jersey dispatcher servlet
+##### Jersey dispatcher servlet
 spring.jersey.application-path= /v1
 spring.jersey.type= filter
 
-## Actuator endpoints
+##### Actuator endpoints
 endpoints.enabled= true
 endpoints.health.enabled= true
 endpoints.health.sensitive= true
 endpoints.info.enabled= true
 endpoints.metrics.enabled= true
 
-## Authentication. Possible values: basic, oauth
+##### Authentication. Possible values: basic, oauth
 auth= basic
 auth.basic.username= user
 auth.basic.password= user321
 auth.oauth.key=
 auth.oauth.secret=
 
-## Cassandra DB configuration
+##### Cassandra DB configuration
 
 
 Execution:
 -------------
 
-## mvn clean spring-boot:run
+##### mvn clean spring-boot:run
 
-## mvn clean test
+##### mvn clean test
 
 REST path: http://localhost:8090/v1/xAPI/statements
 
