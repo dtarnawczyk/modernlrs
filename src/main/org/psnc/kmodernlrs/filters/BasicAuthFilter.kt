@@ -2,6 +2,7 @@ package org.psnc.kmodernlrs.filters
 
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Primary
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.servlet.FilterChain
@@ -12,8 +13,11 @@ import org.apache.commons.lang3.StringUtils
 import org.psnc.kmodernlrs.security.UserAccountAuth
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 
-@Component("BasicAuthFilter")
+@ConditionalOnProperty(name=arrayOf("auth.type"), havingValue="basic")
+@Component
+@Primary
 class BasicAuthFilter : OncePerRequestFilter() {
 	
 	val log = LoggerFactory.getLogger(BasicAuthFilter::class.java)

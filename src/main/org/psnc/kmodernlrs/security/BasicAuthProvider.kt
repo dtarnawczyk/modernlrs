@@ -8,12 +8,17 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.beans.factory.annotation.Autowired
 import org.psnc.kmodernlrs.repo.Repository
 import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Primary
 import org.springframework.beans.factory.annotation.Value
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.codec.binary.Base64
 import java.nio.charset.Charset
 
-@Component("BasicAuthProvider")
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+
+@ConditionalOnProperty(name=arrayOf("auth.type"), havingValue="basic")
+@Component
+@Primary
 class BasicAuthProvider : AuthenticationProvider {
 	
 	val log = LoggerFactory.getLogger(BasicAuthProvider::class.java)

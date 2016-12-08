@@ -28,7 +28,7 @@ public data class Statement(
 //		var timestamp: String?,
 //		var stored: String,
 //		var authority: Actor?,
-		var version: String = "") : Serializable { 
+		var version: String? = "") : Serializable { 
 		
 	companion object {
 		private val serialVersionUID = 1L

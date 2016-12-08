@@ -26,8 +26,6 @@ import org.psnc.kmodernlrs.ApiEndpoints
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.psnc.kmodernlrs.repo.Repository
-import org.apache.commons.lang3.StringUtils
-import java.util.UUID
 
 const val JSON_TYPE:String = "application/json"
 
@@ -55,11 +53,6 @@ open class StatementsController {
 	@Produces(JSON_TYPE)
 	fun register(json: String): Statement {
 		var statement: Statement = gson.fromJson(json, Statement::class.java)
-		if(StringUtils.isBlank(statement.id)) {
-			statement.id = UUID.randomUUID().toString()
-		} else {
-			// TODO: check if exists
-		}
 		log.debug(String.format(">>> Saving Statement: %s", statement))
 		repo.add(statement)
 		return statement

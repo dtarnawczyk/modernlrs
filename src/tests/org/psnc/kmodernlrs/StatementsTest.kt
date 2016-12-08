@@ -44,7 +44,7 @@ open class StatementsTest {
 	
 	@Test
 	fun testJson() {
-		log.debug(">>>>>>>>>>>>>>>>>> json.write(statement) -> "+ json.write(statement))
+		log.debug(">>> json.write(statement) -> "+ json.write(statement))
 		assertNotNull(statement)
 //		assertThat(json.write(statement)).isEqualToJson("{ \"id\": \"1\", \"version\": \"1.0\" }")
 	}

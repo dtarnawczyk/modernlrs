@@ -24,18 +24,14 @@ import org.psnc.kmodernlrs.filters.*
 @EnableWebSecurity
 open class LRSSecurity : WebSecurityConfigurerAdapter() {
 	
-	@Value("&{auth}")
-	lateinit var authType:String
+//	@Value("&{auth.type}")
+//	lateinit var authType:String
 	
-//	@Autowired
-//	@Qualifier("#{'&{auth}' == 'basic' ? BasicAuthProvider : OAuthProvider}")
-//	@Qualifier("BasicAuthProvider")
-//	lateinit var authProvider: AuthenticationProvider
+	@Autowired
+	lateinit var authProvider: AuthenticationProvider
 	
-//	@Autowired
-//	@Qualifier("#{&{auth}' == 'basic' ? BasicAuthFilter : OAuthFilter}")
-//	@Qualifier("BasicAuthFilter")
-//	lateinit var filter: OncePerRequestFilter
+	@Autowired
+	lateinit var filter: OncePerRequestFilter
 	
 	@Value("&{management.security.roles}")
     lateinit var adminRole: String
@@ -44,7 +40,7 @@ open class LRSSecurity : WebSecurityConfigurerAdapter() {
 		http
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.antMatcher("/v1/xAPI/statements**").addFilterBefore(getFilter(), BasicAuthenticationFilter::class.java)
+			.antMatcher("/v1/xAPI/statements**").addFilterBefore(filter, BasicAuthenticationFilter::class.java)
 			.authorizeRequests()
 			.anyRequest().fullyAuthenticated()
 //			.antMatchers(actuatorEndpoints()).hasRole(adminRole)
@@ -55,25 +51,7 @@ open class LRSSecurity : WebSecurityConfigurerAdapter() {
 	}
 	
 	override fun configure(auth: AuthenticationManagerBuilder) {
-		auth.authenticationProvider(authenticationProvider());
-	}
-	
-	@Bean
-	open fun authenticationProvider() : AuthenticationProvider {
-		if(authType.equals("basic")) {
-			return BasicAuthProvider()
-		} else {
-			return OAuthProvider()
-		}
-	}
-	
-	@Bean
-	open fun getFilter() : OncePerRequestFilter {
-		if(authType.equals("basic")) {
-			return BasicAuthFilter()
-		} else {
-			return OAuthFilter()
-		}
+		auth.authenticationProvider(authProvider);
 	}
 	
 	fun actuatorEndpoints() : List<String> {

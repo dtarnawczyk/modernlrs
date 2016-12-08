@@ -33,7 +33,7 @@ open class RestTest {
 	@Test
 	fun getStatement() {
 		var entity: ResponseEntity<String> = this.template.getForEntity("/xAPI/statements/", String::class.java)
-		println(">>>>>>>>>>>>>>>> BODY: "+ entity.body)
+		println(">>> BODY: "+ entity.body)
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 }
