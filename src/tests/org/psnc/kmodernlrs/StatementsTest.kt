@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner::class)
+@SpringBootTest(classes = arrayOf(Application::class))
 @JsonTest
 open class StatementsTest {
 	

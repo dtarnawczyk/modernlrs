@@ -36,11 +36,16 @@ class BasicAuthFilter : OncePerRequestFilter() {
 				log.warn("OPTIONS request - returning no content");
 				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			} else {
-				response.sendError(401, "Missing Authorization Header")
-				throw SecurityException()
+				missingHeader(response)
 			}
+		} else {
+			missingHeader(response)
 		}
 		
         chain.doFilter(request, response)
+	}
+	
+	fun missingHeader(response: HttpServletResponse ) {
+		response.sendError(401, "Missing Authorization Header")
 	}
 }
