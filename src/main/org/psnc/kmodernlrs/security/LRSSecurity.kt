@@ -41,13 +41,11 @@ open class LRSSecurity : WebSecurityConfigurerAdapter() {
 	@Value("&{management.security.roles}")
     lateinit var adminRole: String
 	
-	private var statementPath: String = "/v1/xAPI/statements"
-	
 	override fun configure(http: HttpSecurity) {	
 		http
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.antMatcher(statementPath+"**").addFilterBefore(headerFilter, HeaderWriterFilter::class.java)
+			.antMatcher("/v1/xAPI/**").addFilterBefore(headerFilter, HeaderWriterFilter::class.java)
 			.addFilterAfter(filter, BasicAuthenticationFilter::class.java)
 			.authorizeRequests()
 			.anyRequest().fullyAuthenticated()

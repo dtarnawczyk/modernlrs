@@ -1,7 +1,7 @@
 package org.psnc.kmodernlrs.repo
 
-interface Repository {
+interface Repository<T> {
 	fun getAll() : Collection<*>
-	fun get(key: Int) : Any
-	fun add(obj: Any)
+	fun get(key: String) : T?
+	fun add(key: String, obj: T)
 }

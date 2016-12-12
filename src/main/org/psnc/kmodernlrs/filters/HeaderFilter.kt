@@ -11,6 +11,7 @@ import javax.servlet.ServletException
 import org.apache.commons.lang3.StringUtils
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.psnc.kmodernlrs.Constants
 
 @Component
 class HeaderFilter : OncePerRequestFilter() {
@@ -25,7 +26,7 @@ class HeaderFilter : OncePerRequestFilter() {
 		
 		log.debug(">>> Header filter <<")
 		var allowedRequestHeader: String? = request.getHeader("Access-Control-Request-Headers")
-		var responseHeader:String = "X-Experience-API-Version"
+		var responseHeader:String = Constants.XAPI_VERSION_HEADER
 		
 		if (StringUtils.isNotBlank(allowedRequestHeader)) {
 			if (StringUtils.contains(allowedRequestHeader, responseHeader.toLowerCase())) {

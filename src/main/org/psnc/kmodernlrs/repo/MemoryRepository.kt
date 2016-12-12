@@ -4,20 +4,20 @@ import org.psnc.kmodernlrs.models.*
 import org.springframework.stereotype.Component
 
 @Component
-class MemoryRepository : Repository {
+class MemoryRepository : Repository<Statement> {
 	
-	private var store: MutableList<Statement> = mutableListOf<Statement>()
+	private var store: MutableMap<String, Statement> = mutableMapOf<String, Statement>()
 	
 	override fun getAll() : Collection<*> {
 		return store.toList()
 	}
 	
-	override fun get(key: Int) : Any {
+	override fun get(key: String) : Statement? {
 		return store.get(key)
 	}
 	
-	override fun add(obj: Any) {
-		store.add(obj as Statement)
+	override fun add(key: String, obj: Statement) {
+		store.put(key, obj)
 	}
 	
 }

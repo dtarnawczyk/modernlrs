@@ -24,7 +24,7 @@ class BasicAuthProvider : AuthenticationProvider {
 	val log = LoggerFactory.getLogger(BasicAuthProvider::class.java)
 	
 	//TODO: can be used as a UserAccount repo
-	@Autowired lateinit var repo: Repository
+//	@Autowired lateinit var repo: Repository
 	
 	@Value("&{auth.basic.username}")
 	lateinit var userName:String

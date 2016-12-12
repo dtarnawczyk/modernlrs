@@ -8,11 +8,10 @@ import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
-import javax.ws.rs.FormParam
+import javax.ws.rs.PathParam
 import javax.ws.rs.core.Response
 import com.google.gson.GsonBuilder
 import com.google.gson.Gson
-
 import com.google.gson.JsonSerializer
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonElement
@@ -33,7 +32,7 @@ const val JSON_TYPE:String = "application/json"
 @Path(ApiEndpoints.STATEMENTS_ENDPOINT)
 open class StatementsController {
 	
-	@Autowired lateinit var repo: Repository
+	@Autowired lateinit var repo: Repository<Statement>
 	
 	val log = LoggerFactory.getLogger(StatementsController::class.java)
 	
@@ -46,7 +45,22 @@ open class StatementsController {
 	
 	@GET
 	@Produces(JSON_TYPE)
-	fun getStmnt() = gson.toJson(repo.getAll())
+	@Path("/{statementId}")
+	fun getStatement(@PathParam("statementId") statementId: String) : String {
+		log.debug(">>> get statement with id: "+ statementId)
+		var statement = repo.get(statementId)
+		if(statement != null) {
+			return gson.toJson(statement)
+		} else {
+			return "No statement found"
+		}
+	}
+	
+	@GET
+	@Produces(JSON_TYPE)
+	fun getAllStatements() : String {
+		return gson.toJson(repo.getAll())
+	}
 	
 	@POST
 	@Consumes(JSON_TYPE)
@@ -54,7 +68,7 @@ open class StatementsController {
 	fun register(json: String): Statement {
 		var statement: Statement = gson.fromJson(json, Statement::class.java)
 		log.debug(String.format(">>> Saving Statement: %s", statement))
-		repo.add(statement)
+		repo.add(statement.id, statement)
 		return statement
 	}
 	

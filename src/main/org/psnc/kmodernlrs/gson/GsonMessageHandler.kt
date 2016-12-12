@@ -31,11 +31,11 @@ import org.springframework.stereotype.Component
 @Component
 open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>, GsonFactoryProvider{
 	
-    lateinit var gson: Gson
+    private var gson: Gson
 		
 	var charset:Charset = StandardCharsets.UTF_8
 	
-	init {
+	constructor() {
 		var gsonBuilder:GsonBuilder = GsonBuilder()
 		gson = gsonBuilder
 				.disableHtmlEscaping()
