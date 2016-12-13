@@ -20,6 +20,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertNotNull
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.util.Calendar
+import java.util.Date
+import java.sql.Timestamp
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner::class)
@@ -27,7 +30,7 @@ import com.google.gson.GsonBuilder
 @JsonTest
 open class StatementsTest {
 	
-	@Autowired lateinit var json: GsonTester<Statement>
+	@Autowired lateinit var jsonTester: GsonTester<Statement>
 	
 	val log = LoggerFactory.getLogger(StatementsTest::class.java)
 	lateinit var statement: Statement
@@ -38,16 +41,15 @@ open class StatementsTest {
 		actor.mbox = "mailto:test@server.com"
 		var verb: Verb = Verb("http://example.com/xapi/verbs#defenestrated", hashMapOf("pl" to "test"))
 		var obj: XapiObject = XapiObject("testid")
-		statement = Statement("1", actor, verb, obj, "1.0")
+		statement = Statement("1", actor, verb, obj, Timestamp(Calendar.getInstance().getTime().getTime()), "1.0")
 		var gson:Gson = GsonBuilder().create();
 		GsonTester.initFields(this, gson);
 	}
 	
 	@Test
-	fun testJson() {
-		log.debug(">>> json.write(statement) -> "+ json.write(statement))
-		assertNotNull(statement)
-//		assertThat(json.write(statement)).isEqualToJson("{ \"id\": \"1\", \"version\": \"1.0\" }")
+	fun createJson() {
+		log.debug(">>> jsonTester.write(statement) -> "+ jsonTester.write(statement))
+		assertNotNull(jsonTester.write(statement))
 	}
 	
 }

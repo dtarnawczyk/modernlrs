@@ -17,6 +17,9 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.lang.reflect.Type
+import java.util.Calendar
+import java.util.Date
+import java.sql.Timestamp
 
 import org.psnc.kmodernlrs.models.*
 import org.psnc.kmodernlrs.serializers.*
@@ -68,6 +71,7 @@ open class StatementsController {
 	fun register(json: String): Statement {
 		var statement: Statement = gson.fromJson(json, Statement::class.java)
 		log.debug(String.format(">>> Saving Statement: %s", statement))
+		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime())
 		repo.add(statement.id, statement)
 		return statement
 	}

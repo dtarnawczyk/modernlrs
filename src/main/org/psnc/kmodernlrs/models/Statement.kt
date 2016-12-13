@@ -3,6 +3,7 @@ package org.psnc.kmodernlrs.models
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.sql.Timestamp
 
 public data class Statement(
 		
@@ -26,7 +27,10 @@ public data class Statement(
 //		var reult: Result?,
 //		var context: Context?,
 //		var timestamp: String?,
-//		var stored: String,
+		/**
+ 		 * Optional (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stored)
+		 */
+		var stored: Timestamp? = null,
 //		var authority: Actor?,
 		var version: String? = "") : Serializable { 
 		

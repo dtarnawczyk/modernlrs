@@ -23,6 +23,7 @@ class StatementSerializer : JsonSerializer<Statement> {
 		newStatement.add("actor", context?.serialize(statement.actor))
 		newStatement.add("verb", context?.serialize(statement.verb))
 		newStatement.add("object", context?.serialize(statement.xapiObj))
+		newStatement.add("stored", context?.serialize(statement.stored))
 		if(!statement.version.isNullOrEmpty()) newStatement.addProperty("version", statement.version)
 		log.debug(">>> Statement serialized:" + newStatement)
 		
