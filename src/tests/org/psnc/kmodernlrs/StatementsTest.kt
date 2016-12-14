@@ -26,7 +26,7 @@ import java.sql.Timestamp
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner::class)
-@SpringBootTest(classes = arrayOf(Application::class))
+@SpringBootTest(classes = arrayOf(org.psnc.kmodernlrs.Application::class))
 @JsonTest
 open class StatementsTest {
 	
@@ -42,8 +42,8 @@ open class StatementsTest {
 		var verb: Verb = Verb("http://example.com/xapi/verbs#defenestrated", hashMapOf("pl" to "test"))
 		var obj: XapiObject = XapiObject("testid")
 		statement = Statement("1", actor, verb, obj, Timestamp(Calendar.getInstance().getTime().getTime()), "1.0")
-		var gson:Gson = GsonBuilder().create();
-		GsonTester.initFields(this, gson);
+		var gson:Gson = GsonBuilder().create()
+		GsonTester.initFields(this, gson)
 	}
 	
 	@Test
@@ -52,4 +52,35 @@ open class StatementsTest {
 		assertNotNull(jsonTester.write(statement))
 	}
 	
+	@Test
+	fun testJsonActor() {
+		var json: String = "{\"id\": \"12345678-1234-5678-1234-567812345678\","+
+		  "\"actor\":{"+
+		  "\"mbox\":\"mailto:xapi@adlnet.gov\","+
+		  "\"name\":\"test actor\","+
+		  "\"objectType\": \"Group\","+
+        "\"member\": ["+
+    	 "{\"objectType\": \"Agent\","+
+    	  	"\"name\": \"member one\""+
+      	"}],\"account\": {"+
+        	"\"homePage\": \"http://www.example.pl\","+
+        	"\"name\": \"1625378\"}},"+
+        "\"verb\":{"+
+        "\"id\":\"http://adlnet.gov/expapi/verbs/created\","+
+        "\"display\":{\"en-US\":\"created\""+
+        "}},\"object\":{\"id\":\"http://example.adlnet.gov/xapi/example/activity\"}}"
+		log.debug(">>>> json -> "+ json)
+		var statement: Statement = jsonTester.parseObject(json)
+		assertNotNull(statement.id)
+		assertNotNull(statement.actor.mbox)
+		assertNotNull(statement.actor.name)
+		assertNotNull(statement.actor.objectType)
+		assertNotNull(statement.actor.member.toTypedArray().get(0).objectType)
+		assertNotNull(statement.actor.member.toTypedArray().get(0).name)
+		assertNotNull(statement.actor.account?.name)
+		assertNotNull(statement.actor.account?.homePage)
+		assertNotNull(statement.verb.id)
+		assertNotNull(statement.verb.display)
+		assertNotNull(statement.xapiObj.id)
+	}
 }

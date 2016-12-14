@@ -6,9 +6,11 @@ import com.google.gson.JsonSerializer
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 import org.psnc.kmodernlrs.models.Actor
+import org.psnc.kmodernlrs.models.Account
 
 class ActorSerializer : JsonSerializer<Actor> {
 	
@@ -24,7 +26,9 @@ class ActorSerializer : JsonSerializer<Actor> {
 		if(!actor.mbox.isNullOrEmpty()) newActor.addProperty("mbox", actor.mbox)
 		if(!actor.mbox_sha1sum.isNullOrEmpty()) newActor.addProperty("mbox_sha1sum", actor.mbox_sha1sum)
 		if(!actor.openid.isNullOrEmpty()) newActor.addProperty("openid", actor.openid)
-		if(!actor.member.isEmpty()) newActor.add("member", context?.serialize(actor.member))
+		val listType = object : TypeToken<List<Actor>>() {}.type
+		if(!actor.member.isEmpty()) newActor.add("member", context?.serialize(actor.member, listType))
+		if(actor.account != null) newActor.add("account", context?.serialize(actor.account, Account::class.java))
 		log.debug(">>> New Actor serialized:" + newActor)
 		
 		return newActor

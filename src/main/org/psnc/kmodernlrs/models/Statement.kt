@@ -35,7 +35,7 @@ public data class Statement(
 		var version: String? = "") : Serializable { 
 		
 	companion object {
-		private val serialVersionUID = 1L
+		private val serialVersionUID:Long = 1
 	}
 	
 	fun validate() {

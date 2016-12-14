@@ -40,10 +40,7 @@ class StatementDeserializer : JsonDeserializer<Statement>{
 		log.debug(">>> Deserialized Verb: " + verb)
 		log.debug(">>> Deserialized Object: " + obj)
 		
-		var version: String? = null
-		if(jsonObject.get("version") != null){
-			version = jsonObject.get("version").getAsString()
-		}
+		var version: String? = jsonObject.get("version")?.getAsString()
 		
 		var statement:Statement = Statement(id, actor, verb, obj, null, version)
 		log.debug(">>> Deserialized Statement: " + statement)
