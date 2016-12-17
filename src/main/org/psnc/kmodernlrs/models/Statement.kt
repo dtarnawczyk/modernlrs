@@ -24,15 +24,16 @@ public data class Statement(
 		 */
 		@SerializedName("object")
 		var xapiObj: XapiObject,
-//		var reult: Result?,
-//		var context: Context?,
-//		var timestamp: String?,
+		var result: Result?,
+		var context: Context?,
+		var timestamp: Timestamp? = null,
 		/**
  		 * Optional (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stored)
 		 */
 		var stored: Timestamp? = null,
-//		var authority: Actor?,
-		var version: String? = "") : Serializable { 
+		var authority: Actor? = null,
+		var version: String? = "1.0.3",
+		var attachments: List<Attachment>? = listOf()) : Serializable { 
 		
 	companion object {
 		private val serialVersionUID:Long = 1

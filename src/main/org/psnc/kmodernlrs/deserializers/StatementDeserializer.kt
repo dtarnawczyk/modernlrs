@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import org.apache.commons.lang3.StringUtils
 import java.util.UUID
@@ -14,6 +15,9 @@ import org.psnc.kmodernlrs.models.Statement
 import org.psnc.kmodernlrs.models.Actor
 import org.psnc.kmodernlrs.models.Verb
 import org.psnc.kmodernlrs.models.XapiObject
+import org.psnc.kmodernlrs.models.Result
+import org.psnc.kmodernlrs.models.Context
+import org.psnc.kmodernlrs.models.Attachment
 
 class StatementDeserializer : JsonDeserializer<Statement>{
 	
@@ -35,14 +39,14 @@ class StatementDeserializer : JsonDeserializer<Statement>{
 		var actor: Actor = context.deserialize(jsonObject.get("actor"), Actor::class.java)
 		var verb:Verb = context.deserialize(jsonObject.get("verb"), Verb::class.java)
 		var obj:XapiObject = context.deserialize(jsonObject.get("object"), XapiObject::class.java)
-		
-		log.debug(">>> Deserialized Actor: " + actor)
-		log.debug(">>> Deserialized Verb: " + verb)
-		log.debug(">>> Deserialized Object: " + obj)
-		
+		var result:Result? = context.deserialize(jsonObject.get("result"), Result::class.java)
+		var ctx:Context? = context.deserialize(jsonObject.get("context"), Context::class.java)
+		var authority:Actor? = context.deserialize(jsonObject.get("authority"), Actor::class.java)
 		var version: String? = jsonObject.get("version")?.getAsString()
+		val listType = object : TypeToken<List<Attachment>>() {}.type
+		var attachments: List<Attachment>? = context.deserialize(jsonObject.get("attachments"), listType)
 		
-		var statement:Statement = Statement(id, actor, verb, obj, null, version)
+		var statement:Statement = Statement(id, actor, verb, obj, result, ctx, null, null, authority, version, attachments)
 		log.debug(">>> Deserialized Statement: " + statement)
 		return statement
 	}

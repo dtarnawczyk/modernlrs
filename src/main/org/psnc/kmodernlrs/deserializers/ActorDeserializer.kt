@@ -42,14 +42,10 @@ class ActorDeserializer : JsonDeserializer<Actor>{
 	}
 	
 	fun deserializeIFI(context: JsonDeserializationContext, jsonObject: JsonObject, actor: Actor) {
-		var mbox: String? = jsonObject.get("mbox")?.getAsString()
-		var mbox_sha1sum: String? = jsonObject.get("mbox_sha1sum")?.getAsString()
-		var openid: String? = jsonObject.get("mbox_sha1sum")?.getAsString()
-		var account: Account? = context.deserialize(jsonObject.get("account"), Account::class.java)
-		actor.account = account
-		actor.mbox = mbox
-		actor.mbox_sha1sum = mbox_sha1sum
-		actor.openid = openid
+		actor.account = context.deserialize(jsonObject.get("account"), Account::class.java)
+		actor.mbox = jsonObject.get("mbox")?.getAsString()
+		actor.mbox_sha1sum = jsonObject.get("mbox_sha1sum")?.getAsString()
+		actor.openid = jsonObject.get("openid")?.getAsString()
 	}
 	
 }

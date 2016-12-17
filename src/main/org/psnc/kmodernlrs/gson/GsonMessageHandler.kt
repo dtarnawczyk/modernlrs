@@ -44,6 +44,8 @@ open class GsonMessageHandler: MessageBodyReader<Any>, MessageBodyWriter<Any>, G
 				.registerTypeAdapter(Statement::class.java, StatementDeserializer())
 				.registerTypeAdapter(Actor::class.java, ActorSerializer())
 				.registerTypeAdapter(Actor::class.java, ActorDeserializer())
+				.registerTypeAdapter(XapiObject::class.java, ObjectDeserializer())
+				.registerTypeAdapter(XapiObject::class.java, ObjectSerializer())
                 .setPrettyPrinting()
                 .serializeNulls()
                 .create()

@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.*
 import org.springframework.http.MediaType
-import org.psnc.kmodernlrs.Application
 import org.psnc.kmodernlrs.Constants
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.boot.test.context.SpringBootTest
@@ -48,20 +47,20 @@ open class WebTest {
 	
 	@Test
 	fun basicAuthTest() {
-		var basic: String = userName+":"+password
-		var encodedBytes = Base64.encodeBase64(basic.toByteArray())
+		val basic: String = userName+":"+password
+		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
 		mockClient.perform(get(statementsPath)
 			.header("Authorization", "Basic " + String(encodedBytes))
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
 	}
-	
+
 	@Test
 	fun postGetStatementIdTest() {
-		var basic: String = userName+":"+password
-		var encodedBytes = Base64.encodeBase64(basic.toByteArray())
-		var statementId = "1234-56789-12324"
-		var statementJson: String = "{\"id\":\""+statementId+"\","+
+		val basic: String = userName+":"+password
+		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
+		val statementId = "1234-56789-12324"
+		val statementJson: String = "{\"id\":\""+statementId+"\","+
 							"\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
 							"\"mbox\":\"mailto:user@example.com\"}, "+
 							"\"verb\":{\"id\":\"http://adlnet.gov/expapi/verbs/created\","+
@@ -79,18 +78,18 @@ open class WebTest {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(header().string("X-Experience-API-Version", "1.0.3"))
-		
+
 		mockClient.perform(get(statementsPath+"/"+statementId)
 			.header("Authorization", "Basic " + String(encodedBytes))
             .accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
             .andExpect(status().isOk())
 	}
-	
+
 	@Test
 	fun getXapiHeaderBasicAuth() {
-		var basic: String = userName+":"+password
-		var encodedBytes = Base64.encodeBase64(basic.toByteArray())
+		val basic: String = userName+":"+password
+		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
 		mockClient.perform(get(statementsPath)
 			.header("Authorization", "Basic " + String(encodedBytes))
             .accept(MediaType.APPLICATION_JSON))
