@@ -4,13 +4,16 @@ import com.google.gson.JsonParseException
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.sql.Timestamp
+import org.springframework.data.cassandra.mapping.PrimaryKey
+import org.springframework.data.cassandra.mapping.Table
 
+@Table("Statements")
 public data class Statement(
 		
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stmtid)
 		 */
-		var id: String = "",
+        @PrimaryKey var id: String = "",
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#actor)
 		 */
