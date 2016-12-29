@@ -9,7 +9,7 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import org.apache.commons.lang3.StringUtils
-import java.util.UUID
+
 
 import org.psnc.kmodernlrs.models.Statement
 import org.psnc.kmodernlrs.models.Actor
@@ -28,14 +28,8 @@ class StatementDeserializer : JsonDeserializer<Statement>{
 			return null
 		}
 		var jsonObject: JsonObject = json as JsonObject
-		var id:String
-		
-		if(jsonObject.get("id") == null || StringUtils.isBlank(jsonObject.get("id").asString as CharSequence)){
-			id = UUID.randomUUID().toString()
-		} else {
-			id = jsonObject.get("id").getAsString()
-		}
-		
+
+		var id:String = jsonObject.get("id").getAsString()
 		var actor: Actor = context.deserialize(jsonObject.get("actor"), Actor::class.java)
 		var verb:Verb = context.deserialize(jsonObject.get("verb"), Verb::class.java)
 		var obj:XapiObject = context.deserialize(jsonObject.get("object"), XapiObject::class.java)
@@ -47,6 +41,7 @@ class StatementDeserializer : JsonDeserializer<Statement>{
 		var attachments: List<Attachment>? = context.deserialize(jsonObject.get("attachments"), listType)
 		
 		var statement:Statement = Statement(id, actor, verb, obj, result, ctx, null, null, authority, version, attachments)
+//		var statement:Statement = Statement(id, actor, version)
 		log.debug(">>> Deserialized Statement: " + statement)
 		return statement
 	}

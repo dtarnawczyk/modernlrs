@@ -14,7 +14,8 @@ public data class Actor(
 		var mbox_sha1sum: String? = "",
 		var openid: String? = "",
 		var member: List<Actor> = listOf(),
-		var account: Account? = null) : Serializable {
+		var account: Account? = null
+	) : Serializable {
 	
 	companion object {
 		private val serialVersionUID:Long = 1

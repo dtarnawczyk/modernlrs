@@ -5,6 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.ws.rs.GET
 import javax.ws.rs.POST
+import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
@@ -15,8 +16,9 @@ import com.google.gson.Gson
 import java.lang.reflect.Type
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
+import javax.ws.rs.core.MediaType
 import java.sql.Timestamp
-
 import org.psnc.kmodernlrs.models.*
 import org.psnc.kmodernlrs.serializers.*
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
@@ -64,16 +66,55 @@ open class StatementsController {
 //		return gson.toJson(repo.getAll())
 		return ""
 	}
-	
+
+	@PUT
+	@Path("/{statementId}")
+	@Consumes(JSON_TYPE)
+	fun putStatementWithId(@PathParam("statementId") statementId: String, json: String) : Response {
+		var response:Response?
+		if(!json.isNullOrEmpty()){
+			val statement: Statement = gson.fromJson(json, Statement::class.java)
+			if(statementId.isNullOrEmpty()) {
+				response = Response.noContent().build()
+			} else if(statement.id.isNullOrEmpty()) {
+				statement.id = statementId
+				registerStatement(statement)
+				response = Response.ok().build()
+			} else if(statement.id == statementId) {
+				registerStatement(statement)
+				response = Response.ok().build()
+			} else {
+				response = Response.status(Response.Status.CONFLICT).build()
+			}
+		} else {
+			response = Response.noContent().build()
+		}
+
+		return response
+	}
+
 	@POST
 	@Consumes(JSON_TYPE)
-	@Produces(JSON_TYPE)
-	fun register(json: String): Statement? {
-//		val statement: Statement = gson.fromJson(json, Statement::class.java)
-//		log.debug(String.format(">>> Saving Statement: %s", statement))
-//		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime())
-//		repo.add(statement.id, statement)
-//		return statement
-		return null
+	fun postStatement(json: String) : Response {
+		var response:Response?
+		if(!json.isNullOrEmpty()){
+			val statement: Statement = gson.fromJson(json, Statement::class.java)
+			if(statement.id.isNullOrEmpty()) {
+				statement.id = UUID.randomUUID().toString()
+			}
+			registerStatement(statement)
+			response = Response.ok(statement.id, MediaType.APPLICATION_JSON).build()
+		} else {
+			response = Response.noContent().build()
+		}
+		return response
+	}
+
+	fun registerStatement(statement: Statement) {
+		log.debug(String.format(">>> Saving Statement: %s", statement))
+
+		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime())
+		service.createStatement(statement)
+
 	}
 }

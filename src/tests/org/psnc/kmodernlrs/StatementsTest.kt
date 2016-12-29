@@ -150,7 +150,7 @@ open class StatementsTest {
 		var gson:Gson = GsonBuilder().create()
 		GsonTester.initFields(this, gson)
 	}
-	
+
 	@Test
 	fun createJson() {
 		log.debug(">>> jsonTester.write(statement) -> "+ jsonTester.write(statement))
@@ -200,7 +200,7 @@ open class StatementsTest {
 		assertThat(statement.xapiObj.xapiObj?.objectType).isEqualTo("StatementRef")
 		assertThat(statement.xapiObj.xapiObj?.id).isEqualTo("9e13cefd-53d3-4eac-b5ed-2cf6693903bb")
 	}
-	
+
 	@Test
 	fun testLongJsonStatement() {
 		log.debug(">>>> json long statement -> "+ longStatement)

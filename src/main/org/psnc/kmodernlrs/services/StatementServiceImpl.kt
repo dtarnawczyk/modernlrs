@@ -2,25 +2,46 @@ package org.psnc.kmodernlrs.services
 
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
-import org.psnc.kmodernlrs.repo.StatementRepository
+import org.psnc.kmodernlrs.repository.StatementRepository
+import org.psnc.kmodernlrs.repository.RepositoryCustomImpl
 import org.psnc.kmodernlrs.models.Statement
 
+/**
+ * Can use the StatementRepository as well as the RepositoryCustomImpl, depends which one better fits.
+ */
 @Service
 open class StatementServiceImpl : StatementService {
 
     @Autowired
-    lateinit var repo: StatementRepository
+    lateinit var statementRepo: StatementRepository
 
-    override fun createStatement(statement: Statement) : Statement? = repo.createStatement(statement)
+    @Autowired
+    lateinit var repoCustom: RepositoryCustomImpl
 
-    override fun getStatement(id: String) : Statement? = repo.getStatement(id)
+    override fun createStatement(statement: Statement) : Boolean {
+//        return repo.insert(statement, Statement::class.java )
+        // OR
+        repoCustom.create(statement)
+        // TODO: check if exist
+        return true
+    }
 
-    override fun deleteStatement(id: String) = repo.deleteStatement(id)
+    override fun getStatement(id: String) : Statement? {
+        return repoCustom.findById(id, Statement::class.java) as Statement
+    }
 
-    override fun getAll() : List<Statement>? = repo.getAll()
+    override fun deleteStatement(id: String) {
+        repoCustom.deleteById(id, Statement::class.java)
+    }
 
-    override fun getCount() : Long = repo.getCount()
+//    override fun getAll() : List<Statement>? = repo.getAll()
+//
+    override fun getCount() : Long {
+        return repoCustom.getCount(Statement::class.java)
+    }
 
-    override fun exists(id: Statement) : Boolean = repo.exists(id)
+    override fun exists(statement: Statement) : Boolean {
+        return repoCustom.exists(statement.id, Statement::class.java)
+    }
 
 }

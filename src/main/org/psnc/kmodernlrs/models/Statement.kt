@@ -1,19 +1,17 @@
 package org.psnc.kmodernlrs.models
 
-import com.google.gson.JsonParseException
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.sql.Timestamp
-import org.springframework.data.cassandra.mapping.PrimaryKey
-import org.springframework.data.cassandra.mapping.Table
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Table("Statements")
+@Document(collection = "statements")
 public data class Statement(
-		
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stmtid)
 		 */
-        @PrimaryKey var id: String = "",
+		@Id var id: String = "",
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#actor)
 		 */
@@ -36,7 +34,8 @@ public data class Statement(
 		var stored: Timestamp? = null,
 		var authority: Actor? = null,
 		var version: String? = "1.0.3",
-		var attachments: List<Attachment>? = listOf()) : Serializable { 
+		var attachments: List<Attachment>? = listOf()
+	) : Serializable {
 		
 	companion object {
 		private val serialVersionUID:Long = 1
