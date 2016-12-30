@@ -43,6 +43,6 @@ open class MongoDBConfig : AbstractMongoConfiguration() {
     }
 
     override fun getMappingBasePackage(): String {
-        return "org.psnc.kmodernlrs"
+        return "org.psnc.kmodernlrs.models"
     }
 }

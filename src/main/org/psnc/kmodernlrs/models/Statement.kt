@@ -2,9 +2,13 @@ package org.psnc.kmodernlrs.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.sql.Timestamp
+
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
+import org.springframework.data.mongodb.core.mapping.DBRef
+
+import org.psnc.kmodernlrs.mongo.CascadeSave
 
 @Document(collection = "statements")
 public data class Statement(
@@ -15,23 +19,26 @@ public data class Statement(
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#actor)
 		 */
-		var actor: Actor,
+//		@DBRef
+//		@CascadeSave
+		var actor: Actor? = null,
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#verb)
 		 */
-		var verb: Verb,
+		var verb: Verb? = null,
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#object)
 		 */
 		@SerializedName("object")
-		var xapiObj: XapiObject,
-		var result: Result?,
-		var context: Context?,
-		var timestamp: Timestamp? = null,
+		@Field("object")
+		var xapiObj: XapiObject? = null,
+		var result: Result? = null,
+		var context: Context? = null,
+		var timestamp: String? = null,
 		/**
  		 * Optional (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stored)
 		 */
-		var stored: Timestamp? = null,
+		var stored: String? = null,
 		var authority: Actor? = null,
 		var version: String? = "1.0.3",
 		var attachments: List<Attachment>? = listOf()

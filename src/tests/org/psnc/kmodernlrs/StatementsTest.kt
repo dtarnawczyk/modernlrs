@@ -146,7 +146,7 @@ open class StatementsTest {
 		actor.mbox = "mailto:test@server.com"
 		var verb: Verb = Verb("http://example.com/xapi/verbs#defenestrated", hashMapOf("pl" to "test"))
 		var obj: XapiObject = XapiObject("testid", "Activity", null)
-		statement = Statement("1", actor, verb, obj, null, null, null, Timestamp(Calendar.getInstance().getTime().getTime()), null, "1.0", emptyList())
+		statement = Statement("1", actor, verb, obj, null, null, null, Timestamp(Calendar.getInstance().getTime().getTime()).toString(), null, "1.0", emptyList())
 		var gson:Gson = GsonBuilder().create()
 		GsonTester.initFields(this, gson)
 	}
@@ -162,16 +162,16 @@ open class StatementsTest {
 		log.debug(">>>> json with actor -> "+ jsonWithActor)
 		var statement: Statement = jsonTester.parseObject(jsonWithActor)
 		assertNotNull(statement.id)
-		assertNotNull(statement.actor.mbox)
-		assertNotNull(statement.actor.name)
-		assertNotNull(statement.actor.objectType)
-		assertNotNull(statement.actor.member.toTypedArray().get(0).objectType)
-		assertNotNull(statement.actor.member.toTypedArray().get(0).name)
-		assertNotNull(statement.actor.account?.name)
-		assertNotNull(statement.actor.account?.homePage)
-		assertNotNull(statement.verb.id)
-		assertNotNull(statement.verb.display)
-		assertNotNull(statement.xapiObj.id)
+		assertNotNull(statement.actor?.mbox)
+		assertNotNull(statement.actor?.name)
+		assertNotNull(statement.actor?.objectType)
+		assertNotNull(statement.actor?.member?.toTypedArray()?.get(0)!!.objectType)
+		assertNotNull(statement.actor?.member?.toTypedArray()?.get(0)!!.name)
+		assertNotNull(statement.actor?.account?.name)
+		assertNotNull(statement.actor?.account?.homePage)
+		assertNotNull(statement.verb?.id)
+		assertNotNull(statement.verb?.display)
+		assertNotNull(statement.xapiObj?.id)
 	}
 
 	@Test
@@ -179,34 +179,34 @@ open class StatementsTest {
 		log.debug(">>>> json with object as an activity -> "+ jsonWithActivityObject)
 		var statement: Statement = jsonTester.parseObject(jsonWithActivityObject)
 		assertNotNull(statement.id)
-		assertNotNull(statement.xapiObj.id)
-		assertThat(statement.xapiObj.objectType).isEqualTo("Activity")
-		assertNotNull(statement.xapiObj.definition)
-		assertThat(statement.xapiObj.definition?.name).isNotEmpty()
-		assertThat(statement.xapiObj.definition?.description).isNotEmpty()
-		assertThat(statement.xapiObj.definition?.type).isEqualTo("http://www.example.co.uk/types/exampleactivitytype")
+		assertNotNull(statement.xapiObj?.id)
+		assertThat(statement.xapiObj?.objectType).isEqualTo("Activity")
+		assertNotNull(statement.xapiObj?.definition)
+		assertThat(statement.xapiObj?.definition?.name).isNotEmpty()
+		assertThat(statement.xapiObj?.definition?.description).isNotEmpty()
+		assertThat(statement.xapiObj?.definition?.type).isEqualTo("http://www.example.co.uk/types/exampleactivitytype")
 	}
 
 	@Test
 	fun testJsonSubstatementObject() {
 		log.debug(">>>> json with object as a substatement -> "+ jsonWithSubstatementObject)
 		var statement: Statement = jsonTester.parseObject(jsonWithSubstatementObject)
-		assertThat(statement.xapiObj.objectType).isEqualTo("SubStatement")
-		assertNotNull(statement.xapiObj.actor)
-		assertThat(statement.xapiObj.actor?.objectType).isEqualTo("Agent")
-		assertThat(statement.xapiObj.actor?.mbox).isEqualTo("mailto:agent@example.com")
-		assertNotNull(statement.xapiObj.verb)
-		assertThat(statement.xapiObj.verb?.display).containsEntry("en","confirmed")
-		assertThat(statement.xapiObj.xapiObj?.objectType).isEqualTo("StatementRef")
-		assertThat(statement.xapiObj.xapiObj?.id).isEqualTo("9e13cefd-53d3-4eac-b5ed-2cf6693903bb")
+		assertThat(statement.xapiObj?.objectType).isEqualTo("SubStatement")
+		assertNotNull(statement.xapiObj?.actor)
+		assertThat(statement.xapiObj?.actor?.objectType).isEqualTo("Agent")
+		assertThat(statement.xapiObj?.actor?.mbox).isEqualTo("mailto:agent@example.com")
+		assertNotNull(statement.xapiObj?.verb)
+		assertThat(statement.xapiObj?.verb?.display).containsEntry("en","confirmed")
+		assertThat(statement.xapiObj?.xapiObj?.objectType).isEqualTo("StatementRef")
+		assertThat(statement.xapiObj?.xapiObj?.id).isEqualTo("9e13cefd-53d3-4eac-b5ed-2cf6693903bb")
 	}
 
 	@Test
 	fun testLongJsonStatement() {
 		log.debug(">>>> json long statement -> "+ longStatement)
 		var statement: Statement = jsonTester.parseObject(longStatement)
-		assertThat(statement.actor.member).hasSize(3)
-		assertThat(statement.verb.id).isEqualTo("http://adlnet.gov/expapi/verbs/attended")
+		assertThat(statement.actor?.member).hasSize(3)
+		assertThat(statement.verb?.id).isEqualTo("http://adlnet.gov/expapi/verbs/attended")
 		assertThat(statement.result?.response).isEqualTo("We agreed on some example actions.")
 		assertThat(statement.context?.registration).isEqualTo("ec531277-b57b-4c15-8d91-d292c5b2b8f7")
 		assertThat(statement.context?.contextActivities?.parent?.first()?.objectType).isEqualTo("Activity")
@@ -222,8 +222,8 @@ open class StatementsTest {
         assertNotNull(statement.stored)
 		assertThat(statement.authority?.account?.homePage).isEqualTo("http://cloud.scorm.com/")
 		assertThat(statement.version).isEqualTo("1.0.0")
-		assertThat(statement.xapiObj.definition?.extensions).containsKey("http://example.com/profiles/meetings/activitydefinitionextensions/room")
-		assertThat(statement.xapiObj.definition?.moreInfo).isEqualTo("http://virtualmeeting.example.com/345256")
+		assertThat(statement.xapiObj?.definition?.extensions).containsKey("http://example.com/profiles/meetings/activitydefinitionextensions/room")
+		assertThat(statement.xapiObj?.definition?.moreInfo).isEqualTo("http://virtualmeeting.example.com/345256")
 	}
 	
 }

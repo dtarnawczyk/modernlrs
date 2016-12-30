@@ -34,8 +34,10 @@ open class StatementServiceImpl : StatementService {
         repoCustom.deleteById(id, Statement::class.java)
     }
 
-//    override fun getAll() : List<Statement>? = repo.getAll()
-//
+    override fun getAll() : List<Statement>? {
+        return repoCustom.findAll(Statement::class.java) as List<Statement>?
+    }
+
     override fun getCount() : Long {
         return repoCustom.getCount(Statement::class.java)
     }

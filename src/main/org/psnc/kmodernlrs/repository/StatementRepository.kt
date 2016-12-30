@@ -12,6 +12,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 //@ConditionalOnProperty(name=arrayOf("database.type"), havingValue="mongodb")
 //@Repository
-interface StatementRepository : MongoRepository<Statement, String>/*, RepositoryCustom*/ {
-
-}
+interface StatementRepository : MongoRepository<Statement, String> { }

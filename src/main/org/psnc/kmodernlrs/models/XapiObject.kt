@@ -2,7 +2,6 @@ package org.psnc.kmodernlrs.models
 
 import java.io.Serializable
 import com.google.gson.annotations.SerializedName
-import java.sql.Timestamp
 
 public data class XapiObject(
 		var id: String? = "",
@@ -24,7 +23,7 @@ public data class XapiObject(
 		var xapiObj: XapiObject? = null,
 		var result: Result? = null,
 		var context: Context? = null,
-		var timestamp: Timestamp? = null,
+		var timestamp: String? = null,
 		var attachments: List<Attachment>? = listOf()) : Serializable {
 	companion object {
 		private val serialVersionUID:Long = 1

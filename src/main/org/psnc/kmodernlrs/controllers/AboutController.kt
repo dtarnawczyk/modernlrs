@@ -17,7 +17,7 @@ open class AboutController {
     @GET
     fun about() : String {
         // TODO:
-        return "ModernLRS"
+        return "ModernLRS version 0.0.1"
     }
 
 }

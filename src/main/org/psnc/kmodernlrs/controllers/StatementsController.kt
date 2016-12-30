@@ -51,20 +51,18 @@ open class StatementsController {
 	@Path("/{statementId}")
 	fun getStatement(@PathParam("statementId") statementId: String) : String {
 		log.debug(">>> get statement with id: "+ statementId)
-//		val statement = repo.get(statementId)
-//		if(statement != null) {
-//			return gson.toJson(statement)
-//		} else {
-//			return "No statement found"
-//		}
-		return ""
+		val statement = service.getStatement(statementId)
+		if(statement != null) {
+			return gson.toJson(statement)
+		} else {
+			return "No statement found"
+		}
 	}
 	
 	@GET
 	@Produces(JSON_TYPE)
 	fun getAllStatements() : String {
-//		return gson.toJson(repo.getAll())
-		return ""
+		return gson.toJson(service.getAll())
 	}
 
 	@PUT
@@ -103,7 +101,9 @@ open class StatementsController {
 				statement.id = UUID.randomUUID().toString()
 			}
 			registerStatement(statement)
-			response = Response.ok(statement.id, MediaType.APPLICATION_JSON).build()
+			val statementId:String = statement.id
+			log.debug(">>>> STATEMENT ID: "+ statementId)
+			response = Response.ok("Statement ID: "+ statementId).build()
 		} else {
 			response = Response.noContent().build()
 		}
@@ -113,7 +113,7 @@ open class StatementsController {
 	fun registerStatement(statement: Statement) {
 		log.debug(String.format(">>> Saving Statement: %s", statement))
 
-		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime())
+		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
 		service.createStatement(statement)
 
 	}

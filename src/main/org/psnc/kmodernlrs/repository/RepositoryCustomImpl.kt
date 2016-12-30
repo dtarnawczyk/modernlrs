@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Update
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Criteria
 
-
 /**
  * Operations on MongoDB using MongoTemplate. Can work as a replacement to MongoRepository.
  */
@@ -26,7 +25,7 @@ open class RepositoryCustomImpl : RepositoryCustom {
         mongoTemplate.insertAll(entities)
     }
     override fun <T> update(id: T, claz: Class<*>) {
-        mongoTemplate.save(mongoTemplate.findOne(Query.query(Criteria.where("id").`is`(id)), claz));
+        mongoTemplate.save(mongoTemplate.findOne(Query.query(Criteria.where("id").`is`(id)), claz))
     }
 //    override fun <T> updateList(entities: MutableList<T>) {
 //    }
@@ -36,12 +35,15 @@ open class RepositoryCustomImpl : RepositoryCustom {
     override fun <T> deleteById(id: T, claz: Class<*>) {
         mongoTemplate.remove(Query.query(Criteria.where("id").`is`(id)), claz)
     }
-    fun <T> delete(entity: T) {
-        mongoTemplate.remove(entity)
-    }
+//    override fun <T> delete(entity: T) {
+//        mongoTemplate.remove(entity)
+//    }
 //    fun <T> delete(entities: MutableList<T>)
 //    fun deleteAll(claz: Class<*>)
-//    fun findAll(claz: Class<*>) : List<Any>?
+    override fun findAll(claz: Class<*>) : List<Any>? {
+        return mongoTemplate.findAll(claz)
+    }
+
 //    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
     override fun getCount(claz: Class<*>) : Long {
         return mongoTemplate.findAll(claz).size.toLong()
@@ -50,5 +52,4 @@ open class RepositoryCustomImpl : RepositoryCustom {
     override fun <T> exists(id: T, claz: Class<*>) : Boolean {
         return mongoTemplate.exists(Query.query(Criteria.where("id").`is`(id)), claz)
     }
-
 }
