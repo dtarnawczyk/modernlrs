@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
 import org.springframework.util.ReflectionUtils
 
-class CascadeSaveMongoEventListener : AbstractMongoEventListener<Any>() {
+open class CascadeSaveMongoEventListener : AbstractMongoEventListener<Any>() {
 
     @Autowired
     lateinit var mongoOperations: MongoOperations

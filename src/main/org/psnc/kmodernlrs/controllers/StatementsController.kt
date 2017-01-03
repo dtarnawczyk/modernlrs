@@ -24,10 +24,8 @@ import org.psnc.kmodernlrs.serializers.*
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
 import org.psnc.kmodernlrs.ApiEndpoints
 import org.psnc.kmodernlrs.services.StatementService
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
-
 
 const val JSON_TYPE:String = "application/json"
 
@@ -102,7 +100,6 @@ open class StatementsController {
 			}
 			registerStatement(statement)
 			val statementId:String = statement.id
-			log.debug(">>>> STATEMENT ID: "+ statementId)
 			response = Response.ok("Statement ID: "+ statementId).build()
 		} else {
 			response = Response.noContent().build()

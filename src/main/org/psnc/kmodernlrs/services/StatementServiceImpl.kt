@@ -26,24 +26,19 @@ open class StatementServiceImpl : StatementService {
         return true
     }
 
-    override fun getStatement(id: String) : Statement? {
-        return repoCustom.findById(id, Statement::class.java) as Statement
-    }
+    override fun getStatement(id: String) : Statement? = repoCustom.findById(id, Statement::class.java) as Statement
 
     override fun deleteStatement(id: String) {
         repoCustom.deleteById(id, Statement::class.java)
     }
 
     override fun getAll() : List<Statement>? {
-        return repoCustom.findAll(Statement::class.java) as List<Statement>?
+        val statements: List<Statement>? = repoCustom.findAll(Statement::class.java)?.filterIsInstance<Statement>()
+        return statements
     }
 
-    override fun getCount() : Long {
-        return repoCustom.getCount(Statement::class.java)
-    }
+    override fun getCount() : Long = repoCustom.getCount(Statement::class.java)
 
-    override fun exists(statement: Statement) : Boolean {
-        return repoCustom.exists(statement.id, Statement::class.java)
-    }
+    override fun exists(statement: Statement) : Boolean = repoCustom.exists(statement.id, Statement::class.java)
 
 }

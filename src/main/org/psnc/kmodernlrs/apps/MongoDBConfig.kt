@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.authentication.UserCredentials
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 
+import org.psnc.kmodernlrs.mongo.CascadeSaveMongoEventListener
+
 @ConditionalOnProperty(name=arrayOf("database.type"), havingValue="mongodb")
 @Configuration
 @EnableMongoRepositories(basePackages = arrayOf("org.psnc.kmodernlrs.repository"))
@@ -44,5 +46,10 @@ open class MongoDBConfig : AbstractMongoConfiguration() {
 
     override fun getMappingBasePackage(): String {
         return "org.psnc.kmodernlrs.models"
+    }
+
+    @Bean
+    open fun cascadingMongoEventListener(): CascadeSaveMongoEventListener {
+        return CascadeSaveMongoEventListener()
     }
 }

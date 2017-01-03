@@ -3,16 +3,20 @@ package org.psnc.kmodernlrs.mongo
 import java.lang.reflect.Field
 
 import org.psnc.kmodernlrs.mongo.CascadeSave
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.util.ReflectionUtils
 import org.springframework.util.ReflectionUtils.FieldCallback
+import org.slf4j.LoggerFactory
 
 class CascadeCallback(var source: Any?, mongoOperations: MongoOperations) : ReflectionUtils.FieldCallback {
-    var mongoOperations: MongoOperations? = null
 
+    val log = LoggerFactory.getLogger(CascadeCallback::class.java)
+
+    private var mongoTemplate : MongoOperations?
     init {
-        this.mongoOperations = mongoOperations
+        this.mongoTemplate = mongoOperations
     }
 
     @Throws(IllegalArgumentException::class, IllegalAccessException::class)
@@ -26,10 +30,13 @@ class CascadeCallback(var source: Any?, mongoOperations: MongoOperations) : Refl
                 val callback = FieldCallback()
 
                 ReflectionUtils.doWithFields(fieldValue.javaClass, callback)
-
-                mongoOperations?.save(fieldValue)
+                log.debug(">>>>> Saving: "+ fieldValue)
+                mongoTemplate?.save(fieldValue)
             }
         }
 
+    }
+
+    companion object {
     }
 }

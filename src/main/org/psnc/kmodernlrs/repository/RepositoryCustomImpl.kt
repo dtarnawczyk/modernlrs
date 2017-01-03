@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.data.mongodb.core.query.Update
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query.query
 
 /**
  * Operations on MongoDB using MongoTemplate. Can work as a replacement to MongoRepository.
@@ -29,9 +30,18 @@ open class RepositoryCustomImpl : RepositoryCustom {
     }
 //    override fun <T> updateList(entities: MutableList<T>) {
 //    }
-    override fun <T> findById(id: T, claz: Class<*>) : Any? {
-        return mongoTemplate.findOne(Query.query(Criteria.where("id").`is`(id)), claz)
+    override fun <T> findById(id: T, claz: Class<*>) : Any? = mongoTemplate.findOne(Query.query(Criteria.where("id").`is`(id)), claz)
+
+    override fun fimdByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?{
+        val criterias = arrayListOf<Criteria>()
+        for (entry in attrs) {
+            criterias.add(Criteria.where(entry.key as String?).`is`(entry.value ))
+        }
+        //return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
+        val criteria: Criteria = Criteria().orOperator(*criterias.toTypedArray())
+        return mongoTemplate.findOne(Query.query(criteria), claz)
     }
+
     override fun <T> deleteById(id: T, claz: Class<*>) {
         mongoTemplate.remove(Query.query(Criteria.where("id").`is`(id)), claz)
     }
@@ -40,16 +50,10 @@ open class RepositoryCustomImpl : RepositoryCustom {
 //    }
 //    fun <T> delete(entities: MutableList<T>)
 //    fun deleteAll(claz: Class<*>)
-    override fun findAll(claz: Class<*>) : List<Any>? {
-        return mongoTemplate.findAll(claz)
-    }
+    override fun findAll(claz: Class<*>) : List<Any>? = mongoTemplate.findAll(claz)
 
 //    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
-    override fun getCount(claz: Class<*>) : Long {
-        return mongoTemplate.findAll(claz).size.toLong()
-    }
+    override fun getCount(claz: Class<*>) : Long = mongoTemplate.findAll(claz).size.toLong()
 
-    override fun <T> exists(id: T, claz: Class<*>) : Boolean {
-        return mongoTemplate.exists(Query.query(Criteria.where("id").`is`(id)), claz)
-    }
+    override fun <T> exists(id: T, claz: Class<*>) : Boolean = mongoTemplate.exists(Query.query(Criteria.where("id").`is`(id)), claz)
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import org.junit.runner.RunWith
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 import org.apache.commons.codec.binary.Base64
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
@@ -43,7 +44,8 @@ open class WebTest {
 	
 //	val log = LoggerFactory.getLogger(WebTest::class.java)
 	
-	var statementsPath: String = "/v1/xAPI/statements"
+	val statementsPath: String = "/v1/xAPI/statements"
+	val agentsPath:String = "/v1/xAPI/agents"
 	
 	@Test
 	fun basicAuthTest() {
@@ -59,7 +61,7 @@ open class WebTest {
 	fun postGetStatementIdTest() {
 		val basic: String = userName+":"+password
 		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
-		val statementId = "1234-56789-12324"
+		val statementId = UUID.randomUUID().toString()
 		val statementJson: String = "{\"id\":\""+statementId+"\","+
 							"\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
 							"\"mbox\":\"mailto:user@example.com\"}, "+
@@ -84,6 +86,43 @@ open class WebTest {
             .accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
             .andExpect(status().isOk())
+	}
+
+	@Test
+	fun postGetAgentOnMbox() {
+		val basic: String = userName+":"+password
+		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
+		val statementId = UUID.randomUUID().toString()
+		val mbox: String = "mailto:user123@example.com"
+		val statementJson: String = "{\"id\":\""+statementId+"\","+
+				"\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
+				"\"mbox\":\""+mbox+"\"}, "+
+				"\"verb\":{\"id\":\"http://adlnet.gov/expapi/verbs/created\","+
+				"\"display\":{\"en-US\":\"created\" }},"+
+				"\"object\":{\"id\":\"http://example.adlnet.gov/xapi/example/simplestatement\","+
+				"\"definition\":{\"name\":{ \"en-US\":\"simple statement\"}"+
+				"}}}"
+		val agentJson: String = "{\"mbox\":\""+mbox+"\"}"
+		val expectedAgentJson = "{\n  \"objectType\": \"Agent\",\n  \"name\": \"Project Tin Can API\",\n  "+
+				"\"mbox\": \""+mbox+"\"\n}"
+		mockClient.perform(
+				post(statementsPath)
+				.header("Authorization", "Basic " + String(encodedBytes))
+				.header(Constants.XAPI_VERSION_HEADER, "1.0.3")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(statementJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(header().string("X-Experience-API-Version", "1.0.3"))
+
+		mockClient.perform(post(agentsPath)
+				.header("Authorization", "Basic " + String(encodedBytes))
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(agentJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(expectedAgentJson))
 	}
 
 	@Test

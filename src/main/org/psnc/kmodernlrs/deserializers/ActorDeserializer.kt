@@ -36,6 +36,8 @@ class ActorDeserializer : JsonDeserializer<Actor>{
 					deserializeIFI(context, jsonObject, actor)
 				}
 			}
+		} else {
+			deserializeIFI(context, jsonObject, actor)
 		}
 		
 		return actor

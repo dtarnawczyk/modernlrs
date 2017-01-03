@@ -19,8 +19,8 @@ public data class Statement(
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#actor)
 		 */
-//		@DBRef
-//		@CascadeSave
+		@DBRef
+		@CascadeSave
 		var actor: Actor? = null,
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#verb)

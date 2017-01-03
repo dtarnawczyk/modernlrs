@@ -7,6 +7,7 @@ interface RepositoryCustom {
     fun <T> update(id: T, claz: Class<*>)
 //    fun <T> updateList(entities: MutableList<T>)
     fun <T> findById(id: T, claz: Class<*>) : Any?
+    fun fimdByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?
     fun <T> deleteById(id: T, claz: Class<*>)
 //    fun <T> delete(entities: MutableList<T>)
 //    fun deleteAll(claz: Class<*>)
