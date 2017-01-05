@@ -46,6 +46,7 @@ open class WebTest {
 	
 	val statementsPath: String = "/v1/xAPI/statements"
 	val agentsPath:String = "/v1/xAPI/agents"
+	val activityPath:String = "/v1/xAPI/activities"
 	
 	@Test
 	fun basicAuthTest() {
@@ -103,8 +104,8 @@ open class WebTest {
 				"\"definition\":{\"name\":{ \"en-US\":\"simple statement\"}"+
 				"}}}"
 		val agentJson: String = "{\"mbox\":\""+mbox+"\"}"
-		val expectedAgentJson = "{\n  \"objectType\": \"Agent\",\n  \"name\": \"Project Tin Can API\",\n  "+
-				"\"mbox\": \""+mbox+"\"\n}"
+		val expectedAgentJson = "{\"objectType\":\"Agent\",\"name\":\"Project Tin Can API\","+
+				"\"mbox\":\""+mbox+"\"}"
 		mockClient.perform(
 				post(statementsPath)
 				.header("Authorization", "Basic " + String(encodedBytes))
@@ -122,7 +123,54 @@ open class WebTest {
 				.content(agentJson))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string(expectedAgentJson))
+				.andExpect(content().json(expectedAgentJson))
+	}
+
+	@Test
+	fun postGetActivity() {
+		val basic: String = userName+":"+password
+		val encodedBytes = Base64.encodeBase64(basic.toByteArray())
+		val activityID: String = "http://example.adlnet.gov/xapi/example/simplestatement"
+		val activityIDJson: String = "{\"activityId\":\""+activityID+"\"}"
+		val expectedActivityJson: String = "{\"id\":\""+activityID+"\","+
+				"\"name\": {\"en-US\":\"simple statement\" }"+
+				"},\"description\": {},"+
+				"\"moreInfo\":\"\",\"interactionType\":null,"+
+				"\"correctResponsesPattern\":[],"+
+				"\"choices\":[],\"scale\":[],"+
+				"\"source\":[],\"target\":[],\"steps\":[],"+
+				"\"extensions\": {}}"
+		val statementJson: String = "{\"id\":\"\","+
+				"\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
+				"\"mbox\":\"mailto:user@example.com\"}, "+
+				"\"verb\":{\"id\":\"http://adlnet.gov/expapi/verbs/created\"},"+
+				"\"object\":{\n  \"id\": \""+activityID+"\",\n  "+
+				"\"objectType\" :\"Activity\",\n  "+
+				"\"definition\" :{\n  \"name\": {\n  \"en-US\": \"simple statement\" }\n  "+
+				"},\n  \"description\": {},"+
+				"\n  \"moreInfo\": \"\",\n  \"interactionType\": null,"+
+				"\"correctResponsesPattern\": [],\n  "+
+				"\"choices\":[],\n\"scale\": [],\n  "+
+				"\"source\":[],\"target\":[],\"steps\": [],"+
+				"\"extensions\":{}}}"
+		mockClient.perform(
+				post(statementsPath)
+						.header("Authorization", "Basic " + String(encodedBytes))
+						.header(Constants.XAPI_VERSION_HEADER, "1.0.3")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(statementJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(header().string("X-Experience-API-Version", "1.0.3"))
+
+		mockClient.perform(post(activityPath)
+				.header("Authorization", "Basic " + String(encodedBytes))
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(activityIDJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(expectedActivityJson))
 	}
 
 	@Test

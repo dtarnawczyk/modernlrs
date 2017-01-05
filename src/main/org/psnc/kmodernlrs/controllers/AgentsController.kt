@@ -20,7 +20,7 @@ import org.psnc.kmodernlrs.services.AgentsService
 @Path(ApiEndpoints.AGENTS_ENDPOINT)
 open class AgentsController {
 
-    val log = LoggerFactory.getLogger(AgentsController::class.java)
+    val log: Logger = LoggerFactory.getLogger(AgentsController::class.java)
 
     @Autowired lateinit var service: AgentsService
 

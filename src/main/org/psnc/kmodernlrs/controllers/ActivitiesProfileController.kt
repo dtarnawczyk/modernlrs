@@ -12,7 +12,7 @@ import javax.ws.rs.Produces
 @Path(ApiEndpoints.ACTIVITIES_PROFILE_ENDPOINT)
 open class ActivitiesProfileController {
 
-    val log = LoggerFactory.getLogger(ActivitiesProfileController::class.java)
+    val log: Logger = LoggerFactory.getLogger(ActivitiesProfileController::class.java)
 
     // TODO:
 

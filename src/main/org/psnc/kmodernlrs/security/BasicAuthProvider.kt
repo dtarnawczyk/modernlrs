@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 @Primary
 class BasicAuthProvider : AuthenticationProvider {
 	
-	val log = LoggerFactory.getLogger(BasicAuthProvider::class.java)
+	val log:Logger = LoggerFactory.getLogger(BasicAuthProvider::class.java)
 	
 	@Value("&{auth.basic.username}")
 	lateinit var userName:String
@@ -29,17 +29,17 @@ class BasicAuthProvider : AuthenticationProvider {
 	lateinit var password:String
 	
 	override fun authenticate(auth: Authentication) : Authentication {
-		var basicAuth: UserAccountAuth = auth as UserAccountAuth
-		var token: String? = basicAuth.getCredentials().toString()
+		val basicAuth: UserAccountAuth = auth as UserAccountAuth
+		val token: String? = basicAuth.getCredentials().toString()
 		
 		if(token != null && token.startsWith("Basic")){
-			var base64Credentials: String = token.substring("Basic".length).trim()
-			var credentials: String  = String(Base64.decodeBase64(base64Credentials),
+			val base64Credentials: String = token.substring("Basic".length).trim()
+			val credentials: String  = String(Base64.decodeBase64(base64Credentials),
 					Charset.forName("UTF-8"))
-			var userPass : List<String> = (credentials as CharSequence).split(":")
-			
-			var user: String = userPass.get(0)
-			var pass: String = userPass.get(1)
+			val userPass : List<String> = (credentials as CharSequence).split(":")
+
+			val user: String = userPass.get(0)
+			val pass: String = userPass.get(1)
 			
 			if(userName.equals(user) && password.equals(pass)){
 				basicAuth.setAuthenticated(true)

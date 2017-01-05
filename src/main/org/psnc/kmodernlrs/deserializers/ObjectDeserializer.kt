@@ -8,7 +8,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import org.apache.commons.lang3.StringUtils
 import org.psnc.kmodernlrs.models.XapiObject
 import org.psnc.kmodernlrs.models.Activity
 import org.psnc.kmodernlrs.models.Actor
@@ -20,21 +19,21 @@ import org.psnc.kmodernlrs.models.Attachment
 
 class ObjectDeserializer : JsonDeserializer<XapiObject>{
 	
-	val log = LoggerFactory.getLogger(ObjectDeserializer::class.java)
+	val log: Logger = LoggerFactory.getLogger(ObjectDeserializer::class.java)
 	
 	override fun deserialize(json: JsonElement?, typeOf: Type, context: JsonDeserializationContext): XapiObject? {
 		if(json == null) {
 			return null
 		}
-		var jsonObject: JsonObject = json as JsonObject
-		var xapiObject: XapiObject = XapiObject()
-		var objectType = jsonObject.get("objectType")
+		val jsonObject: JsonObject = json as JsonObject
+		val xapiObject: XapiObject = XapiObject()
+		val objectType = jsonObject.get("objectType")
 		xapiObject.objectType = objectType?.asString
 		if(objectType != null) {
 			when(objectType.asString) {
 				"Activity" -> {
 					xapiObject.id = jsonObject.get("id")?.asString
-					var activity: Activity? = context.deserialize(jsonObject.get("definition"), Activity::class.java)
+					val activity: Activity? = context.deserialize(jsonObject.get("definition"), Activity::class.java)
 					xapiObject.definition = activity
 				}
 				"Agent" -> {

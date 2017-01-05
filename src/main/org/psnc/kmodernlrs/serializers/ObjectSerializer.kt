@@ -13,13 +13,13 @@ import org.psnc.kmodernlrs.models.*
 
 class ObjectSerializer : JsonSerializer<XapiObject>{
 	
-	val log = LoggerFactory.getLogger(ObjectSerializer::class.java)
+	val log: Logger = LoggerFactory.getLogger(ObjectSerializer::class.java)
 	
 	override fun serialize(xapiObject: XapiObject?, typeOfSrc: Type?, context: JsonSerializationContext?) : JsonElement? {
 		if(xapiObject == null) {
 			return null
 		}
-		var newObject: JsonObject = JsonObject()
+		val newObject: JsonObject = JsonObject()
 		if(!xapiObject.id.isNullOrEmpty()) newObject.addProperty("id", xapiObject.id)
 		if(!xapiObject.objectType.isNullOrEmpty()) newObject.addProperty("objectType", xapiObject.objectType)
 		if(xapiObject.definition != null) newObject.add("definition", context?.serialize(xapiObject.definition))

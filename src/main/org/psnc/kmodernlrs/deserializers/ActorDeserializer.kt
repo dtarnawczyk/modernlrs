@@ -8,21 +8,20 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import org.apache.commons.lang3.StringUtils
 import org.psnc.kmodernlrs.models.Actor
 import org.psnc.kmodernlrs.models.Account
 
 class ActorDeserializer : JsonDeserializer<Actor>{
 	
-	val log = LoggerFactory.getLogger(ActorDeserializer::class.java)
+	val log: Logger = LoggerFactory.getLogger(ActorDeserializer::class.java)
 	
 	override fun deserialize(json: JsonElement?, typeOf: Type, context: JsonDeserializationContext): Actor? {
 		if(json == null) {
 			return null
 		}
-		var jsonObject: JsonObject = json as JsonObject
-		var actor: Actor = Actor()
-		var objectType = jsonObject.get("objectType")
+		val jsonObject: JsonObject = json as JsonObject
+		val actor: Actor = Actor()
+		val objectType = jsonObject.get("objectType")
 		actor.objectType = objectType?.asString
 		actor.name = jsonObject.get("name")?.asString
 		if(objectType != null) {
@@ -45,9 +44,9 @@ class ActorDeserializer : JsonDeserializer<Actor>{
 	
 	fun deserializeIFI(context: JsonDeserializationContext, jsonObject: JsonObject, actor: Actor) {
 		actor.account = context.deserialize(jsonObject.get("account"), Account::class.java)
-		actor.mbox = jsonObject.get("mbox")?.getAsString()
-		actor.mbox_sha1sum = jsonObject.get("mbox_sha1sum")?.getAsString()
-		actor.openid = jsonObject.get("openid")?.getAsString()
+		actor.mbox = jsonObject.get("mbox")?.asString
+		actor.mbox_sha1sum = jsonObject.get("mbox_sha1sum")?.asString
+		actor.openid = jsonObject.get("openid")?.asString
 	}
 	
 }

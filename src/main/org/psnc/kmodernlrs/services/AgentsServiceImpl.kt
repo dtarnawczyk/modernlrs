@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 @Service
 open class AgentsServiceImpl : AgentsService {
 
-    val log = LoggerFactory.getLogger(AgentsServiceImpl::class.java)
+    val log: Logger = LoggerFactory.getLogger(AgentsServiceImpl::class.java)
 
     @Autowired
     lateinit var repo: RepositoryCustomImpl
@@ -32,7 +32,6 @@ open class AgentsServiceImpl : AgentsService {
         if (!actor.account?.homePage.isNullOrEmpty()) {
             attributes.put("account.homePage", actor.account?.homePage ?: "")
         }
-        log.debug(">>> AgentServiceImpl - serach attributes map: "+ attributes)
         return repo.fimdByAttrs(attributes, Actor::class.java) as Actor?
     }
 

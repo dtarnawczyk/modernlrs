@@ -10,8 +10,8 @@ import com.mongodb.MongoClient
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.authentication.UserCredentials
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory
+//import org.springframework.data.authentication.UserCredentials
+//import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 
 import org.psnc.kmodernlrs.mongo.CascadeSaveMongoEventListener
 

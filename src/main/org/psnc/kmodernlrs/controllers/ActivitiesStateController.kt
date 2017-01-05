@@ -12,7 +12,7 @@ import javax.ws.rs.Produces
 @Path(ApiEndpoints.ACTIVITIES_STATE_ENDPOINT)
 open class ActivitiesStateController {
 
-    val log = LoggerFactory.getLogger(ActivitiesStateController::class.java)
+    val log: Logger = LoggerFactory.getLogger(ActivitiesStateController::class.java)
 
     // TODO:
 

@@ -9,9 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.data.mongodb.core.mapping.DBRef
 
 import org.psnc.kmodernlrs.mongo.CascadeSave
+import org.psnc.kmodernlrs.mongo.Activity
 
 @Document(collection = "statements")
-public data class Statement(
+data class Statement(
 		/**
 		 * Required (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#stmtid)
 		 */
@@ -31,6 +32,7 @@ public data class Statement(
 		 */
 		@SerializedName("object")
 		@Field("object")
+		@Activity
 		var xapiObj: XapiObject? = null,
 		var result: Result? = null,
 		var context: Context? = null,

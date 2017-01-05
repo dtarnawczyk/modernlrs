@@ -11,21 +11,16 @@ import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
 import javax.ws.rs.PathParam
 import javax.ws.rs.core.Response
-import com.google.gson.GsonBuilder
 import com.google.gson.Gson
-import java.lang.reflect.Type
 import java.util.Calendar
-import java.util.Date
+//import java.util.Date
 import java.util.UUID
-import javax.ws.rs.core.MediaType
 import java.sql.Timestamp
 import org.psnc.kmodernlrs.models.*
-import org.psnc.kmodernlrs.serializers.*
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
 import org.psnc.kmodernlrs.ApiEndpoints
 import org.psnc.kmodernlrs.services.StatementService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpEntity
 
 const val JSON_TYPE:String = "application/json"
 
@@ -35,7 +30,7 @@ open class StatementsController {
 
 	@Autowired lateinit var service: StatementService
 	
-	val log = LoggerFactory.getLogger(StatementsController::class.java)
+	val log: Logger = LoggerFactory.getLogger(StatementsController::class.java)
 	
 	lateinit var gson:Gson
 	
@@ -67,7 +62,7 @@ open class StatementsController {
 	@Path("/{statementId}")
 	@Consumes(JSON_TYPE)
 	fun putStatementWithId(@PathParam("statementId") statementId: String, json: String) : Response {
-		var response:Response?
+		val response:Response?
 		if(!json.isNullOrEmpty()){
 			val statement: Statement = gson.fromJson(json, Statement::class.java)
 			if(statementId.isNullOrEmpty()) {
@@ -92,7 +87,7 @@ open class StatementsController {
 	@POST
 	@Consumes(JSON_TYPE)
 	fun postStatement(json: String) : Response {
-		var response:Response?
+		val response:Response?
 		if(!json.isNullOrEmpty()){
 			val statement: Statement = gson.fromJson(json, Statement::class.java)
 			if(statement.id.isNullOrEmpty()) {

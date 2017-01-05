@@ -3,10 +3,8 @@ package org.psnc.kmodernlrs.filters
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.stereotype.Component
 import org.springframework.context.annotation.Primary
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.servlet.FilterChain
-import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.apache.commons.lang3.StringUtils
@@ -24,17 +22,17 @@ class BasicAuthFilter : OncePerRequestFilter() {
 	
 	override fun doFilterInternal(request: HttpServletRequest,
 								  response: HttpServletResponse, chain: FilterChain) {
-		var authHeader: String? = request.getHeader("Authorization")
+		val authHeader: String? = request.getHeader("Authorization")
 		
 		log.debug(String.format(">>> Basic auth - Authorization Header: %s", authHeader))
 		
 		if(authHeader != null){
 			if (StringUtils.isNotBlank(authHeader)) {
-				var auth: Authentication = UserAccountAuth(authHeader)
-				SecurityContextHolder.getContext().setAuthentication(auth)
-			} else if ("OPTIONS".equals(request.getMethod())) {
-				log.warn("OPTIONS request - returning no content");
-				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+				val auth: Authentication = UserAccountAuth(authHeader)
+				SecurityContextHolder.getContext().authentication = auth
+			} else if ("OPTIONS" == request.method) {
+				log.warn("OPTIONS request - returning no content")
+				response.status = HttpServletResponse.SC_NO_CONTENT
 			} else {
 				missingHeader(response)
 			}

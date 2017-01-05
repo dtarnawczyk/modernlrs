@@ -17,6 +17,7 @@ open class JerseyConfig : ResourceConfig {
 		register(AboutController())
 		register(AgentsController())
 		register(StatementsController())
+		register(ActivitiesController())
 		
 		property(ServletProperties.FILTER_FORWARD_ON_404, true);
 	}	

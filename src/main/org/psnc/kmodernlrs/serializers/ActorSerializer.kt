@@ -14,13 +14,13 @@ import org.psnc.kmodernlrs.models.Account
 
 class ActorSerializer : JsonSerializer<Actor> {
 	
-	val log = LoggerFactory.getLogger(ActorSerializer::class.java)
+	val log:Logger = LoggerFactory.getLogger(ActorSerializer::class.java)
 	
 	override fun serialize(actor: Actor?, typeOfSrc: Type?, context: JsonSerializationContext?) : JsonElement? {
 		if(actor == null) {
 			return null
 		}
-		var newActor = JsonObject()
+		val newActor = JsonObject()
 		if(!actor.objectType.isNullOrEmpty()) newActor.addProperty("objectType", actor.objectType)
 		if(!actor.name.isNullOrEmpty()) newActor.addProperty("name", actor.name)
 		if(!actor.mbox.isNullOrEmpty()) newActor.addProperty("mbox", actor.mbox)

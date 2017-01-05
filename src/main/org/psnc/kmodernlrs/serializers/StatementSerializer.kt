@@ -12,13 +12,13 @@ import org.psnc.kmodernlrs.models.Statement
 
 class StatementSerializer : JsonSerializer<Statement> {
 	
-	val log = LoggerFactory.getLogger(StatementSerializer::class.java)
+	val log:Logger = LoggerFactory.getLogger(StatementSerializer::class.java)
 	
 	override fun serialize(statement: Statement?, typeOfSrc: Type?, context: JsonSerializationContext?) : JsonElement? {
 		if(statement == null) {
 			return null
 		}
-		var newStatement = JsonObject()
+		val newStatement = JsonObject()
 		newStatement.addProperty("id", statement.id)
 		newStatement.add("actor", context?.serialize(statement.actor))
 		newStatement.add("verb", context?.serialize(statement.verb))
