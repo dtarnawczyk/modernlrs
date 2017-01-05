@@ -10,8 +10,10 @@ https://github.com/adlnet/xAPI-Spec
 > - Used database **MongoDB** for storing document objects.
 > - To fulfill definition of modernity there is **Kotlin** instead of **Java**.
 
--------------
+
 ##### *application.properties*  - properties file: #####
+
+```sh
 ###### Server configuration ######
 server.port= 8090
 security.user.name= admin
@@ -44,9 +46,9 @@ database.mongodb.database= modernlrs
 logging.level.org.springframework.data.mongodb.core.index=OFF
 ###### Xapi version ######
 xapi.version = 1.0.3
+```
 
 
--------------
 ##### Execution: #####
 
 ```sh
@@ -54,32 +56,46 @@ $  mvn clean spring-boot:run #running application
 $  mvn clean test #testing
 ```
 
--------------
+
 ##### Available resources #####
 
+
 ###### Statements: ######
+
+
 > - POST for saving Statement object into database. Statement as a JSON within a body of the request.
 > - GET for listing available Statements.
+
 ```sh
 localhost:8090/v1/xAPI/statements
 ```
+
+
 > - PUT with {statementId} for saving Statement object into database with custom Id provided in URL. Statement as a JSON within a body of the request.
 > - GET for retrieving Statement base on {statementId} from a database.
+
 ```sh
 localhost:8090/v1/xAPI/statements/{statementId}
 ```
+
 ###### Activities: ######
+
+
 > - POST for retrieving Activity from a database. 'activityId' within a JSON in a body of the request. In response full information of a requested Activity.
+
 ```sh
-/xAPI/activities
+localhost:8090/v1/xAPI/activities
 ```
 
 ###### Agents: ######
+
 > - POST for retrieving Agents from a database. Incomplete Actor object as a JSON within a body of the request. In response full information of a requested Actor.
+
 ```sh
-/xAPI/agents
+localhost:8090/v1/xAPI/agents
 ```
 
---------------
+
 #####  Kotlin specifics ######
+
 > - Customized prefix **&{..}** instead of default **${..}** used for example in **@Value("&{..}")**
