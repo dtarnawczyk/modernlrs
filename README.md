@@ -45,12 +45,25 @@ logging.level.org.springframework.data.mongodb.core.index=OFF
 xapi.version = 1.0.3
 
 -------------
-##### Execution:
+##### Building and running
 
+Clone the repository:
 ```sh
-$  mvn clean spring-boot:run #running application
-$  mvn clean test #testing
+$  git clone https://github.com/dtarnawczyk/modernlrs
 ```
+Navigate to newly created folder:
+```sh
+$  cd modernlrs
+```
+Run the project:
+```sh
+$  mvn clean spring-boot:run
+```
+To test the project:
+```sh
+$  mvn clean test
+```
+
 -------------
 ##### Available resources
 

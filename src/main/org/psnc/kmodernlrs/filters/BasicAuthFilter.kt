@@ -23,22 +23,22 @@ class BasicAuthFilter : OncePerRequestFilter() {
 	override fun doFilterInternal(request: HttpServletRequest,
 								  response: HttpServletResponse, chain: FilterChain) {
 		val authHeader: String? = request.getHeader("Authorization")
-		
-		log.debug(String.format(">>> Basic auth - Authorization Header: %s", authHeader))
-		
-		if(authHeader != null){
-			if (StringUtils.isNotBlank(authHeader)) {
-				val auth: Authentication = UserAccountAuth(authHeader)
-				SecurityContextHolder.getContext().authentication = auth
-			} else if ("OPTIONS" == request.method) {
-				log.warn("OPTIONS request - returning no content")
-				response.status = HttpServletResponse.SC_NO_CONTENT
-			} else {
-				missingHeader(response)
-			}
-		} else {
-			missingHeader(response)
-		}
+
+		// TODO: uncomment this to filter all requests !!!
+//		log.debug(String.format(">>> Basic auth - Authorization Header: %s", authHeader))
+//		if(authHeader != null){
+//			if (StringUtils.isNotBlank(authHeader)) {
+//				val auth: Authentication = UserAccountAuth(authHeader)
+//				SecurityContextHolder.getContext().authentication = auth
+//			} else if ("OPTIONS" == request.method) {
+//				log.warn("OPTIONS request - returning no content")
+//				response.status = HttpServletResponse.SC_NO_CONTENT
+//			} else {
+//				missingHeader(response)
+//			}
+//		} else {
+//			missingHeader(response)
+//		}
 		
         chain.doFilter(request, response)
 	}

@@ -47,6 +47,7 @@ open class WebTest {
 	val statementsPath: String = "/v1/xAPI/statements"
 	val agentsPath:String = "/v1/xAPI/agents"
 	val activityPath:String = "/v1/xAPI/activities"
+	val dashboardPath:String = "/"
 	
 	@Test
 	fun basicAuthTest() {
@@ -56,6 +57,12 @@ open class WebTest {
 			.header("Authorization", "Basic " + String(encodedBytes))
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
+	}
+
+	@Test
+	fun dashboardAuthTest() {
+		mockClient.perform(get(dashboardPath))
+				.andExpect(status().isOk())
 	}
 
 	@Test
