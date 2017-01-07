@@ -49,13 +49,27 @@ xapi.version = 1.0.3
 ```
 
 
-##### Execution: #####
+##### Building and running: #####
 
+Clone repository https://github.com/dtarnawczyk/modernlrs
 ```sh
-$  mvn clean spring-boot:run #running application
-$  mvn clean test #testing
+$  git clone https://github.com/dtarnawczyk/modernlrs
 ```
 
+Open project folder
+```sh
+$  cd modernlrs/
+```
+
+Run application
+```sh
+$  mvn clean spring-boot:run
+```
+
+Test application
+```sh
+$  mvn clean test
+```
 
 ##### Available resources #####
 
