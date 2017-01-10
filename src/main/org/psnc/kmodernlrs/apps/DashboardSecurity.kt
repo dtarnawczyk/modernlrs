@@ -16,12 +16,21 @@ open class DashboardSecurity : WebSecurityConfigurerAdapter() {
     override fun configure(http: WebSecurity) {
         http.ignoring()
                 .antMatchers("/resources/**")
+                .antMatchers("/dist/**")
+                .antMatchers("/img/**")
     }
 
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/",
+                        "/activityLogView",
+                        "/statementsView",
+                        "/verbsView",
+                        "/agentsView",
+                        "/activitiesView",
+                        "/reportsView",
+                        "/usersView").permitAll()
                 .and().csrf().disable()
     }
 

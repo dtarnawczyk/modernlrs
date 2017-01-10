@@ -51,7 +51,7 @@ xapi.version = 1.0.3
 
 ##### Building and running: #####
 
-Clone repository https://github.com/dtarnawczyk/modernlrs
+Clone repository
 ```sh
 $  git clone https://github.com/dtarnawczyk/modernlrs
 ```

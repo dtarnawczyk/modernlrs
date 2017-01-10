@@ -1,5 +1,52 @@
 body {
-    position:absolute;
-    left:45%;
-    top:10%;
+	font-family : arial;
+}
+
+.title {
+    font-size: 32px;
+    margin: 20px 20px 20px 20px;
+}
+
+.navigation-container {
+	position : absolute;
+	top : 70px;
+	left : -200px;;
+	transition : 500ms left;
+}
+
+#navigation-toggle {
+    position : absolute;
+	left : 200px;
+	background : url("../img/hamburger-icon.png") no-repeat 50% 50%;
+	background-color : rgba(3,159,244,.95);
+    background-size: 32px 32px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+	color : white;
+	text-decoration : none;
+	padding : 24px;
+}
+
+.show {
+	left : 0;
+}
+
+.navigation {
+    list-style : none;
+	padding : 0;
+	margin : 0;
+}
+
+.navigation-items a {
+	display : block;
+	background-color : #444;
+	color : white;
+	line-height : 2em;
+	text-decoration : none;
+	padding : 10px 30px;
+	width : 200px;
+}
+
+.navigation-items a:hover {
+	background-color : #222;
 }

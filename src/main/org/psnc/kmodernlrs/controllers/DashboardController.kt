@@ -3,7 +3,9 @@ package org.psnc.kmodernlrs.controllers
 import org.springframework.stereotype.Controller
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.ModelAndView
 
 @Controller
 open class DashboardController {
@@ -16,4 +18,16 @@ open class DashboardController {
         return "index"
     }
 
+    @RequestMapping("/activityLogView",
+            "/statementsView",
+            "/verbsView",
+            "/agentsView",
+            "/activitiesView",
+            "/reportsView",
+            "/usersView")
+    fun forwardIndex(): ModelAndView {
+        val model: ModelMap = ModelMap()
+        log.debug(">>> Forwarding to index <<<")
+        return ModelAndView("forward:/", model)
+    }
 }
