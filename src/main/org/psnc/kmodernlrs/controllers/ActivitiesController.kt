@@ -4,7 +4,10 @@ import org.psnc.kmodernlrs.ApiEndpoints
 import javax.ws.rs.Path
 import org.springframework.stereotype.Component
 import com.google.gson.Gson
+import org.psnc.kmodernlrs.event.XapiEvent
+import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
+import org.psnc.kmodernlrs.models.Activity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.ws.rs.POST
@@ -12,6 +15,12 @@ import javax.ws.rs.POST
 import javax.ws.rs.Consumes
 import org.psnc.kmodernlrs.services.ActivitiesService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationEventPublisher
+import java.sql.Timestamp
+import java.util.*
+import javax.servlet.http.HttpServletRequest
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.SecurityContext
 
 data class ActivityId(var activityId: String) {}
 
@@ -22,20 +31,23 @@ open class ActivitiesController {
     val log: Logger = LoggerFactory.getLogger(ActivitiesController::class.java)
 
     @Autowired lateinit var service: ActivitiesService
+    @Autowired lateinit var eventPublisher: ApplicationEventPublisher
 
-    lateinit var gson:Gson
+    lateinit var gson: Gson
 
     @Autowired
-    fun setGsonProvider(gsonFactory: GsonFactoryProvider){
+    fun setGsonProvider(gsonFactory: GsonFactoryProvider) {
         gson = gsonFactory.gsonFactory()
     }
 
     @POST
     @Consumes(JSON_TYPE)
-    fun getActivity(activityId: String) : String {
-        val activityIdStr: String = getActivityIdFromString(activityId)
-        val activity = service.getActivity(activityIdStr)
-        if(activity != null) {
+    fun getActivity(@Context request: HttpServletRequest, @Context context: SecurityContext,
+                    activityIdStr: String): String {
+        val activityId: String = getActivityIdFromString(activityIdStr)
+        val activity = service.getActivity(activityId)
+        if (activity != null) {
+            activityEventCalled(request, context, activity, "POST")
             val activityStr: String = gson.toJson(activity)
             return activityStr
         } else {
@@ -43,8 +55,18 @@ open class ActivitiesController {
         }
     }
 
-    fun getActivityIdFromString(activityIdJson: String) : String {
+    fun getActivityIdFromString(activityIdJson: String): String {
         val activityId: ActivityId = gson.fromJson(activityIdJson, ActivityId::class.java)
         return activityId.activityId
+    }
+
+    fun activityEventCalled(request: HttpServletRequest, context: SecurityContext,
+                            activity: Activity, method: String) {
+        val remoteIp = request.remoteAddr
+        val userName = context.userPrincipal.name
+        val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
+        var xapiData = XapiEventData("activity", activity.id)
+        val event = XapiEvent(userName, currentTime, xapiData , method, remoteIp)
+        eventPublisher.publishEvent(event)
     }
 }

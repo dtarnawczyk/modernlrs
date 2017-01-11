@@ -3,7 +3,9 @@ package org.psnc.kmodernlrs.services
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 import org.psnc.kmodernlrs.models.Actor
-import org.psnc.kmodernlrs.repository.RepositoryCustomImpl
+import org.psnc.kmodernlrs.repository.RepositoryCustom
+import org.psnc.kmodernlrs.util.InverseFunctionalIdentifierHelper
+//import org.psnc.kmodernlrs.repository.RepositoryCustomImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -13,25 +15,10 @@ open class AgentsServiceImpl : AgentsService {
     val log: Logger = LoggerFactory.getLogger(AgentsServiceImpl::class.java)
 
     @Autowired
-    lateinit var repo: RepositoryCustomImpl
+    lateinit var repo: RepositoryCustom
 
     override fun getAgentDetails(actor: Actor) : Actor? {
-        val attributes = hashMapOf<String, String>()
-        if (!actor.mbox.isNullOrEmpty()) {
-            attributes.put("mbox", actor.mbox ?: "")
-        }
-        if (!actor.mbox_sha1sum.isNullOrEmpty()) {
-            attributes.put("mbox_sha1sum", actor.mbox_sha1sum ?: "")
-        }
-        if (!actor.openid.isNullOrEmpty()) {
-            attributes.put("openid", actor.openid ?: "" )
-        }
-        if (!actor.account?.name.isNullOrEmpty()) {
-            attributes.put("account.name", actor.account?.name ?: "")
-        }
-        if (!actor.account?.homePage.isNullOrEmpty()) {
-            attributes.put("account.homePage", actor.account?.homePage ?: "")
-        }
+        val attributes = InverseFunctionalIdentifierHelper.getAvailableAttrsFromActor(actor)
         return repo.fimdByAttrs(attributes, Actor::class.java) as Actor?
     }
 
