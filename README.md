@@ -9,6 +9,7 @@ https://github.com/adlnet/xAPI-Spec
 > - For serialization/deserialization JSONs there is **Gson** library used (https://github.com/google/gson) which seems to be one of the fastest and also easy to use library.
 > - Used database **MongoDB** for storing document objects.
 > - To fulfill definition of modernity there is **Kotlin** instead of **Java**.
+> - **AngularJS** as JavaScript framework used in Dashboard app. 
 
 
 ##### *application.properties*  - properties file: #####
@@ -113,3 +114,11 @@ localhost:8090/v1/xAPI/agents
 #####  Kotlin specifics ######
 
 > - Customized prefix **&{..}** instead of default **${..}** used for example in **@Value("&{..}")**
+
+#####  Dashboard  ######
+
+> - Dashboard location
+
+```sh
+localhost:8090/
+```
