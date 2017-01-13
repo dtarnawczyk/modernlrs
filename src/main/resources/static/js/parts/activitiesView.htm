@@ -1,3 +1,23 @@
-<div ng-controller="ActivitiesController">
-    activitiesView.htm
+<div class="panel panel-default">
+    <div class="panel-heading"><span class="lead">Activities</span></div>
+    <div class="tablecontainer">
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th class="col-md-2">ID</th>
+                <th class="col-md-1">Name</th>
+                <th class="col-md-1">Type</th>
+                <th class="col-md-1">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="activity in activities">
+                <td>{{activity.id}}</td>
+                <td>{{activity.name}}</td>
+                <td>{{activity.type}}</td>
+                <td>{{activity.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

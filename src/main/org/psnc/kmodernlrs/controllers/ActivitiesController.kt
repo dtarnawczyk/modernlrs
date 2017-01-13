@@ -65,7 +65,7 @@ open class ActivitiesController {
         val remoteIp = request.remoteAddr
         val userName = context.userPrincipal.name
         val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
-        var xapiData = XapiEventData("activity", activity.id)
+        var xapiData = XapiEventData("Activity", activity.id)
         val event = XapiEvent(userName, currentTime, xapiData , method, remoteIp)
         eventPublisher.publishEvent(event)
     }

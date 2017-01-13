@@ -4,12 +4,12 @@ body {
 
 .title {
     font-size: 32px;
-    margin: 20px 20px 20px 20px;
+    margin: 20px 20px 20px 120px;
 }
 
 .navigation-container {
 	position : absolute;
-	top : 70px;
+	top : 2px;
 	left : -200px;;
 	transition : 500ms left;
 }
@@ -49,4 +49,12 @@ body {
 
 .navigation-items a:hover {
 	background-color : #222;
+}
+
+.too-wide-row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 290px;
 }

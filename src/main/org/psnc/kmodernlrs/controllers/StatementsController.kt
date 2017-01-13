@@ -55,7 +55,7 @@ open class StatementsController {
 		log.debug(">>> get statement with id: "+ statementId)
 		val statement = service.getStatement(statementId)
 		if(statement != null) {
-			statementEventCalled(request, context, statement, "GET")
+			statementEventCalled(request, context, statement)
 			return gson.toJson(statement)
 		} else {
 			return "No statement found"
@@ -67,7 +67,7 @@ open class StatementsController {
 	fun getAllStatements(@Context request: HttpServletRequest, @Context context: SecurityContext) : String {
 		val statementList : List<Statement>? = service.getAll()
 		statementList?.let {
-			statementEventCalled(request, context, it, "GET")
+			statementEventCalled(request, context, it)
 		}
 		return gson.toJson(statementList)
 	}
@@ -84,10 +84,10 @@ open class StatementsController {
 				response = Response.noContent().build()
 			} else if(statement.id.isNullOrEmpty()) {
 				statement.id = statementId
-				registerStatement(request, context, statement, "PUT")
+				registerStatement(request, context, statement)
 				response = Response.ok().build()
 			} else if(statement.id == statementId) {
-				registerStatement(request, context, statement, "PUT")
+				registerStatement(request, context, statement)
 				response = Response.ok().build()
 			} else {
 				response = Response.status(Response.Status.CONFLICT).build()
@@ -109,7 +109,7 @@ open class StatementsController {
 			if(statement.id.isNullOrEmpty()) {
 				statement.id = UUID.randomUUID().toString()
 			}
-			registerStatement(request, context, statement, "POST")
+			registerStatement(request, context, statement)
 			val statementId:String = statement.id
 			response = Response.ok("Statement ID: "+ statementId).build()
 		} else {
@@ -119,29 +119,30 @@ open class StatementsController {
 	}
 
 	fun registerStatement(request: HttpServletRequest, context: SecurityContext,
-						  statement: Statement, method: String) {
+						  statement: Statement) {
 		log.debug(String.format(">>> Saving Statement: %s", statement))
 
 		statement.stored = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
 		service.createStatement(statement)
-		statementEventCalled(request, context, statement, method)
+		statementEventCalled(request, context, statement)
 
 	}
 
 	fun statementEventCalled(request: HttpServletRequest, context: SecurityContext,
-							 statement: Any, method: String) {
+							 statement: Any) {
 		val remoteIp = request.remoteAddr
+		val method = request.method
 		val userName = context.userPrincipal.name
 		val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
 		var xapiData: XapiEventData?
 		if(statement is List<*>) {
 			var ids: MutableList<String> = mutableListOf()
-			(statement as List<Statement>).forEach {
-				ids.add(it.id)
+			(statement as List<*>).forEach {
+				ids.add((it as Statement).id)
 			}
-			xapiData = XapiEventData("statement", ids)
+			xapiData = XapiEventData("Statement", ids)
 		} else {
-			xapiData = XapiEventData("statement", (statement as Statement).id)
+			xapiData = XapiEventData("Statement", (statement as Statement).id)
 		}
 		val event = XapiEvent(userName, currentTime, xapiData , method, remoteIp)
 		eventPublisher.publishEvent(event)

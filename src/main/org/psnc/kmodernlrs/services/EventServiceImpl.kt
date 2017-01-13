@@ -15,8 +15,11 @@ open class EventServiceImpl : EventService {
     @Autowired
     lateinit var repo: RepositoryCustom
 
-    override fun saveEvent(statement: XapiEvent){
-        repo.create(statement)
+    override fun saveEvent(event: XapiEvent){
+        if(event.source.equals("0:0:0:0:0:0:0:1")){
+            event.source = "localhost"
+        }
+        repo.create(event)
     }
 
     override fun getEvent(id: String) : XapiEvent? = repo.findById(id, XapiEvent::class.java) as XapiEvent

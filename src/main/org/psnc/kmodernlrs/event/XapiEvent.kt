@@ -8,7 +8,7 @@ import java.util.UUID
 @Document(collection = "events")
 public data class XapiEvent(
         var user: String = "",
-        var time: String = "",
+        var date: String = "",
         var xapiData: XapiEventData? = null,
         var method: String? = "", /* GET, PUT, POST */
         var source: String = "",
@@ -21,7 +21,7 @@ public data class XapiEvent(
     }
 
     override fun toString() : String {
-        return "xAPI Event - user: $user, time: $time, object: $xapiData, method: $method, IP: $source"
+        return "xAPI Event - user: $user, time: $date, object: $xapiData, method: $method, IP: $source"
     }
 
 }

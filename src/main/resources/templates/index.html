@@ -18,12 +18,14 @@
             th:src="@{/webjars/angularjs/1.6.1/angular-route.min.js}"></script>
     <script type="text/javascript" src="../js/app.js"
             th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" src="../js/DashboardService.js"
+            th:src="@{/js/DashboardService.js}"></script>
     <script type="text/javascript" src="../js/controllers/DashboardController.js"
             th:src="@{/js/controllers/DashboardController.js}"></script>
-    <script type="text/javascript" src="../js/controllers/ActivityLogController.js"
-            th:src="@{/js/controllers/ActivityLogController.js}"></script>
     <script type="text/javascript" src="../js/controllers/Navigation.js"
             th:src="@{/js/controllers/Navigation.js}"></script>
+    <script type="text/javascript" src="../js/controllers/ActivityLogController.js"
+            th:src="@{/js/controllers/ActivityLogController.js}"></script>
     <script type="text/javascript" src="../js/controllers/ActivitiesController.js"
             th:src="@{/js/controllers/ActivitiesController.js}"></script>
     <script type="text/javascript" src="../js/controllers/AgentsController.js"
@@ -34,8 +36,6 @@
             th:src="@{/js/controllers/StatementsController.js}"></script>
     <script type="text/javascript" src="../js/controllers/UsersController.js"
             th:src="@{/js/controllers/UsersController.js}"></script>
-    <script type="text/javascript" src="../js/controllers/VerbsController.js"
-            th:src="@{/js/controllers/VerbsController.js}"></script>
 
 </head>
 <body ng-app="dashboard">
@@ -50,15 +50,14 @@
 
         <div ng-controller="Navigation">
             <div class="navigation-container" sidebar-directive="state">
-                <a href="#" id="navigation-toggle" ng-click="toggleState()"></a>
+                <a href="" id="navigation-toggle" ng-click="toggleState()"></a>
                 <ul class="navigation">
-                    <li class="navigation-items"> <a href="/activityLogView">Activity log</a> </li>
-                    <li class="navigation-items"> <a href="/statementsView">Statements</a> </li>
-                    <li class="navigation-items"> <a href="/verbsView">Verbs</a> </li>
-                    <li class="navigation-items"> <a href="/agentsView">Agents</a> </li>
-                    <li class="navigation-items"> <a href="/activitiesView">Activities</a> </li>
-                    <li class="navigation-items"> <a href="/reportsView">Reports</a> </li>
-                    <li class="navigation-items"> <a href="/usersView">Manage users</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/activityLogView')">Activity log</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/statementsView')">Statements</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/agentsView')">Agents</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/activitiesView')">Activities</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/reportsView')">Reports</a> </li>
+                    <li class="navigation-items"> <a ng-click="goTo('/usersView')">Manage users</a> </li>
                 </ul>
             </div>
         </div>

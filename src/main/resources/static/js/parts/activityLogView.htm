@@ -1,3 +1,27 @@
-<div ng-controller="ActivityLogController">
-    activityLogView.htm
+<div class="panel panel-default">
+    <div class="panel-heading"><span class="lead">Events log</span></div>
+    <div class="tablecontainer">
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th class="col-md-2">Date</th>
+                <th class="col-md-1">Object</th>
+                <th class="col-md-2">Id</th>
+                <th class="col-md-1">Method</th>
+                <th class="col-md-1">Source</th>
+                <th class="col-md-1">User</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="event in activityEvents">
+                <td>{{event.date}}</td>
+                <td>{{event.xapiData.objectType}}</td>
+                <td><span class="too-wide-row">{{event.xapiData.identifier}}</span></td>
+                <td>{{event.method}}</td>
+                <td>{{event.source}}</td>
+                <td>{{event.user}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

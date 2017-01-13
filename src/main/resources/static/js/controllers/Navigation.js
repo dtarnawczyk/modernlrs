@@ -1,12 +1,18 @@
-app.controller('Navigation', ['$scope', function($scope) {
+'use strict';
+app.controller('Navigation', ['$scope', '$location', 'DashboardService',
+    function($scope, $location) {
 
-    $scope.title = 'navigation';
+        $scope.title = 'navigation';
 
-    $scope.state = false;
+        $scope.state = false;
 
-    $scope.toggleState = function() {
-        $scope.state = !$scope.state;
-    };
+        $scope.toggleState = function() {
+            $scope.state = !$scope.state;
+        };
+
+        $scope.goTo = function (path) {
+            $location.path(path);
+        };
 
 }]);
 

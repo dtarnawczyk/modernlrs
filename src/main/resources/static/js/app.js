@@ -5,31 +5,57 @@ var app = angular
         $routeProvider.
         when('/activityLogView', {
             templateUrl: 'js/parts/activityLogView.htm',
-            controller: 'ActivityLogController'
+            controller: 'ActivityLogController',
+            resolve: {
+                loadOnInit: ['DashboardService', function (DashboardService) {
+                    return DashboardService.initActivityLog()
+                }]
+            }
         }).
         when('/statementsView', {
             templateUrl: 'js/parts/statementsView.htm',
-            controller: 'StatementsController'
-        }).
-        when('/verbsView', {
-            templateUrl: 'js/parts/verbsView.htm',
-            controller: 'VerbsController'
+            controller: 'StatementsController',
+            resolve: {
+                loadOnInit: ['DashboardService', function (DashboardService) {
+                    return DashboardService.initStatementsView()
+                }]
+            }
         }).
         when('/agentsView', {
             templateUrl: 'js/parts/agentsView.htm',
-            controller: 'AgentsController'
+            controller: 'AgentsController',
+            resolve: {
+                loadOnInit: ['DashboardService', function (DashboardService) {
+                    return DashboardService.initAgentsView()
+                }]
+            }
         }).
         when('/activitiesView', {
             templateUrl: 'js/parts/activitiesView.htm',
-            controller: 'ActivitiesController'
+            controller: 'ActivitiesController',
+            resolve: {
+                loadOnInit: ['DashboardService', function (DashboardService) {
+                    return DashboardService.initActivitiesView()
+                }]
+            }
         }).
         when('/reportsView', {
             templateUrl: 'js/parts/reportsView.htm',
-            controller: 'ReportsController'
+            controller: 'ReportsController',
+            resolve: {
+//                loadOnInit: ['DashboardService', function (DashboardService) {
+//                                return DashboardService.initActivityLog()
+//                }]
+            }
         }).
         when('/usersView', {
             templateUrl: 'js/parts/usersView.htm',
-            controller: 'UsersController'
+            controller: 'UsersController',
+            resolve: {
+//                loadOnInit: ['DashboardService', function (DashboardService) {
+//                                return DashboardService.initActivityLog()
+//                }]
+            }
         }).
         otherwise({
             redirectTo: '/activityLogView'

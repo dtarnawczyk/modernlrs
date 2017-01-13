@@ -61,7 +61,7 @@ open class AgentsController {
         for (entry in attrsMap) {
             ids.add(entry.key+"="+entry.value)
         }
-        var xapiData = XapiEventData("agent", ids)
+        var xapiData = XapiEventData("Agent", ids)
         val event = XapiEvent(userName, currentTime, xapiData , method, remoteIp)
         eventPublisher.publishEvent(event)
     }

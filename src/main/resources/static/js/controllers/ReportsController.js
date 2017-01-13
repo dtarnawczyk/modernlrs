@@ -1,4 +1,5 @@
-app.controller('ReportsController', ['$scope', function($scope) {
+'use strict';
+app.controller('ReportsController', ['$scope', function($scope, load) {
 
 
 
