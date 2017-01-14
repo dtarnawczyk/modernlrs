@@ -24,6 +24,7 @@
       <!-- <mogno.version>1.9.6.RELEASE</mogno.version> -->
       <angularjs.version>1.6.1</angularjs.version>
       <bootstrap.version>3.3.7</bootstrap.version>
+      <ehcache.version>2.10.3</ehcache.version>
       <spring-test.version>4.3.4.RELEASE</spring-test.version>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -82,6 +83,10 @@
       </dependency>
       <dependency>
           <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-cache</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-test</artifactId>
           <scope>test</scope>
       </dependency>
@@ -94,10 +99,6 @@
           <groupId>org.assertj</groupId>
           <artifactId>assertj-core</artifactId>
           <version>${assertj.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-test-autoconfigure</artifactId>
       </dependency>
       <dependency>
           <groupId>org.springframework.boot</groupId>
@@ -154,6 +155,10 @@
       </dependency>
       <dependency>
           <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-test-autoconfigure</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-test</artifactId>
       </dependency>
       <!-- webjars -->
@@ -166,6 +171,11 @@
           <groupId>org.webjars</groupId>
           <artifactId>bootstrap</artifactId>
           <version>${bootstrap.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>net.sf.ehcache</groupId>
+          <artifactId>ehcache</artifactId>
+          <version>${ehcache.version}</version>
       </dependency>
   </dependencies>
   <build>

@@ -15,6 +15,7 @@ import javax.ws.rs.POST
 import javax.ws.rs.Consumes
 import org.psnc.kmodernlrs.services.ActivitiesService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import java.sql.Timestamp
 import java.util.*
@@ -42,6 +43,7 @@ open class ActivitiesController {
 
     @POST
     @Consumes(JSON_TYPE)
+    @Cacheable("statements")
     fun getActivity(@Context request: HttpServletRequest, @Context context: SecurityContext,
                     activityIdStr: String): String {
         val activityId: String = getActivityIdFromString(activityIdStr)

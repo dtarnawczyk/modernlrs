@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.scheduling.annotation.EnableAsync
 //import org.springframework.scheduling.support.TaskUtils
 //import org.springframework.core.task.SimpleAsyncTaskExecutor
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync
 //import org.springframework.context.event.ApplicationEventMulticaster
 
 //@SpringBootApplication
+@EnableCaching
 @Configuration
 //@EnableWebMvc
 @EnableAutoConfiguration(exclude = arrayOf(JacksonAutoConfiguration::class,
@@ -39,28 +41,4 @@ open class Application /*: SpringBootServletInitializer() */{
 	    return propertyConfigurer
 	}
 
-	//	@Bean
-//    open fun  filterRegistrationBean() : FilterRegistrationBean {
-//        var registrationBean: FilterRegistrationBean = FilterRegistrationBean()
-//        registrationBean.setFilter(headerFilter)
-//        var urls: MutableList<String> = mutableListOf<String>()
-//		urls.add(statementPath)
-//		registrationBean.setUrlPatterns(urls)
-//		registrationBean.setOrder(1)
-//		return registrationBean
-//    }
-//
-//	@Bean
-//	public FilterRegistrationBean corsFilter() {
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		CorsConfiguration config = new CorsConfiguration();
-//		config.setAllowCredentials(true);
-//		config.addAllowedOrigin("http://domain1.com");
-//		config.addAllowedHeader("*");
-//		config.addAllowedMethod("*");
-//		source.registerCorsConfiguration("/**", config);
-//		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-//		bean.setOrder(0);
-//		return bean;
-//	}
 }

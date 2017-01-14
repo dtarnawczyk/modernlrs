@@ -16,6 +16,7 @@ import org.psnc.kmodernlrs.models.Actor
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
 import org.psnc.kmodernlrs.services.AgentsService
 import org.psnc.kmodernlrs.util.InverseFunctionalIdentifierHelper
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import java.sql.Timestamp
 import java.util.*
@@ -42,6 +43,7 @@ open class AgentsController {
     @POST
     @Consumes(JSON_TYPE)
     @Produces(JSON_TYPE)
+    @Cacheable("statements")
     fun getAgents(@Context request: HttpServletRequest, @Context context: SecurityContext,
                   json: String) : String {
         val actor: Actor = gson.fromJson(json, Actor::class.java)

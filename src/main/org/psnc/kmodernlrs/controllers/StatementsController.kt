@@ -25,6 +25,7 @@ import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.event.XapiEvent
 import org.psnc.kmodernlrs.services.StatementService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import javax.servlet.http.HttpServletRequest
 
@@ -50,6 +51,7 @@ open class StatementsController {
 	@GET
 	@Produces(JSON_TYPE)
 	@Path("/{statementId}")
+	@Cacheable("statements")
 	fun getStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
 					 @PathParam("statementId") statementId: String) : String {
 		log.debug(">>> get statement with id: "+ statementId)
