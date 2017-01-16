@@ -4,10 +4,9 @@ import org.psnc.kmodernlrs.event.XapiEvent
 import org.psnc.kmodernlrs.models.Activity
 import org.psnc.kmodernlrs.models.Actor
 import org.psnc.kmodernlrs.models.Statement
-import org.psnc.kmodernlrs.services.ActivitiesService
-import org.psnc.kmodernlrs.services.AgentsService
-import org.psnc.kmodernlrs.services.EventService
-import org.psnc.kmodernlrs.services.StatementService
+import org.psnc.kmodernlrs.security.UserAccount
+import org.psnc.kmodernlrs.security.UserAccountProvider
+import org.psnc.kmodernlrs.services.*
 import org.springframework.stereotype.Controller
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.ui.Model
-import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
-
 
 @Controller
 open class DashboardController {
@@ -31,6 +28,7 @@ open class DashboardController {
     @Autowired lateinit var statementService: StatementService
     @Autowired lateinit var agentsService: AgentsService
     @Autowired lateinit var activitiesService: ActivitiesService
+    @Autowired lateinit var userAccountsProvider: UserAccountProvider
 
     @RequestMapping(path = arrayOf("/"), method = arrayOf(RequestMethod.GET))
     fun index(httpRequest: HttpServletRequest, model: Model): String {
@@ -44,7 +42,7 @@ open class DashboardController {
 
     @RequestMapping(path = arrayOf("/activityLogView",
             "/statementsView", "/agentsView", "/activitiesView",
-            "/reportsView", "/usersView"), method = arrayOf(RequestMethod.GET))
+            "/reportsView", "/usersView", "/createUser"), method = arrayOf(RequestMethod.GET))
     fun activityLogView(httpRequest: HttpServletRequest) : ModelAndView {
         return ModelAndView("forward:/")
     }
@@ -95,7 +93,12 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/usersInit"), method = arrayOf(RequestMethod.GET))
-    fun usersViewInit(httpRequest: HttpServletRequest) : ModelAndView {
-        return ModelAndView("forward:/")
+    fun usersViewInit(httpRequest: HttpServletRequest) : ResponseEntity<List<UserAccount>> {
+        log.debug(">>>>> users view init")
+        var allUsers: List<UserAccount>? = userAccountsProvider.getAllUserAccounts()
+        if (allUsers == null || allUsers?.isEmpty()) {
+            return ResponseEntity<List<UserAccount>>(HttpStatus.NO_CONTENT)
+        }
+        return ResponseEntity<List<UserAccount>>(allUsers, HttpStatus.OK)
     }
 }

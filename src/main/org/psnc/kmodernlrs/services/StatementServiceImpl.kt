@@ -12,8 +12,8 @@ import org.psnc.kmodernlrs.models.Statement
 @Service
 open class StatementServiceImpl : StatementService {
 
-    @Autowired
-    lateinit var statementRepo: StatementRepository
+//    @Autowired
+//    lateinit var statementRepo: StatementRepository
 
     @Autowired
     lateinit var repoCustom: RepositoryCustomImpl

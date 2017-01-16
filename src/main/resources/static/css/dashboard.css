@@ -58,3 +58,8 @@ body {
     display: inline-block;
     max-width: 290px;
 }
+
+.button-container {
+    float: right;
+    padding: 8px 10px 0 0;
+}

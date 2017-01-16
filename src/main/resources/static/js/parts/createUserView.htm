@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><span class="lead">Create new user</span></div>
+    <form ng-submit="createNewUser();">
+    <div class="panel-body">
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label for="newusername">Name:</label>
+                <input type="text" class="form-control" id="newusername" ng-model="newUsername">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label for="newemail">E-mail:</label>
+                <input type="text" class="form-control" id="newemail" ng-model="newEmail">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label for="newpassword">Password:</label>
+                <input type="password" class="form-control" id="newpassword" ng-model="newPassword">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label for="newrole">Role:</label>
+                <select class="form-control" id="newrole" ng-model="newRole" ng-init="newRole='user'">
+                    <option value="user">User</option>
+                    <option value="superuser">Superuser</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label for="newactive">Active</label>
+                <input type="checkbox" id="newactive" ng-model="newActive"
+                       ng-true-value="true" ng-false-value="false">
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" >Create</button>
+            <button type="button" class="btn btn-primary" ng-click="goTo('/usersView')">Cancel</button>
+        </div>
+    </div>
+    </form>
+</div>

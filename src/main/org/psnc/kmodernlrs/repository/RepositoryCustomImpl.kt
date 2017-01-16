@@ -35,7 +35,7 @@ open class RepositoryCustomImpl : RepositoryCustom {
     override fun fimdByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?{
         val criterias = arrayListOf<Criteria>()
         for (entry in attrs) {
-            criterias.add(Criteria.where(entry.key as String?).`is`(entry.value ))
+            criterias.add(Criteria.where(entry.key as String?).`is`(entry.value))
         }
         //return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
         val criteria: Criteria = Criteria().orOperator(*criterias.toTypedArray())

@@ -30,6 +30,12 @@ class BasicAuthProvider : AuthenticationProvider {
 	
 	@Value("&{auth.basic.password}")
 	lateinit var password:String
+
+	@Value("&{auth.basic.database}")
+	lateinit var dataSource:String
+
+
+	@Autowired lateinit var accountProvider: AccountProvider
 	
 	override fun authenticate(auth: Authentication) : Authentication {
 
@@ -41,7 +47,7 @@ class BasicAuthProvider : AuthenticationProvider {
 		// can be authenticated with external service
 
 		// Auth with BasicAuthFilter
-		if (auth is UserAccountAuth) {
+		/*if (auth is UserAccountAuth) {
 			val basicAuth: UserAccountAuth = auth
 			val token: String? = basicAuth.credentials
 
@@ -65,35 +71,50 @@ class BasicAuthProvider : AuthenticationProvider {
 			}
 
 		// Auth with httpBasic()
-		} else if (auth is UsernamePasswordAuthenticationToken) {
+		} elseif (auth is UsernamePasswordAuthenticationToken) {*/
 			val user: String = auth.getPrincipal().toString()
 			val pass: String = auth.getCredentials().toString()
 
 			log.debug(">>> httpBasic username:" + user)
 			log.debug(">>> httpBasic password:" + pass)
 
-			if (username.equals(user) && password.equals(pass)) {
-				val grantedAuths: MutableList<GrantedAuthority>  = mutableListOf<GrantedAuthority>()
-				grantedAuths.add(SimpleGrantedAuthority("ROLE_USER"))
-
-				return UsernamePasswordAuthenticationToken(username, null, grantedAuths)
-
+		if(dataSource == "database") {
+			val userAccount = accountProvider.getUserAccount(user)
+			if (userAccount != null) {
+				if (userAccount.active) {
+					if (userAccount.name.equals(user) && userAccount.password.equals(pass)) {
+						log.debug(">>> User exists and is active <<<")
+						val grantedAuths: MutableList<GrantedAuthority> = mutableListOf<GrantedAuthority>()
+//						grantedAuths.add(SimpleGrantedAuthority("ROLE_USER"))
+						grantedAuths.add(SimpleGrantedAuthority("ROLE_" + userAccount.role.toUpperCase()))
+						return UsernamePasswordAuthenticationToken(userAccount, userAccount.password, grantedAuths)
+					} else {
+						throw BadCredentialsException("Wrong user name or password")
+					}
+				} else {
+					throw BadCredentialsException("User not active: " + user)
+				}
 			} else {
 				throw BadCredentialsException("Could not find user: " + user)
 			}
-
+		} else {
+			if (username.equals(user) && password.equals(pass)) {
+				val grantedAuths: MutableList<GrantedAuthority>  = mutableListOf<GrantedAuthority>()
+				grantedAuths.add(SimpleGrantedAuthority("ROLE_USER"))
+				return UsernamePasswordAuthenticationToken(username, null, grantedAuths)
+			} else {
+				throw BadCredentialsException("Could not find user: " + user)
+			}
 		}
-		return auth
+
+//		}
+//		return auth
 	}
 	
 	override fun supports(authentication: Class<*>) : Boolean {
 //		return authentication.equals(UserAccountAuth::class.java)
 //		return UserAccountAuth::class.java.isAssignableFrom(authentication)
-		if(UserAccountAuth::class.java.isAssignableFrom(authentication) ||
-				UsernamePasswordAuthenticationToken::class.java.isAssignableFrom(authentication)) {
-			return true
-		} else {
-			return false
-		}
+		return (UserAccountAuth::class.java.isAssignableFrom(authentication) ||
+				UsernamePasswordAuthenticationToken::class.java.isAssignableFrom(authentication))
 	}
 }

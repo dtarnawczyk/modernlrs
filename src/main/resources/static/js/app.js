@@ -41,21 +41,30 @@ var app = angular
         }).
         when('/reportsView', {
             templateUrl: 'js/parts/reportsView.htm',
-            controller: 'ReportsController',
-            resolve: {
+            controller: 'ReportsController'
+//            resolve: {
 //                loadOnInit: ['DashboardService', function (DashboardService) {
 //                                return DashboardService.initActivityLog()
 //                }]
-            }
+//            }
         }).
         when('/usersView', {
             templateUrl: 'js/parts/usersView.htm',
             controller: 'UsersController',
             resolve: {
-//                loadOnInit: ['DashboardService', function (DashboardService) {
-//                                return DashboardService.initActivityLog()
-//                }]
+                loadOnInit: ['DashboardService', function (DashboardService) {
+                    return DashboardService.initUsersView()
+                }]
             }
+        }).
+        when('/createUser', {
+            templateUrl: 'js/parts/createUserView.htm',
+            controller: 'CreateUserController'
+//            resolve: {
+//                loadOnInit: ['DashboardService', function (DashboardService) {
+//                    return DashboardService.initActivityLog()
+//                }]
+//            }
         }).
         otherwise({
             redirectTo: '/activityLogView'

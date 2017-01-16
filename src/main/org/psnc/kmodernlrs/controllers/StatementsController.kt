@@ -25,6 +25,7 @@ import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.event.XapiEvent
 import org.psnc.kmodernlrs.services.StatementService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import javax.servlet.http.HttpServletRequest
@@ -66,20 +67,28 @@ open class StatementsController {
 	
 	@GET
 	@Produces(JSON_TYPE)
+	@Cacheable("statements")
 	fun getAllStatements(@Context request: HttpServletRequest, @Context context: SecurityContext) : String {
 		val statementList : List<Statement>? = service.getAll()
-		statementList?.let {
-			statementEventCalled(request, context, it)
+//		statementList?.let {
+//			statementEventCalled(request, context, it)
+//		}
+//		return gson.toJson(statementList)
+		if(statementList != null) {
+			statementEventCalled(request, context, statementList)
+			return gson.toJson(statementList)
+		} else {
+			return "No statements found"
 		}
-		return gson.toJson(statementList)
 	}
 
 	@PUT
 	@Path("/{statementId}")
 	@Consumes(JSON_TYPE)
+	@CachePut("statements")
 	fun putStatementWithId(@Context request: HttpServletRequest, @Context context: SecurityContext,
 						   @PathParam("statementId") statementId: String, json: String) : Response {
-		val response:Response?
+		var response:Response?
 		if(!json.isNullOrEmpty()){
 			val statement: Statement = gson.fromJson(json, Statement::class.java)
 			if(statementId.isNullOrEmpty()) {
@@ -103,9 +112,10 @@ open class StatementsController {
 
 	@POST
 	@Consumes(JSON_TYPE)
+	@CachePut("statements")
 	fun postStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
 					  json: String) : Response {
-		val response:Response?
+		var response:Response?
 		if(!json.isNullOrEmpty()){
 			val statement: Statement = gson.fromJson(json, Statement::class.java)
 			if(statement.id.isNullOrEmpty()) {

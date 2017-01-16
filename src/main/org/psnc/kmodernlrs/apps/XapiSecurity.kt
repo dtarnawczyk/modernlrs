@@ -28,8 +28,8 @@ open class XapiSecurity : WebSecurityConfigurerAdapter() {
     @Autowired
     lateinit var authProvider: AuthenticationProvider
 
-    @Autowired
-    lateinit var filter: OncePerRequestFilter
+//    @Autowired
+//    lateinit var filter: OncePerRequestFilter
 
     @Autowired
     lateinit var headerFilter: HeaderFilter
@@ -38,20 +38,19 @@ open class XapiSecurity : WebSecurityConfigurerAdapter() {
     lateinit var adminRole: String
 
     override fun configure(http: HttpSecurity) {
-
         http.antMatcher("/v1/xAPI/**")
-                .addFilterBefore(headerFilter, HeaderWriterFilter::class.java)
-                .addFilterBefore(filter, BasicAuthenticationFilter::class.java)
-                .authorizeRequests()
-                .antMatchers("/v1/xAPI/**").hasRole("USER")
-//                .antMatchers(*actuatorEndpoints()).hasRole(adminRole)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .httpBasic()
-                .and()
-                .anonymous().disable()
-                .csrf().disable()
+        .addFilterBefore(headerFilter, HeaderWriterFilter::class.java)
+//      .addFilterBefore(filter, BasicAuthenticationFilter::class.java)
+        .authorizeRequests()
+        .antMatchers("/v1/xAPI/**").hasRole("USER")
+        .antMatchers(*actuatorEndpoints()).hasRole(adminRole)
+        .and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .httpBasic()
+        .and()
+        .anonymous().disable()
+        .csrf().disable()
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {

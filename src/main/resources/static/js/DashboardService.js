@@ -56,6 +56,20 @@ app.factory('DashboardService', ['$http', '$q', function($http, $q){
                             return $q.reject(errResponse);
                         }
                     );
-        }
+        },
+        initUsersView: function() {
+            return $http
+                    .get('/usersInit')
+                    .then(
+                        function success(response){
+                            console.log(response);
+                            return response.data;
+                        },
+                        function error(errResponse){
+                            console.error('Error while fetching data');
+                            return $q.reject(errResponse);
+                        }
+                    );
+                }
     };
 }]);

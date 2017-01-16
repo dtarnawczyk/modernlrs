@@ -22,8 +22,7 @@ class OAuthFilter : OncePerRequestFilter() {
 		val authHeader: String = request.getHeader("Authorization")
 		
 		log.debug(String.format(">>> OAuth - Authorization Header: %s", authHeader))
-		// TODO: implement this
-		// forward the request
+		// TODO: implement this if all request would need this ?
         chain.doFilter(request, response)
 	}
 }

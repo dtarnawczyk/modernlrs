@@ -14,17 +14,11 @@ class UserAccountAuth : Authentication {
 		this.token = token
 	}
 	
-	override fun isAuthenticated() : Boolean {
-		return authenticated
-	}
+	override fun isAuthenticated() : Boolean = authenticated
 	
-	override fun getName() : String {
-		return name
-	}
+	override fun getName() : String = name
 	
-	override fun  getCredentials() : String {
-		return token
-	}
+	override fun  getCredentials() : String = token
 	
 	override fun getDetails() : Any? {
 		return null
@@ -38,9 +32,7 @@ class UserAccountAuth : Authentication {
 		this.grantedAuths = grantedAuthorities
 	}
 	
-	override fun getAuthorities() : Collection<GrantedAuthority>? {
-		return grantedAuths
-	}
+	override fun getAuthorities() : Collection<GrantedAuthority>? = grantedAuths
 	
 	override fun setAuthenticated(authenticated: Boolean){
 		this.authenticated = authenticated
