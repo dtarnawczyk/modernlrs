@@ -30,21 +30,27 @@ open class DashboardController {
     @Autowired lateinit var activitiesService: ActivitiesService
     @Autowired lateinit var userAccountsProvider: UserAccountProvider
 
-    @RequestMapping(path = arrayOf("/"), method = arrayOf(RequestMethod.GET))
-    fun index(httpRequest: HttpServletRequest, model: Model): String {
+    @RequestMapping(path = arrayOf("/", "/activityLogView",
+            "/statementsView", "/agentsView", "/activitiesView",
+            "/reportsView", "/usersView", "/createUser"), method = arrayOf(RequestMethod.GET))
+    fun index(httpRequest: HttpServletRequest): String {
         return "index"
     }
 
-//    @RequestMapping(value = "/{[path:[^\\.]*}")
-//    fun forwardIndex(httpRequest: HttpServletRequest): ModelAndView {
+//    @RequestMapping(path = arrayOf("/activityLogView",
+//            "/statementsView", "/agentsView", "/activitiesView",
+//            "/reportsView", "/usersView", "/createUser"), method = arrayOf(RequestMethod.GET))
+//    fun activityLogView(httpRequest: HttpServletRequest) : ModelAndView {
 //        return ModelAndView("forward:/")
 //    }
 
-    @RequestMapping(path = arrayOf("/activityLogView",
-            "/statementsView", "/agentsView", "/activitiesView",
-            "/reportsView", "/usersView", "/createUser"), method = arrayOf(RequestMethod.GET))
-    fun activityLogView(httpRequest: HttpServletRequest) : ModelAndView {
-        return ModelAndView("forward:/")
+    @RequestMapping(value = "/login", method = arrayOf(RequestMethod.GET))
+    fun login(model: Model, error: String?, logout: String?): String {
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.")
+        if (logout != null)
+            model.addAttribute("logout", "You have been logged out successfully.")
+        return "login"
     }
 
     @RequestMapping(path = arrayOf("/activityLogInit"), method = arrayOf(RequestMethod.GET))

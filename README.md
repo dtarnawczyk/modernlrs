@@ -17,8 +17,8 @@ https://github.com/adlnet/xAPI-Spec
 ```sh
 ###### Server configuration ######
 server.port= 8090
-security.user.name= admin
-security.user.password= admin321
+dashboard.user.name= admin
+dashboard.user.password= admin321
 management.security.roles= SUPERUSER
 spring.jmx.enabled= false
 ###### Spring MVC dispatcher servlet path. Path needs to be different than Jersey's to enable/disable Actuator endpoints access (/info, /health, ...) ######
@@ -32,10 +32,12 @@ endpoints.health.enabled= true
 endpoints.health.sensitive= true
 endpoints.info.enabled= true
 endpoints.metrics.enabled= true
-###### Authentication. Possible values: basic, oauth ######
-auth= basic
-auth.basic.username= user
-auth.basic.password= user321
+###### Authentication. Possible values: basic ######
+auth.type=basic
+###### Possible values: hardcoded, database ######
+auth.basic.database=database
+auth.basic.username=
+auth.basic.password=
 auth.oauth.key=
 auth.oauth.secret=
 ###### Database. Options: mongodb ######

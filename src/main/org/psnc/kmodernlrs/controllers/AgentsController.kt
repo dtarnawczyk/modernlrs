@@ -14,10 +14,12 @@ import org.psnc.kmodernlrs.event.XapiEvent
 import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.models.Actor
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
+import org.psnc.kmodernlrs.security.UserAccount
 import org.psnc.kmodernlrs.services.AgentsService
 import org.psnc.kmodernlrs.util.InverseFunctionalIdentifierHelper
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -56,7 +58,13 @@ open class AgentsController {
     fun agentEventCalled(request: HttpServletRequest, context: SecurityContext,
                          actor: Actor, method: String) {
         val remoteIp = request.remoteAddr
-        val userName = context.userPrincipal.name
+        var userName = ""
+        if(context.userPrincipal is UsernamePasswordAuthenticationToken){
+            var userPassAuthToken = context.userPrincipal as UsernamePasswordAuthenticationToken
+            userName = (userPassAuthToken.principal as UserAccount).name
+        } else {
+            userName = context.userPrincipal.name
+        }
         val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
         val attrsMap = InverseFunctionalIdentifierHelper.getAvailableAttrsFromActor(actor)
         var ids: MutableList<String> = mutableListOf()

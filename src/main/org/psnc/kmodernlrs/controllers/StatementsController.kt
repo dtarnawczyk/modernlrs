@@ -23,11 +23,14 @@ import org.psnc.kmodernlrs.gson.GsonFactoryProvider
 import org.psnc.kmodernlrs.ApiEndpoints
 import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.event.XapiEvent
+import org.psnc.kmodernlrs.security.UserAccount
 import org.psnc.kmodernlrs.services.StatementService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import java.security.Principal
 import javax.servlet.http.HttpServletRequest
 
 const val JSON_TYPE:String = "application/json"
@@ -144,7 +147,13 @@ open class StatementsController {
 							 statement: Any) {
 		val remoteIp = request.remoteAddr
 		val method = request.method
-		val userName = context.userPrincipal.name
+		var userName = ""
+		if(context.userPrincipal is UsernamePasswordAuthenticationToken){
+			var userPassAuthToken = context.userPrincipal as UsernamePasswordAuthenticationToken
+			userName = (userPassAuthToken.principal as UserAccount).name
+		} else {
+			userName = context.userPrincipal.name
+		}
 		val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
 		var xapiData: XapiEventData?
 		if(statement is List<*>) {

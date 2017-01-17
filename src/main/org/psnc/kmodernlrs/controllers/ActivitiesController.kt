@@ -8,6 +8,7 @@ import org.psnc.kmodernlrs.event.XapiEvent
 import org.psnc.kmodernlrs.event.XapiEventData
 import org.psnc.kmodernlrs.gson.GsonFactoryProvider
 import org.psnc.kmodernlrs.models.Activity
+import org.psnc.kmodernlrs.security.UserAccount
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.ws.rs.POST
@@ -17,6 +18,7 @@ import org.psnc.kmodernlrs.services.ActivitiesService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -65,7 +67,13 @@ open class ActivitiesController {
     fun activityEventCalled(request: HttpServletRequest, context: SecurityContext,
                             activity: Activity, method: String) {
         val remoteIp = request.remoteAddr
-        val userName = context.userPrincipal.name
+        var userName = ""
+        if(context.userPrincipal is UsernamePasswordAuthenticationToken){
+            var userPassAuthToken = context.userPrincipal as UsernamePasswordAuthenticationToken
+            userName = (userPassAuthToken.principal as UserAccount).name
+        } else {
+            userName = context.userPrincipal.name
+        }
         val currentTime = Timestamp(Calendar.getInstance().getTime().getTime()).toString()
         var xapiData = XapiEventData("Activity", activity.id)
         val event = XapiEvent(userName, currentTime, xapiData , method, remoteIp)

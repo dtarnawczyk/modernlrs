@@ -42,14 +42,15 @@ open class XapiSecurity : WebSecurityConfigurerAdapter() {
         .addFilterBefore(headerFilter, HeaderWriterFilter::class.java)
 //      .addFilterBefore(filter, BasicAuthenticationFilter::class.java)
         .authorizeRequests()
-        .antMatchers("/v1/xAPI/**").hasRole("USER")
+        .antMatchers("/v1/xAPI/about").permitAll()
+        .antMatchers("/v1/xAPI/**").hasAnyRole("USER", adminRole)
         .antMatchers(*actuatorEndpoints()).hasRole(adminRole)
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .httpBasic()
         .and()
-        .anonymous().disable()
+//        .anonymous().disable()
         .csrf().disable()
     }
 
