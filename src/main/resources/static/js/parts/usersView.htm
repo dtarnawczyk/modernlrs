@@ -1,8 +1,8 @@
-<div class="panel panel-default">
+<div class="panel panel-default users-view">
     <div class="button-container">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" ng-click="goTo('/createUser')">New</button>
-            <button type="button" class="btn btn-primary" ng-click="deleteSelectedUser()">Delete</button>
+            <button type="button" class="btn btn-primary" ng-click="deleteUsersDialogOpen()">Delete</button>
         </div>
     </div>
     <div class="panel-heading"><span class="lead">Users</span></div>
@@ -20,7 +20,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="user in users">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-model="user.selected"></td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>

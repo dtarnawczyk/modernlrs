@@ -34,4 +34,18 @@ open class UserManagementController {
         }
     }
 
+    @RequestMapping(path = arrayOf("/deleteUser"),
+            method = arrayOf(RequestMethod.POST),
+            consumes = arrayOf(JSON_TYPE))
+    fun deleteUser(@RequestBody user: UserAccount) : ResponseEntity<String> {
+        user.createdTime = LocalDate.now()
+        log.debug(">>>>> deleting user: "+ user)
+        val deleted: Boolean = userAccountsProvider.deleteUserAccount(user)
+        if(deleted) {
+            return ResponseEntity<String>("User deleted successfully ", HttpStatus.CREATED)
+        } else {
+            return ResponseEntity<String>("User deleted ERROR !", HttpStatus.CONFLICT)
+        }
+    }
+
 }

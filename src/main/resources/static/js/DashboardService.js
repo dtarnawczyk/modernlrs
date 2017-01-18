@@ -70,6 +70,6 @@ app.factory('DashboardService', ['$http', '$q', function($http, $q){
                             return $q.reject(errResponse);
                         }
                     );
-                }
+        }
     };
 }]);

@@ -26,7 +26,7 @@ class UserAccountProvider : AccountProvider {
 
 	override fun deleteUserAccount(userAccount: UserAccount) : Boolean {
 		accountService.deleteUserAccount(userAccount)
-		return accountService.exists(userAccount)
+		return !accountService.exists(userAccount)
 	}
 
 	override fun setUserAccountRole(userAccount: UserAccount, role: String) {

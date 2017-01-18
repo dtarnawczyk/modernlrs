@@ -26,11 +26,10 @@ app.controller('CreateUserController', ['$scope', '$location', '$http', '$q',
                 function success(response){
                     console.log(response);
                     $location.path('/usersView');
-                    return response.data;
                 },
                 function error(errResponse){
                     console.error('Error while fetching data');
-                    return $q.reject(errResponse);
+                    $q.reject(errResponse);
                 }
             );
     }

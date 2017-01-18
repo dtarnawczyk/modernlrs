@@ -1,6 +1,6 @@
 'use strict';
 var app = angular
-    .module("dashboard", ['ngRoute'])
+    .module("dashboard", ['ngRoute', 'ui.bootstrap'])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider.
         when('/activityLogView', {
