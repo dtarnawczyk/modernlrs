@@ -52,6 +52,34 @@ open class RepositoryCustomImpl : RepositoryCustom {
 //    fun deleteAll(claz: Class<*>)
     override fun findAll(claz: Class<*>) : List<Any>? = mongoTemplate.findAll(claz)
 
+    override fun find10(claz: Class<*>, skip: Int) : List<Any>? {
+        val query = Query()
+        query.limit(10)
+        query.skip(skip)
+        return mongoTemplate.find(query, claz)
+    }
+
+    override fun find20(claz: Class<*>, skip: Int) : List<Any>? {
+        val query = Query()
+        query.limit(20)
+        query.skip(skip)
+        return mongoTemplate.find(query, claz)
+    }
+
+    override fun find50(claz: Class<*>, skip: Int) : List<Any>? {
+        val query = Query()
+        query.limit(50)
+        query.skip(skip)
+        return mongoTemplate.find(query, claz)
+    }
+
+    override fun findAllLimitSkip(claz: Class<*>, limit: Int, skip: Int) : List<Any>? {
+        val query = Query()
+        query.limit(limit)
+        query.skip(skip)
+        return mongoTemplate.find(query, claz)
+    }
+
 //    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
     override fun getCount(claz: Class<*>) : Long = mongoTemplate.findAll(claz).size.toLong()
 

@@ -29,6 +29,22 @@ open class AgentsServiceImpl : AgentsService {
 //        return repo.findAll(Actor::class.java) as List<Actor>?
     }
 
+    override fun get10Agents(from: Int) : List<Actor>? {
+        return repo.find10(Actor::class.java, from)?.filterIsInstance<Actor>()
+    }
+
+    override fun get20Agents(from: Int) : List<Actor>? {
+        return repo.find20(Actor::class.java, from)?.filterIsInstance<Actor>()
+    }
+
+    override fun get50Agents(from: Int) : List<Actor>? {
+        return repo.find50(Actor::class.java, from)?.filterIsInstance<Actor>()
+    }
+
+    override fun getAgentsLimitFrom(limit: Int, from: Int) : List<Actor>? {
+        return repo.findAllLimitSkip(Actor::class.java, limit, from)?.filterIsInstance<Actor>()
+    }
+
     override fun getCount() : Long = repo.getCount(Actor::class.java)
 
     override fun exists(actor: Actor) : Boolean {

@@ -12,7 +12,10 @@ interface RepositoryCustom {
 //    fun <T> delete(entities: MutableList<T>)
 //    fun deleteAll(claz: Class<*>)
     fun findAll(claz: Class<*>) : List<Any>?
-//    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
+    fun find10(claz: Class<*>, skip: Int) : List<Any>?
+    fun find20(claz: Class<*>, skip: Int) : List<Any>?
+    fun find50(claz: Class<*>, skip: Int) : List<Any>?
+    fun findAllLimitSkip(claz: Class<*>, limit: Int, skip: Int) : List<Any>?
     fun getCount(claz: Class<*>): Long
     fun <T> exists(id: T, claz: Class<*>): Boolean
 }

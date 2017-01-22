@@ -29,5 +29,21 @@ open class EventServiceImpl : EventService {
         return events
     }
 
+    override fun get10Events(from: Int) : List<XapiEvent>? {
+        return repo.find10(XapiEvent::class.java, from)?.filterIsInstance<XapiEvent>()
+    }
+
+    override fun get20Events(from: Int) : List<XapiEvent>? {
+        return repo.find20(XapiEvent::class.java, from)?.filterIsInstance<XapiEvent>()
+    }
+
+    override fun get50Events(from: Int) : List<XapiEvent>? {
+        return repo.find50(XapiEvent::class.java, from)?.filterIsInstance<XapiEvent>()
+    }
+
+    override fun getEventsLimitFrom(limit: Int, from: Int) : List<XapiEvent>? {
+        return repo.findAllLimitSkip(XapiEvent::class.java, limit, from)?.filterIsInstance<XapiEvent>()
+    }
+
     override fun getCount() : Long = repo.getCount(XapiEvent::class.java)
 }

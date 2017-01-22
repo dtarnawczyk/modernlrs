@@ -1,6 +1,6 @@
 package org.psnc.kmodernlrs.services
 
-import org.psnc.kmodernlrs.repository.RepositoryCustomImpl
+import org.psnc.kmodernlrs.repository.RepositoryCustom
 import org.psnc.kmodernlrs.security.UserAccount
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -10,7 +10,7 @@ import java.util.*
 open class UserAccountServiceImpl : UserAccountService {
 
     @Autowired
-    lateinit var repoCustom: RepositoryCustomImpl
+    lateinit var repoCustom: RepositoryCustom
 
     override fun createUserAccount(user: UserAccount) {
         repoCustom.create(user)

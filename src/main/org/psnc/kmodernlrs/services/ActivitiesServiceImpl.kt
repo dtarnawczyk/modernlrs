@@ -19,8 +19,23 @@ open class ActivitiesServiceImpl : ActivitiesService {
     override fun getActivity(id: String) : Activity? = repo.findById(id, Activity::class.java) as Activity?
 
     override fun getAll() : List<Activity>? {
-        val activities: List<Activity>? = repo.findAll(Activity::class.java)?.filterIsInstance<Activity>()
-        return activities
+        return repo.findAll(Activity::class.java)?.filterIsInstance<Activity>()
+    }
+
+    override fun get10Activities(from: Int) : List<Activity>? {
+       return repo.find10(Activity::class.java, from)?.filterIsInstance<Activity>()
+    }
+
+    override fun get20Activities(from: Int) : List<Activity>? {
+        return repo.find20(Activity::class.java, from)?.filterIsInstance<Activity>()
+    }
+
+    override fun get50Activities(from: Int) : List<Activity>? {
+        return repo.find50(Activity::class.java, from)?.filterIsInstance<Activity>()
+    }
+
+    override fun getActivitiesLimitFrom(limit: Int, from: Int) : List<Activity>? {
+        return repo.findAllLimitSkip(Activity::class.java, limit, from)?.filterIsInstance<Activity>()
     }
 
     override fun getCount() : Long = repo.getCount(Activity::class.java)

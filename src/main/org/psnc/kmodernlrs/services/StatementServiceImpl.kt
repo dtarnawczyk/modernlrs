@@ -37,6 +37,22 @@ open class StatementServiceImpl : StatementService {
         return statements
     }
 
+    override fun get10Statements(from: Int) : List<Statement>? {
+        return repoCustom.find10(Statement::class.java, from)?.filterIsInstance<Statement>()
+    }
+
+    override fun get20Statements(from: Int) : List<Statement>? {
+        return repoCustom.find20(Statement::class.java, from)?.filterIsInstance<Statement>()
+    }
+
+    override fun get50Statements(from: Int) : List<Statement>? {
+        return repoCustom.find50(Statement::class.java, from)?.filterIsInstance<Statement>()
+    }
+
+    override fun getStatementsLimitFrom(limit: Int, from: Int) : List<Statement>? {
+        return repoCustom.findAllLimitSkip(Statement::class.java, limit, from)?.filterIsInstance<Statement>()
+    }
+
     override fun getCount() : Long = repoCustom.getCount(Statement::class.java)
 
     override fun exists(statement: Statement) : Boolean = repoCustom.exists(statement.id, Statement::class.java)
