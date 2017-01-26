@@ -11,7 +11,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 
-	<logger name="org.psnc.kmodernlrs" level="debug" additivity="false">
+	<logger name="org.lrs.kmodernlrs" level="debug" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 
