@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
-import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.util.*
+import javax.ws.rs.core.MediaType
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner::class)
@@ -55,12 +55,19 @@ open class WebTest {
             .andExpect(status().isOk)
 	}
 
-//	@Test
-//	fun dashboardAuthTest() {
-//        mockClient.perform(get(dashboardPath)
-//                .header("Authorization", "Basic " + createBasicAuthHash(dashUserName, dashUserPassword)))
-//                .andExpect(status().isOk)
-//	}
+	@Test
+	fun dashboardTest() {
+		mockClient.perform(get(dashboardPath))
+				.andExpect(status().is3xxRedirection)
+				.andExpect(redirectedUrlPattern("**/login"));
+	}
+
+	@WithMockUser(username = "admin", password = "admin321", roles = arrayOf("ADMIN"))
+	@Test
+	fun dashboardMockUserTest() {
+		mockClient.perform(get(dashboardPath))
+				.andExpect(status().isOk);
+	}
 
 	@Test
 	fun postGetStatementIdTest() {
@@ -123,7 +130,7 @@ open class WebTest {
 				.content(agentJson))
 				.andDo(print())
 				.andExpect(status().isOk)
-//				.andExpect(content().json(expectedAgentJson))
+				.andExpect(content().json(expectedAgentJson))
 	}
 
 	@Test
@@ -169,7 +176,7 @@ open class WebTest {
 				.content(activityIDJson))
 				.andDo(print())
 				.andExpect(status().isOk)
-//				.andExpect(content().json(expectedActivityJson))
+				.andExpect(content().json(expectedActivityJson))
 	}
 
 	@Test

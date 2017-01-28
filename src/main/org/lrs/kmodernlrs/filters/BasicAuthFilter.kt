@@ -19,9 +19,9 @@ class BasicAuthFilter : OncePerRequestFilter() {
 	
 	override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse, chain: FilterChain) {
-		val authHeader: String? = request.getHeader("Authorization")
 
-		// TODO: uncomment this to filter all requests !!!
+		//  Uncomment this to filter all requests !!!
+//		val authHeader: String? = request.getHeader("Authorization")
 //		log.debug(String.format(">>> Basic auth - Authorization Header: %s", authHeader))
 //		if(authHeader != null){
 //			if (StringUtils.isNotBlank(authHeader)) {

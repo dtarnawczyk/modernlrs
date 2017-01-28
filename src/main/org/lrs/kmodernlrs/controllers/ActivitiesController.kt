@@ -14,17 +14,18 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Component
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.Consumes
 import javax.ws.rs.POST
 import javax.ws.rs.Path
+import javax.ws.rs.WebApplicationException
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
 data class ActivityId(var activityId: String)
@@ -49,14 +50,21 @@ open class ActivitiesController {
     @Consumes(JSON_TYPE)
     @Cacheable("statements")
     fun getActivity(@Context request: HttpServletRequest, @Context context: SecurityContext,
-                    activityIdStr: String) : ResponseEntity<String> {
+                    activityIdStr: String) : Response {
+        if(activityIdStr.isNullOrEmpty()){
+            throw WebApplicationException(
+                    Response.status(HttpServletResponse.SC_NO_CONTENT)
+                            .entity("Activity Id JSON is empty").build())
+        }
         val activityId: String = getActivityIdFromString(activityIdStr)
         val activity = service.getActivity(activityId)
         if (activity != null) {
             activityEventCalled(request, context, activity, "POST")
-            return ResponseEntity(gson.toJson(activity), HttpStatus.OK)
+            return Response.status(HttpServletResponse.SC_OK).entity(gson.toJson(activity)).build()
         } else {
-            return ResponseEntity("No activity found", HttpStatus.NOT_FOUND)
+            log.debug(">>> No Activity found")
+            throw WebApplicationException(
+                    Response.status(HttpServletResponse.SC_NOT_FOUND).build())
         }
     }
 

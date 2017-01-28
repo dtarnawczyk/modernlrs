@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
-import javax.servlet.http.HttpServletRequest
 
 data class PageRange(var pageSize:Int = 10, var currentPage:Int = 1)
 
@@ -39,7 +38,7 @@ open class DashboardController {
     @RequestMapping(path = arrayOf("/", "/activityLogView",
             "/statementsView", "/agentsView", "/activitiesView",
             "/reportsView", "/usersView", "/createUser"), method = arrayOf(RequestMethod.GET))
-    fun index(httpRequest: HttpServletRequest): String {
+    fun index(): String {
         return "index"
     }
 
@@ -60,7 +59,7 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/activityLogInit"), method = arrayOf(RequestMethod.GET))
-    fun activityLogInit(httpRequest: HttpServletRequest) : ResponseEntity<List<XapiEvent>> {
+    fun activityLogInit() : ResponseEntity<List<XapiEvent>> {
         log.debug(">>>>> activity log view init")
         val allEvents: List<XapiEvent>? = activityLogService.get10Events(0)
         if(allEvents == null || allEvents.isEmpty()){
@@ -72,7 +71,7 @@ open class DashboardController {
     @RequestMapping(path = arrayOf("/getEventsOnPageSize"), method = arrayOf(RequestMethod.POST))
     fun getEventsOnPageSize(@RequestBody pageSize: Int?) : ResponseEntity<List<XapiEvent>> {
         log.debug(">>>>> activity log view init with pageSize: $pageSize")
-        var events: List<XapiEvent>? = null
+        var events: List<XapiEvent>?
         when(pageSize) {
             10 -> events = activityLogService.get10Events(0)
             20 -> events = activityLogService.get20Events(0)
@@ -111,7 +110,7 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/statementsInit"), method = arrayOf(RequestMethod.GET))
-    fun statementsViewInit(httpRequest: HttpServletRequest) : ResponseEntity<List<Statement>> {
+    fun statementsViewInit() : ResponseEntity<List<Statement>> {
         log.debug(">>>>> statements view init")
         val allStatements: List<Statement>? = statementService.get10Statements(0)
         if (allStatements == null || allStatements.isEmpty()) {
@@ -123,7 +122,7 @@ open class DashboardController {
     @RequestMapping(path = arrayOf("/getStatementsOnPageSize"), method = arrayOf(RequestMethod.POST))
     fun getStatementsOnPageSize(@RequestBody pageSize: Int?) : ResponseEntity<List<Statement>> {
         log.debug(">>> statements view init with pageSize: $pageSize" )
-        var statements: List<Statement>? = null
+        var statements: List<Statement>?
         when(pageSize) {
             10 -> statements = statementService.get10Statements(0)
             20 -> statements = statementService.get20Statements(0)
@@ -162,7 +161,7 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/agentsInit"), method = arrayOf(RequestMethod.GET))
-    fun agentsViewInit(httpRequest: HttpServletRequest) : ResponseEntity<List<Actor>> {
+    fun agentsViewInit() : ResponseEntity<List<Actor>> {
         log.debug(">>>>> agents view init")
         val allAgents: List<Actor>? = agentsService.get10Agents(0)
         if (allAgents == null || allAgents.isEmpty()) {
@@ -175,7 +174,7 @@ open class DashboardController {
     @RequestMapping(path = arrayOf("/getAgentsOnPageSize"), method = arrayOf(RequestMethod.POST))
     fun getAgentsOnPageSize(@RequestBody pageSize: Int?) : ResponseEntity<List<Actor>> {
         log.debug(">>>>> agents view init with pageSize: $pageSize")
-        var agents: List<Actor>? = null
+        var agents: List<Actor>?
         when(pageSize) {
             10 -> agents = agentsService.get10Agents(0)
             20 -> agents = agentsService.get20Agents(0)
@@ -214,7 +213,7 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/activitiesInit"), method = arrayOf(RequestMethod.GET))
-    fun activitiesViewInit(httpRequest: HttpServletRequest) : ResponseEntity<List<Activity>> {
+    fun activitiesViewInit() : ResponseEntity<List<Activity>> {
         log.debug(">>>>> activities view init")
         val allActivity: List<Activity>? = activitiesService.getAll()
         if (allActivity == null || allActivity.isEmpty()) {
@@ -224,12 +223,12 @@ open class DashboardController {
     }
 
     @RequestMapping(path = arrayOf("/reportsInit"), method = arrayOf(RequestMethod.GET))
-    fun reportsViewInit(httpRequest: HttpServletRequest) : ModelAndView {
+    fun reportsViewInit() : ModelAndView {
         return ModelAndView("forward:/")
     }
 
     @RequestMapping(path = arrayOf("/usersInit"), method = arrayOf(RequestMethod.GET))
-    fun usersViewInit(httpRequest: HttpServletRequest) : ResponseEntity<List<UserAccount>> {
+    fun usersViewInit() : ResponseEntity<List<UserAccount>> {
         log.debug(">>>>> users view init")
         val allUsers: List<UserAccount>? = userAccountsProvider.getAllUserAccounts()
         if (allUsers == null || allUsers.isEmpty()) {

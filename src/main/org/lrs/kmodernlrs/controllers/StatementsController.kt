@@ -15,13 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Controller
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.Response
@@ -29,7 +28,7 @@ import javax.ws.rs.core.SecurityContext
 
 const val JSON_TYPE:String = "application/json"
 
-@Component
+@Controller
 @Path(ApiEndpoints.STATEMENTS_ENDPOINT)
 open class StatementsController {
 
@@ -51,14 +50,14 @@ open class StatementsController {
 	@Path("/{statementId}")
 	@Cacheable("statements")
 	fun getStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
-                     @PathParam("statementId") statementId: String) : ResponseEntity<String> {
+                     @PathParam("statementId") statementId: String) : String {
 		log.debug(">>> get statement with id: $statementId")
 		val statement = service.getStatement(statementId)
 		if(statement != null) {
 			statementEventCalled(request, context, statement)
-			return ResponseEntity(gson.toJson(statement), HttpStatus.OK)
+			return gson.toJson(statement)
 		} else {
-			return ResponseEntity("No statement found", HttpStatus.NOT_FOUND)
+			throw WebApplicationException(Response.status(HttpServletResponse.SC_NOT_FOUND).build())
 		}
 	}
 	
@@ -66,17 +65,14 @@ open class StatementsController {
 	@Produces(JSON_TYPE)
 	@Cacheable("statements")
 	fun getAllStatements(@Context request: HttpServletRequest, @Context context: SecurityContext)
-			: ResponseEntity<String> {
+			: String {
 		val statementList : List<Statement>? = service.getAll()
-//		statementList?.let {
-//			statementEventCalled(request, context, it)
-//		}
-//		return gson.toJson(statementList)
 		if(statementList != null) {
 			statementEventCalled(request, context, statementList)
-            return ResponseEntity(gson.toJson(statementList), HttpStatus.OK)
+            return gson.toJson(statementList)
 		} else {
-            return ResponseEntity("No statements found", HttpStatus.NOT_FOUND)
+			throw WebApplicationException(Response.status(HttpServletResponse.SC_NOT_FOUND)
+					.entity("No Statements found!").build())
 		}
 	}
 
@@ -84,48 +80,59 @@ open class StatementsController {
 	@Path("/{statementId}")
 	@Consumes(JSON_TYPE)
 	@CachePut("statements")
-	fun putStatementWithId(@Context request: HttpServletRequest, @Context context: SecurityContext,
-                           @PathParam("statementId") statementId: String, json: String) : Response {
-		var response: Response?
+	fun putStatementWithId(@Context request: HttpServletRequest,
+						   @Context context: SecurityContext,
+						   @PathParam("statementId") statementId: String, json: String) : Response {
 		if(!json.isNullOrEmpty()){
 			val statement: Statement = gson.fromJson(json, Statement::class.java)
 			if(statementId.isNullOrEmpty()) {
-				response = Response.noContent().build()
-			} else if(statement.id.isNullOrEmpty()) {
+				log.debug(">>>> statementId is empty")
+				throw WebApplicationException(Response.status(HttpServletResponse.SC_NO_CONTENT)
+						.entity("Parameter statementId is EMPTY!").build())
+			} else if(statement.id.isNullOrEmpty() || (statement.id == statementId)) {
 				statement.id = statementId
-				registerStatement(request, context, statement)
-				response = Response.ok().build()
-			} else if(statement.id == statementId) {
-				registerStatement(request, context, statement)
-				response = Response.ok().build()
+				if(service.exists(statement) ) {
+					log.debug(">>>> statement already exists")
+					throw WebApplicationException(Response.status(HttpServletResponse.SC_CONFLICT)
+							.entity("Statement with id: $statementId already exists!").build())
+				} else {
+					registerStatement(request, context, statement)
+					return Response.status(HttpServletResponse.SC_OK).build()
+				}
 			} else {
-				response = Response.status(Response.Status.CONFLICT).build()
+				throw WebApplicationException(Response.status(HttpServletResponse.SC_CONFLICT).build())
 			}
 		} else {
-			response = Response.noContent().build()
+			log.debug(">>>> statement json is empty")
+			throw WebApplicationException(Response.status(HttpServletResponse.SC_NO_CONTENT)
+					.entity("Statement JSON is empty").build())
 		}
-
-		return response
 	}
 
 	@POST
 	@Consumes(JSON_TYPE)
 	@CachePut("statements")
 	fun postStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
-                      json: String) : Response {
-		var response: Response?
-		if(!json.isNullOrEmpty()){
-			val statement: Statement = gson.fromJson(json, Statement::class.java)
+                      jsonStatement: String) : Response {
+		if(!jsonStatement.isNullOrEmpty()){
+			val statement: Statement = gson.fromJson(jsonStatement, Statement::class.java)
 			if(statement.id.isNullOrEmpty()) {
 				statement.id = UUID.randomUUID().toString()
 			}
-			registerStatement(request, context, statement)
-			val statementId:String = statement.id
-			response = Response.ok("Statement ID: "+ statementId).build()
+			if(service.exists(statement) ) {
+				log.debug(">>>> statement already exists")
+				throw WebApplicationException(Response.status(HttpServletResponse.SC_CONFLICT)
+						.entity("Statement with id: ${statement.id} already exists!").build())
+			} else {
+				registerStatement(request, context, statement)
+				val statementId:String = statement.id
+				return Response.status(HttpServletResponse.SC_OK)
+						.entity("Statement ID: "+ statementId).build()
+			}
 		} else {
-			response = Response.noContent().build()
+			throw WebApplicationException(Response.status(HttpServletResponse.SC_NO_CONTENT)
+					.entity("Statement JSON is empty").build())
 		}
-		return response
 	}
 
 	fun registerStatement(request: HttpServletRequest, context: SecurityContext,
@@ -142,7 +149,7 @@ open class StatementsController {
                              statement: Any) {
 		val remoteIp = request.remoteAddr
 		val method = request.method
-		var userName = ""
+		var userName:String
 		if(context.userPrincipal is UsernamePasswordAuthenticationToken){
 			val userPassAuthToken = context.userPrincipal as UsernamePasswordAuthenticationToken
 			userName = (userPassAuthToken.principal as UserAccount).name
@@ -153,7 +160,7 @@ open class StatementsController {
 		var xapiData: XapiEventData?
 		if(statement is List<*>) {
 			var ids: MutableList<String> = mutableListOf()
-			(statement as List<*>).forEach {
+			statement.forEach {
 				ids.add((it as Statement).id)
 			}
 			xapiData = XapiEventData("Statement", ids)

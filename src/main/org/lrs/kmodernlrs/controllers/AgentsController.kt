@@ -14,18 +14,15 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Component
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
-import javax.ws.rs.Consumes
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.servlet.http.HttpServletResponse
+import javax.ws.rs.*
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
 @Component
@@ -49,22 +46,29 @@ open class AgentsController {
     @Produces(JSON_TYPE)
     @Cacheable("statements")
     fun getAgents(@Context request: HttpServletRequest, @Context context: SecurityContext,
-                  json: String) : ResponseEntity<String> {
-        val actor: Actor = gson.fromJson(json, Actor::class.java)
+                  agentDetailsJson: String) : Response {
+        if(agentDetailsJson.isNullOrEmpty()){
+            throw WebApplicationException(
+                    Response.status(HttpServletResponse.SC_NO_CONTENT)
+                            .entity("Agent JSON is empty").build())
+        }
+        val actor: Actor = gson.fromJson(agentDetailsJson, Actor::class.java)
         log.debug(">> Actor: $actor")
         val actorDetails: Actor? = service.getAgentDetails(actor)
         if (actorDetails != null) {
             agentEventCalled(request, context, actor, "POST")
-            return ResponseEntity(gson.toJson(actorDetails), HttpStatus.OK)
+            return Response.status(HttpServletResponse.SC_OK).entity(actorDetails).build()
         } else {
-            return ResponseEntity("No activity found", HttpStatus.NOT_FOUND)
+            log.debug(">>> No Agent found")
+            throw WebApplicationException(
+                    Response.status(HttpServletResponse.SC_NOT_FOUND).build())
         }
     }
 
     fun agentEventCalled(request: HttpServletRequest, context: SecurityContext,
                          actor: Actor, method: String) {
         val remoteIp = request.remoteAddr
-        var userName = ""
+        var userName:String
         if(context.userPrincipal is UsernamePasswordAuthenticationToken){
             val userPassAuthToken = context.userPrincipal as UsernamePasswordAuthenticationToken
             userName = (userPassAuthToken.principal as UserAccount).name

@@ -25,7 +25,7 @@ open class StatementServiceImpl : StatementService {
         return true
     }
 
-    override fun getStatement(id: String) : Statement? = repoCustom.findById(id, Statement::class.java) as Statement
+    override fun getStatement(id: String) : Statement? = repoCustom.findById(id, Statement::class.java) as Statement?
 
     override fun deleteStatement(id: String) {
         repoCustom.deleteById(id, Statement::class.java)
