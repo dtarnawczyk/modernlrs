@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../untitled/.idea/modules/kmodernlrs.iml" filepath="$PROJECT_DIR$/../untitled/.idea/modules/kmodernlrs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kmodernlrs_main.iml" filepath="$PROJECT_DIR$/.idea/modules/kmodernlrs_main.iml" group="kmodernlrs" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kmodernlrs_test.iml" filepath="$PROJECT_DIR$/.idea/modules/kmodernlrs_test.iml" group="kmodernlrs" />
     </modules>
   </component>
 </project>
