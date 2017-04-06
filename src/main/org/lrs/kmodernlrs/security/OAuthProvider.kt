@@ -1,10 +1,10 @@
 package org.lrs.kmodernlrs.security
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.annotation.Primary
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import org.springframework.context.annotation.Primary
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 
 @ConditionalOnProperty(name=arrayOf("auth.type"), havingValue="oauth")
 @Component

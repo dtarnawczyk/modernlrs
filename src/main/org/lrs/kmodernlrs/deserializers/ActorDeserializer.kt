@@ -1,15 +1,15 @@
 package org.lrs.kmodernlrs.deserializers
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import org.lrs.kmodernlrs.models.Actor
 import org.lrs.kmodernlrs.models.Account
+import org.lrs.kmodernlrs.models.Actor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.lang.reflect.Type
 
 class ActorDeserializer : JsonDeserializer<Actor> {
 	

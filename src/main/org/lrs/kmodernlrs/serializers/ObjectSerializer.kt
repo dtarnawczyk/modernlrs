@@ -1,17 +1,16 @@
 package org.lrs.kmodernlrs.serializers
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import com.google.gson.JsonSerializer
-import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import org.lrs.kmodernlrs.models.Actor
 import org.lrs.kmodernlrs.models.Attachment
+import org.lrs.kmodernlrs.models.XapiObject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.lang.reflect.Type
-
-import org.lrs.kmodernlrs.models.*
 
 class ObjectSerializer : JsonSerializer<XapiObject> {
 	

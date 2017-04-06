@@ -1,9 +1,8 @@
 package org.lrs.kmodernlrs.mongo
 
-import java.lang.reflect.Field
-
 import org.springframework.data.annotation.Id
 import org.springframework.util.ReflectionUtils
+import java.lang.reflect.Field
 
 class FieldCallback : ReflectionUtils.FieldCallback {
     var idFound: Boolean = false

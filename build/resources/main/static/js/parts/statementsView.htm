@@ -1,0 +1,45 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><span class="lead">Statements</span></div>
+
+    <div class="button-container">
+
+        <label for="statementPageSize">Page size:</label>
+        <select id="statementPageSize" ng-model="pageSize" ng-init="pageSize='10'" ng-change="updatePageSize()">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" ng-click="prevPage()">Previous Page</button>
+            <button type="button" class="btn btn-primary" ng-click="nextPage()">Next Page</button>
+        </div>
+    </div>
+
+    <div class="tablecontainer">
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th class="col-md-2">ID</th>
+                <th class="col-md-1">Actor</th>
+                <th class="col-md-1">Actor ID</th>
+                <th class="col-md-1">Verb</th>
+                <th class="col-md-1">Object</th>
+                <th class="col-md-1">Object Type</th>
+                <th class="col-md-1">Stored</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="statement in statements">
+                <td>{{statement.id}}</td>
+                <td>{{statement.actor.objectType}}</td>
+                <td>{{statement.actor.mbox}}</td>
+                <td>{{statement.verb.id}}</td>
+                <td>{{statement.object.id}}</td>
+                <td>{{statement.object.objectType}}</td>
+                <td>{{statement.stored}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

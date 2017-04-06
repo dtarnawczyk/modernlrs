@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="githubkModernLRS" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="githubkModernLRS" target="1.8" />
+      <module name="kmodernlrs_main" target="1.8" />
+      <module name="kmodernlrs_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

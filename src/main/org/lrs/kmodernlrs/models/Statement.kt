@@ -1,15 +1,13 @@
 package org.lrs.kmodernlrs.models
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
-
+import org.lrs.kmodernlrs.mongo.Activity
+import org.lrs.kmodernlrs.mongo.CascadeSave
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
-import org.springframework.data.mongodb.core.mapping.DBRef
-
-import org.lrs.kmodernlrs.mongo.CascadeSave
-import org.lrs.kmodernlrs.mongo.Activity
+import java.io.Serializable
 
 @Document(collection = "statements")
 data class Statement(
