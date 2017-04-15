@@ -1,6 +1,8 @@
 # modernlrs #
 ### Learning Record Store ###
 
+![License Apache2](https://go-shields.herokuapp.com/license-apache2-blue.png)
+
 > - Implementation of the **TinCan API** (Experience API or xAPI)
 https://github.com/adlnet/xAPI-Spec
 > - Main container placed within **Spring** build with **Spring Boot**.

@@ -1,4 +1,4 @@
-package org.lrs.kmodernlrs.service
+package org.lrs.kmodernlrs
 
 import org.apache.commons.codec.binary.Base64
 import org.junit.Test
@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = arrayOf(Application::class), webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-open class WebTest {
+open class IntegrationalTest {
 	
 	@Autowired lateinit var mockClient: MockMvc
 	
@@ -34,7 +34,7 @@ open class WebTest {
 	@Value("&{auth.basic.password}")
 	lateinit var password:String
 
-//	val log = LoggerFactory.getLogger(WebTest::class.java)
+//	val log = LoggerFactory.getLogger(IntegrationalTest::class.java)
 	
 	val statementsPath: String = "/v1/xAPI/statements"
 	val agentsPath:String = "/v1/xAPI/agents"

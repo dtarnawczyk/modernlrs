@@ -1,4 +1,4 @@
-package org.lrs.kmodernlrs.service
+package org.lrs.kmodernlrs
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
