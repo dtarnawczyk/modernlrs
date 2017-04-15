@@ -1,4 +1,4 @@
-package org.lrs.kmodernlrs
+package org.lrs.kmodernlrs.service
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -7,6 +7,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.lrs.kmodernlrs.Application
 import org.lrs.kmodernlrs.models.Actor
 import org.lrs.kmodernlrs.models.Statement
 import org.lrs.kmodernlrs.models.Verb
@@ -150,13 +151,12 @@ open class StatementsTest {
 	}
 
 	@Test
-	fun createJson() {
-		log.debug(">>> jsonTester.write(statement) -> "+ jsonTester.write(statement))
+	fun whenStatementGivenJsonTesterShouldntBeNull() {
 		assertNotNull(jsonTester.write(statement))
 	}
 
 	@Test
-	fun testJsonActor() {
+	fun whenJsonActorGivenObjectShouldHaveAllFields() {
 		log.debug(">>>> json with actor -> "+ jsonWithActor)
 		val statement: Statement = jsonTester.parseObject(jsonWithActor)
 		assertNotNull(statement.id)
@@ -173,7 +173,7 @@ open class StatementsTest {
 	}
 
 	@Test
-	fun testJsonActivityObject() {
+	fun whenJsonActivityGivenObjectShouldHaveAllFields() {
 		log.debug(">>>> json with object as an activity -> "+ jsonWithActivityObject)
 		val statement: Statement = jsonTester.parseObject(jsonWithActivityObject)
 		assertNotNull(statement.id)
@@ -186,7 +186,7 @@ open class StatementsTest {
 	}
 
 	@Test
-	fun testJsonSubstatementObject() {
+	fun whenJsonSubstatementGivenObjectShouldHaveAllFields() {
 		log.debug(">>>> json with object as a substatement -> "+ jsonWithSubstatementObject)
 		val statement: Statement = jsonTester.parseObject(jsonWithSubstatementObject)
 		assertThat(statement.xapiObj?.objectType).isEqualTo("SubStatement")
@@ -200,7 +200,7 @@ open class StatementsTest {
 	}
 
 	@Test
-	fun testLongJsonStatement() {
+	fun whenLargeJsonStatementGivenObjectShouldHaveAllFields() {
 		log.debug(">>>> json long statement -> "+ longStatement)
 		val statement: Statement = jsonTester.parseObject(longStatement)
 		assertThat(statement.actor?.member).hasSize(3)

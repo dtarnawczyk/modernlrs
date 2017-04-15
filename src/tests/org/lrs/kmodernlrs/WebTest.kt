@@ -1,14 +1,15 @@
-package org.lrs.kmodernlrs
+package org.lrs.kmodernlrs.service
 
 import org.apache.commons.codec.binary.Base64
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.lrs.kmodernlrs.Application
+import org.lrs.kmodernlrs.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
@@ -33,44 +34,22 @@ open class WebTest {
 	@Value("&{auth.basic.password}")
 	lateinit var password:String
 
-    @Value("&{dashboard.user.name}")
-    lateinit var dashUserName:String
-
-    @Value("&{dashboard.user.password}")
-    lateinit var dashUserPassword:String
-
-	
 //	val log = LoggerFactory.getLogger(WebTest::class.java)
 	
 	val statementsPath: String = "/v1/xAPI/statements"
 	val agentsPath:String = "/v1/xAPI/agents"
 	val activityPath:String = "/v1/xAPI/activities"
-	val dashboardPath:String = "/"
-	
+
 	@Test
-	fun basicAuthTest() {
+	fun whenCorrectCredentialsShouldReturnOKStatus() {
 		mockClient.perform(get(statementsPath)
-			.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk)
+				.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk)
 	}
 
 	@Test
-	fun dashboardTest() {
-		mockClient.perform(get(dashboardPath))
-				.andExpect(status().is3xxRedirection)
-				.andExpect(redirectedUrlPattern("**/login"));
-	}
-
-	@WithMockUser(username = "admin", password = "admin321", roles = arrayOf("ADMIN"))
-	@Test
-	fun dashboardMockUserTest() {
-		mockClient.perform(get(dashboardPath))
-				.andExpect(status().isOk);
-	}
-
-	@Test
-	fun postGetStatementIdTest() {
+	fun whenStatementIdGivenReturnEqualJSON() {
 		val statementId = UUID.randomUUID().toString()
 		val statementJson: String = "{\"id\":\""+statementId+"\","+
 							"\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
@@ -99,7 +78,7 @@ open class WebTest {
 	}
 
 	@Test
-	fun postGetAgentOnMbox() {
+	fun whenPostStatementAndSearchForMailShouldReturnJSON() {
 		val statementId = UUID.randomUUID().toString()
 		val mbox: String = "mailto:user123@example.com"
 		val statementJson: String = "{\"id\":\""+statementId+"\","+
@@ -134,7 +113,7 @@ open class WebTest {
 	}
 
 	@Test
-	fun postGetActivity() {
+	fun whenPostStatementAndSearchForActivityShouldReturnJSON() {
 //		val activityID: String = "http://example.adlnet.gov/xapi/example/simplestatement"
         val activityID: String = "12345"
 		val activityIDJson: String = "{\"activityId\":\""+activityID+"\"}"
@@ -180,7 +159,7 @@ open class WebTest {
 	}
 
 	@Test
-	fun getXapiHeaderBasicAuth() {
+	fun whenCredentialsGivenShoulReturnProperHeader() {
 		mockClient.perform(get(statementsPath)
 			.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
             .accept(MediaType.APPLICATION_JSON))
