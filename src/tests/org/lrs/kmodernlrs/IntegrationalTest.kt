@@ -4,7 +4,6 @@ import org.apache.commons.codec.binary.Base64
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.lrs.kmodernlrs.Application
-import org.lrs.kmodernlrs.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -27,10 +26,10 @@ import javax.ws.rs.core.MediaType
 open class IntegrationalTest {
 	
 	@Autowired lateinit var mockClient: MockMvc
-	
+
 	@Value("&{auth.basic.username}")
 	lateinit var userName:String
-	
+
 	@Value("&{auth.basic.password}")
 	lateinit var password:String
 

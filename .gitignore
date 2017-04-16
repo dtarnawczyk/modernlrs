@@ -7,3 +7,5 @@
 #.settings/
 #.project
 #.classpath
+.gradle/3.4.1/fileContent/annotation-processors.bin
+.gradle/3.4.1/taskHistory/jvmClassSignatures.bin

@@ -14,17 +14,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes =  Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class ActivitiesControllerTest {
+public class AgentsControllerTest {
 
     @Autowired
     private MockMvc mockClient;
@@ -35,17 +36,21 @@ public class ActivitiesControllerTest {
     @Value("&{auth.basic.password}")
     private String password;
 
-    private String activityPath = "/v1/xAPI/activities";
+    private String agentsPath = "/v1/xAPI/agents";
+    private String testAgentMail = "mailto:testuser@example.com";
     private String statementsPath = "/v1/xAPI/statements";
-    private String activityID = "testActivityId";
+
+    // when no json with agent then return WebApplicationException
+
+    // when not existing agent id json provided then return not found
 
     @Before
     public void postStatement() throws Exception {
         String statementJson = "{\"id\":\"\","+
-                "\"actor\":{\"objectType\": \"Agent\",\"name\":\"Project Tin Can API\", "+
-                "\"mbox\":\"mailto:user@example.com\"}, "+
+                "\"actor\":{\"objectType\": \"Agent\",\"name\":\"test agent\", "+
+                "\"mbox\":\""+testAgentMail+"\"}, "+
                 "\"verb\":{\"id\":\"http://adlnet.gov/expapi/verbs/created\"},"+
-                "\"object\":{\n  \"id\": \""+activityID+"\",\n  "+
+                "\"object\":{\n  \"id\": \"testobj\",\n  "+
                 "\"objectType\" :\"Activity\",\n  "+
                 "\"definition\" :{\n  \"name\": {\n  \"en-US\": \"simple statement\" }\n  "+
                 "},\n  \"description\": {},"+
@@ -63,37 +68,40 @@ public class ActivitiesControllerTest {
                 .andDo(print());
     }
 
+
     @Test
-    public void whenIncorrectActivityProvidedThenReturnNotFoundStatus() throws Exception {
-        String activityIDJson = "{\"activityId\":\"fake\"}";
-        mockClient.perform(post(activityPath)
+    public void whenAvailableActorsMailProvidedThenReturnActorDetailsJson() throws Exception {
+        String agentJson = "{\"mbox\":\""+testAgentMail+"\"}";
+        MvcResult result = mockClient.perform(post(agentsPath)
                 .header("Authorization", "Basic " + createBasicAuthHash(userName, password))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(activityIDJson))
+                .content(agentJson))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains(testAgentMail));
     }
 
     @Test
-    public void whenActivityProvidedThenReturnJson() throws Exception {
-        String activityIDJson = "{\"activityId\":\""+activityID+"\"}";
-        String expectedActivityJson = "{\"id\":\""+activityID+"\","+
-                "\"name\": {\"en-US\":\"simple statement\" }"+
-                "},\"description\": {},"+
-                "\"moreInfo\":\"\",\"interactionType\":null,"+
-                "\"correctResponsesPattern\":[],"+
-                "\"choices\":[],\"scale\":[],"+
-                "\"source\":[],\"target\":[],\"steps\":[],"+
-                "\"extensions\": {}}";
-        mockClient.perform(post(activityPath)
+    public void whenFakeActorsMailProvidedThenReturnActorDetailsJson() throws Exception {
+        mockClient.perform(post(agentsPath)
+                .header("Authorization", "Basic " + createBasicAuthHash(userName, password))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void whenIncorrectActivityProvidedThenReturnNotFoundStatus() throws Exception {
+        String agentFakeMboxJson = "{\"mbox\":\"fake\"}";
+        mockClient.perform(post(agentsPath)
                 .header("Authorization", "Basic " + createBasicAuthHash(userName, password))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(activityIDJson))
+                .content(agentFakeMboxJson))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedActivityJson));
+                .andExpect(status().isNotFound());
     }
 
     private String createBasicAuthHash(String userName, String password) {
