@@ -138,7 +138,6 @@ open class StatementsController {
 	fun registerStatement(request: HttpServletRequest, context: SecurityContext,
                           statement: Statement) {
 		log.debug(">>> Saving Statement: $statement")
-
 		statement.stored = Timestamp(Calendar.getInstance().time.time).toString()
 		service.createStatement(statement)
 		statementEventCalled(request, context, statement)

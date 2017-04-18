@@ -1,6 +1,5 @@
 package org.lrs.kmodernlrs.controllers;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.Assert.assertTrue;
+import static org.lrs.kmodernlrs.TestHelper.createBasicAuthHash;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,10 +39,6 @@ public class AgentsControllerTest {
     private String agentsPath = "/v1/xAPI/agents";
     private String testAgentMail = "mailto:testuser@example.com";
     private String statementsPath = "/v1/xAPI/statements";
-
-    // when no json with agent then return WebApplicationException
-
-    // when not existing agent id json provided then return not found
 
     @Before
     public void postStatement() throws Exception {
@@ -102,9 +98,5 @@ public class AgentsControllerTest {
                 .content(agentFakeMboxJson))
                 .andDo(print())
                 .andExpect(status().isNotFound());
-    }
-
-    private String createBasicAuthHash(String userName, String password) {
-        return new String(Base64.encodeBase64((userName+":"+password).getBytes()));
     }
 }

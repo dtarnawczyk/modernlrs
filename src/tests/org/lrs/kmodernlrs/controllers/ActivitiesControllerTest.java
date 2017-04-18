@@ -1,6 +1,5 @@
 package org.lrs.kmodernlrs.controllers;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.lrs.kmodernlrs.TestHelper.createBasicAuthHash;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -94,9 +94,5 @@ public class ActivitiesControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedActivityJson));
-    }
-
-    private String createBasicAuthHash(String userName, String password) {
-        return new String(Base64.encodeBase64((userName+":"+password).getBytes()));
     }
 }

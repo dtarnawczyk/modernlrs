@@ -27,6 +27,7 @@ class ObjectDeserializer : JsonDeserializer<XapiObject> {
 				"Activity" -> {
 					xapiObject.id = jsonObject.get("id")?.asString
 					val activity: Activity? = context.deserialize(jsonObject.get("definition"), Activity::class.java)
+					log.debug(">>>> Activity JSON: "+ activity)
 					xapiObject.definition = activity
 				}
 				"Agent" -> {
@@ -51,8 +52,13 @@ class ObjectDeserializer : JsonDeserializer<XapiObject> {
 				"StatementRef" -> {
 					xapiObject.id = jsonObject.get("id")?.asString
 				}
-				else -> {}
+				else -> { }
 			}
+		} else {
+			log.debug("Object deserializer - default as Activity")
+			xapiObject.id = jsonObject.get("id")?.asString
+			val activity: Activity? = context.deserialize(jsonObject.get("definition"), Activity::class.java)
+			xapiObject.definition = activity
 		}
 		
 		return xapiObject

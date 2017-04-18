@@ -1,9 +1,9 @@
 package org.lrs.kmodernlrs
 
-import org.apache.commons.codec.binary.Base64
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.lrs.kmodernlrs.Application
+import org.lrs.kmodernlrs.TestHelper.createBasicAuthHash
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -139,22 +139,23 @@ open class IntegrationalTest {
 				"\"extensions\":{}}}"
 		mockClient.perform(
 				post(statementsPath)
-						.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
-						.header(Constants.XAPI_VERSION_HEADER, "1.0.3")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(statementJson))
-				.andDo(print())
-				.andExpect(status().isOk)
-				.andExpect(header().string("X-Experience-API-Version", "1.0.3"))
+					.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
+					.header(Constants.XAPI_VERSION_HEADER, "1.0.3")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(statementJson))
+					.andDo(print())
+					.andExpect(status().isOk)
+					.andExpect(header().string("X-Experience-API-Version", "1.0.3"))
 
-		mockClient.perform(post(activityPath)
-				.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
-				.accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(activityIDJson))
-				.andDo(print())
-				.andExpect(status().isOk)
-				.andExpect(content().json(expectedActivityJson))
+		mockClient.perform(
+				post(activityPath)
+					.header("Authorization", "Basic " + createBasicAuthHash(userName, password))
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(activityIDJson))
+					.andDo(print())
+					.andExpect(status().isOk)
+					.andExpect(content().json(expectedActivityJson))
 	}
 
 	@Test
@@ -164,8 +165,4 @@ open class IntegrationalTest {
             .accept(MediaType.APPLICATION_JSON))
         	.andExpect(header().string("X-Experience-API-Version", "1.0.3")).andReturn()
 	}
-
-    private fun createBasicAuthHash(userName : String, password: String) : String {
-        return String(Base64.encodeBase64((userName+":"+password).toByteArray()))
-    }
 }
