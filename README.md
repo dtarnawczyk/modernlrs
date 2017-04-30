@@ -1,9 +1,7 @@
 # modernlrs #
 ### Learning Record Store ###
 
-[![Build Status](https://travis-ci.org/dtarnawczyk/modernlrs.svg?branch=master)](https://travis-ci.org/dtarnawczyk/modernlrs)
-
-![License Apache2](https://go-shields.herokuapp.com/license-apache2-blue.png)
+[![Build Status](https://travis-ci.org/dtarnawczyk/modernlrs.svg?branch=master)](https://travis-ci.org/dtarnawczyk/modernlrs) ![License Apache2](https://go-shields.herokuapp.com/license-apache2-blue.png)
 
 > - Implementation of the **TinCan API** (Experience API or xAPI)
 https://github.com/adlnet/xAPI-Spec
