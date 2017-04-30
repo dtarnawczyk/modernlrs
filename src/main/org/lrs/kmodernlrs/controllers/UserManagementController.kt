@@ -7,13 +7,14 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
+import javax.ws.rs.core.MediaType
 
-@Controller
+@RestController
 open class UserManagementController {
 
     val log: Logger = LoggerFactory.getLogger(UserManagementController::class.java)
@@ -22,7 +23,7 @@ open class UserManagementController {
 
     @RequestMapping(path = arrayOf("/createNewUser"),
             method = arrayOf(RequestMethod.POST),
-            consumes = arrayOf(JSON_TYPE))
+            consumes = arrayOf(MediaType.APPLICATION_JSON))
     fun createNewUser(@RequestBody user: UserAccount) : ResponseEntity<String> {
         user.createdTime = LocalDate.now()
         log.debug(">>>>> creating user: $user")
@@ -36,7 +37,7 @@ open class UserManagementController {
 
     @RequestMapping(path = arrayOf("/deleteUser"),
             method = arrayOf(RequestMethod.POST),
-            consumes = arrayOf(JSON_TYPE))
+            consumes = arrayOf(MediaType.APPLICATION_JSON))
     fun deleteUser(@RequestBody user: UserAccount) : ResponseEntity<String> {
         user.createdTime = LocalDate.now()
         log.debug(">>>>> deleting user: $user")

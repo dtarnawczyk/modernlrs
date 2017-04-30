@@ -1,14 +1,14 @@
 package org.lrs.kmodernlrs.repository
 
-interface RepositoryCustom {
+interface RepositoryCustom <Entity> {
 
-    fun <T> create(entity: T)
-    fun <T> createList(entities: MutableList<T>)
-    fun <T> update(id: T, claz: Class<*>)
+    fun create(entity: Entity)
+    fun createList(entities: MutableList<Entity>)
+    fun update(entity: Entity, claz: Class<*>)
 //    fun <T> updateList(entities: MutableList<T>)
-    fun <T> findById(id: T, claz: Class<*>) : Any?
-    fun fimdByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?
-    fun <T> deleteById(id: T, claz: Class<*>)
+    fun findById(id: String, claz: Class<*>) : Any?
+    fun findByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?
+    fun deleteById(id: String, claz: Class<*>)
 //    fun <T> delete(entities: MutableList<T>)
 //    fun deleteAll(claz: Class<*>)
     fun findAll(claz: Class<*>) : List<Any>?
@@ -17,5 +17,5 @@ interface RepositoryCustom {
     fun find50(claz: Class<*>, skip: Int) : List<Any>?
     fun findAllLimitSkip(claz: Class<*>, limit: Int, skip: Int) : List<Any>?
     fun getCount(claz: Class<*>): Long
-    fun <T> exists(id: T, claz: Class<*>): Boolean
+    fun exists(id: String, claz: Class<*>): Boolean
 }

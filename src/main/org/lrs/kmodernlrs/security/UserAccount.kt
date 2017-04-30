@@ -1,5 +1,6 @@
 package org.lrs.kmodernlrs.security
 
+import org.lrs.kmodernlrs.models.Entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
@@ -14,6 +15,6 @@ data class UserAccount(
         var token: String = "",
         var tokenExpirationDate: LocalDate? = null,
         @Id
-		var id: String = UUID.randomUUID().toString(),
+		override var id: String = UUID.randomUUID().toString(),
         var createdTime: LocalDate? = null,
-        var active: Boolean = false)
+        var active: Boolean = false) : Entity

@@ -44,7 +44,7 @@ class CascadeCallback(var source: Any?, mongoOperations: MongoOperations) : Fiel
                     if(definition != null) {
                         val idField: Field = ReflectionUtils.findField(XapiObject::class.java, "id")
                         ReflectionUtils.makeAccessible(idField)
-                        val idx: String? = ReflectionUtils.getField(idField, fieldValue) as? String
+                        val idx: String = ReflectionUtils.getField(idField, fieldValue) as String
 
                         definition.id = idx
 

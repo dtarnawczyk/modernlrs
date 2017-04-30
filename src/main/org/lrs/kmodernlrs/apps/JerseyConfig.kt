@@ -7,10 +7,9 @@ import org.lrs.kmodernlrs.controllers.ActivitiesController
 import org.lrs.kmodernlrs.controllers.AgentsController
 import org.lrs.kmodernlrs.controllers.StatementsController
 import org.lrs.kmodernlrs.gson.GsonMessageHandler
-import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Configuration
 
-@Component
-//@ApplicationPath(ApiEndpoints.API_PATH)
+@Configuration
 open class JerseyConfig : ResourceConfig {
 	
 	constructor() {

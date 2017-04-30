@@ -1,7 +1,8 @@
 package org.lrs.kmodernlrs.services
 
+import org.lrs.kmodernlrs.models.Entity
 import org.lrs.kmodernlrs.models.Statement
-import org.lrs.kmodernlrs.repository.RepositoryCustomImpl
+import org.lrs.kmodernlrs.repository.RepositoryCustom
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -15,7 +16,7 @@ open class StatementServiceImpl : StatementService {
 //    lateinit var statementRepo: StatementRepository
 
     @Autowired
-    lateinit var repoCustom: RepositoryCustomImpl
+    lateinit var repoCustom: RepositoryCustom<Entity>
 
     override fun createStatement(statement: Statement) : Boolean {
 //        return repo.insert(statement, Statement::class.java )

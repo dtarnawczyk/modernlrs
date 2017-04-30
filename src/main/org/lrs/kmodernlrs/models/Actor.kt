@@ -9,20 +9,20 @@ import java.util.*
 //				" 'openid' : 1, 'account.name' : 1, 'account.homePage' : 1}")
 @Document(collection = "actors")
 data class Actor(
-        @Id
-		var id: String? = UUID.randomUUID().toString(),
-        /**
+		@Id
+		override var id: String = UUID.randomUUID().toString(),
+		/**
 		 * Optional (https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#242-actor)
 		 * Possible options: "Agent", "Group" or none
 		 */
 		var objectType: String? = "",
-        var name: String? = "",
-        var mbox: String? = "",
-        var mbox_sha1sum: String? = "",
-        var openid: String? = "",
-        var member: List<Actor> = listOf(),
-        var account: Account? = null
-	) : Serializable {
+		var name: String? = "",
+		var mbox: String? = "",
+		var mbox_sha1sum: String? = "",
+		var openid: String? = "",
+		var member: List<Actor> = listOf(),
+		var account: Account? = null
+	) : Serializable, Entity {
 	
 	companion object {
 		private val serialVersionUID:Long = 1

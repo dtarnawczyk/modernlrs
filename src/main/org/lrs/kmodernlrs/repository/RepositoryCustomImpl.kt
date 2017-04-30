@@ -1,5 +1,8 @@
 package org.lrs.kmodernlrs.repository
 
+import org.lrs.kmodernlrs.models.Entity
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.mongodb.core.MongoOperations
@@ -13,24 +16,27 @@ import org.springframework.stereotype.Repository
  */
 @ConditionalOnProperty(name=arrayOf("database.type"), havingValue="mongodb")
 @Repository
-open class RepositoryCustomImpl : RepositoryCustom {
+open class RepositoryCustomImpl : RepositoryCustom<Entity> {
+
+    val log: Logger = LoggerFactory.getLogger(RepositoryCustomImpl::class.java)
 
     @Autowired lateinit var mongoTemplate : MongoOperations
 
-    override fun <T> create(entity: T) {
+    override fun create(entity: Entity) {
         mongoTemplate.insert(entity)
     }
-    override fun <T> createList(entities: MutableList<T>) {
+    override fun createList(entities: MutableList<Entity>) {
         mongoTemplate.insertAll(entities)
     }
-    override fun <T> update(id: T, claz: Class<*>) {
-        mongoTemplate.save(mongoTemplate.findOne(query(Criteria.where("id").`is`(id)), claz))
+    override fun update(entity: Entity, claz: Class<*>) {
+        mongoTemplate.save(entity)
     }
-//    override fun <T> updateList(entities: MutableList<T>) {
+    //    override fun <T> updateList(entities: MutableList<T>) {
 //    }
-    override fun <T> findById(id: T, claz: Class<*>) : Any? = mongoTemplate.findOne(query(Criteria.where("id").`is`(id)), claz)
+    override fun findById(id: String, claz: Class<*>) : Any? =
+            mongoTemplate.findOne(query(Criteria.where("id").`is`(id)), claz)
 
-    override fun fimdByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?{
+    override fun findByAttrs(attrs: Map<String, String>, claz: Class<*>) : Any?{
         val criterias = arrayListOf<Criteria>()
         for ((key, value) in attrs) {
             criterias.add(Criteria.where(key as String?).`is`(value))
@@ -40,10 +46,10 @@ open class RepositoryCustomImpl : RepositoryCustom {
         return mongoTemplate.findOne(query(criteria), claz)
     }
 
-    override fun <T> deleteById(id: T, claz: Class<*>) {
+    override fun deleteById(id: String, claz: Class<*>) {
         mongoTemplate.remove(query(Criteria.where("id").`is`(id)), claz)
     }
-//    override fun <T> delete(entity: T) {
+    //    override fun <T> delete(entity: T) {
 //        mongoTemplate.remove(entity)
 //    }
 //    fun <T> delete(entities: MutableList<T>)
@@ -78,8 +84,8 @@ open class RepositoryCustomImpl : RepositoryCustom {
         return mongoTemplate.find(query, claz)
     }
 
-//    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
+    //    fun <T> findAll(ids: MutableList<T>, claz: Class<*>): List<Any>?
     override fun getCount(claz: Class<*>) : Long = mongoTemplate.findAll(claz).size.toLong()
 
-    override fun <T> exists(id: T, claz: Class<*>) : Boolean = mongoTemplate.exists(query(Criteria.where("id").`is`(id)), claz)
+    override fun exists(id: String, claz: Class<*>) : Boolean = mongoTemplate.exists(query(Criteria.where("id").`is`(id)), claz)
 }

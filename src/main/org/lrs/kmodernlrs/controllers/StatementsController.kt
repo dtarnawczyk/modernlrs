@@ -16,19 +16,18 @@ import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RestController
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
-const val JSON_TYPE:String = "application/json"
-
-@Controller
+@RestController
 @Path(ApiEndpoints.STATEMENTS_ENDPOINT)
 open class StatementsController {
 
@@ -46,7 +45,7 @@ open class StatementsController {
 	}
 	
 	@GET
-	@Produces(JSON_TYPE)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{statementId}")
 	@Cacheable("statements")
 	fun getStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
@@ -62,7 +61,7 @@ open class StatementsController {
 	}
 	
 	@GET
-	@Produces(JSON_TYPE)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Cacheable("statements")
 	fun getAllStatements(@Context request: HttpServletRequest, @Context context: SecurityContext)
 			: String {
@@ -78,7 +77,7 @@ open class StatementsController {
 
 	@PUT
 	@Path("/{statementId}")
-	@Consumes(JSON_TYPE)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@CachePut("statements")
 	fun putStatementWithId(@Context request: HttpServletRequest,
 						   @Context context: SecurityContext,
@@ -110,7 +109,7 @@ open class StatementsController {
 	}
 
 	@POST
-	@Consumes(JSON_TYPE)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@CachePut("statements")
 	fun postStatement(@Context request: HttpServletRequest, @Context context: SecurityContext,
                       jsonStatement: String) : Response {

@@ -1,6 +1,7 @@
 package org.lrs.kmodernlrs.services
 
 import org.lrs.kmodernlrs.event.XapiEvent
+import org.lrs.kmodernlrs.models.Entity
 import org.lrs.kmodernlrs.repository.RepositoryCustom
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,7 +14,7 @@ open class EventServiceImpl : EventService {
     val log: Logger = LoggerFactory.getLogger(AgentsServiceImpl::class.java)
 
     @Autowired
-    lateinit var repo: RepositoryCustom
+    lateinit var repo: RepositoryCustom<Entity>
 
     override fun saveEvent(event: XapiEvent){
         if(event.source.equals("0:0:0:0:0:0:0:1")){

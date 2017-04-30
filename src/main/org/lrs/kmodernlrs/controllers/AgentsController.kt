@@ -15,17 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.RestController
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
-@Component
+@RestController
 @Path(ApiEndpoints.AGENTS_ENDPOINT)
 open class AgentsController {
 
@@ -42,8 +43,8 @@ open class AgentsController {
     }
 
     @POST
-    @Consumes(JSON_TYPE)
-    @Produces(JSON_TYPE)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Cacheable("statements")
     fun getAgents(@Context request: HttpServletRequest, @Context context: SecurityContext,
                   agentDetailsJson: String) : Response {

@@ -8,7 +8,7 @@ import java.util.*
 @Document(collection = "activities")
 data class Activity(
         @Id
-		var id: String? = UUID.randomUUID().toString(),
+		override var id: String = UUID.randomUUID().toString(),
         var type: String? = "",
         var name: Map<String, String>? = mapOf(),
         var description: Map<String, String> = mapOf(),
@@ -20,7 +20,7 @@ data class Activity(
         var source: List<InteractionComponent>? = listOf(),
         var target: List<InteractionComponent>? = listOf(),
         var steps: List<InteractionComponent>? = listOf(),
-        var extensions: Map<String, Any>? = mapOf() ) : Serializable {
+        var extensions: Map<String, Any>? = mapOf() ) : Serializable, Entity {
 		
 	companion object {
 		private val serialVersionUID:Long = 1

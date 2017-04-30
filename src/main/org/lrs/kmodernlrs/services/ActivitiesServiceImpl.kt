@@ -2,6 +2,7 @@ package org.lrs.kmodernlrs.services
 
 //import org.lrs.kmodernlrs.repository.RepositoryCustomImpl
 import org.lrs.kmodernlrs.models.Activity
+import org.lrs.kmodernlrs.models.Entity
 import org.lrs.kmodernlrs.repository.RepositoryCustom
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,7 +15,7 @@ open class ActivitiesServiceImpl : ActivitiesService {
     val log: Logger = LoggerFactory.getLogger(ActivitiesServiceImpl::class.java)
 
     @Autowired
-    lateinit var repo: RepositoryCustom
+    lateinit var repo: RepositoryCustom<Entity>
 
     override fun getActivity(id: String) : Activity? = repo.findById(id, Activity::class.java) as Activity?
 

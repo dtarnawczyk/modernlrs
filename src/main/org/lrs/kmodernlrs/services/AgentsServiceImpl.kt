@@ -2,6 +2,7 @@ package org.lrs.kmodernlrs.services
 
 //import org.lrs.kmodernlrs.repository.RepositoryCustomImpl
 import org.lrs.kmodernlrs.models.Actor
+import org.lrs.kmodernlrs.models.Entity
 import org.lrs.kmodernlrs.repository.RepositoryCustom
 import org.lrs.kmodernlrs.util.InverseFunctionalIdentifierHelper
 import org.slf4j.Logger
@@ -15,11 +16,11 @@ open class AgentsServiceImpl : AgentsService {
     val log: Logger = LoggerFactory.getLogger(AgentsServiceImpl::class.java)
 
     @Autowired
-    lateinit var repo: RepositoryCustom
+    lateinit var repo: RepositoryCustom<Entity>
 
     override fun getAgentDetails(actor: Actor) : Actor? {
         val attributes = InverseFunctionalIdentifierHelper.getAvailableAttrsFromActor(actor)
-        return repo.fimdByAttrs(attributes, Actor::class.java) as Actor?
+        return repo.findByAttrs(attributes, Actor::class.java) as Actor?
     }
 
     override fun getAll() : List<Actor>? {

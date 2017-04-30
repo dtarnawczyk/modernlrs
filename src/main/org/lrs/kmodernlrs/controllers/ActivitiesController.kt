@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.RestController
 import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -25,12 +25,13 @@ import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.WebApplicationException
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
 data class ActivityId(var activityId: String)
 
-@Component
+@RestController
 @Path(ApiEndpoints.ACTIVITIES_ENDPOINT)
 open class ActivitiesController {
 
@@ -47,7 +48,7 @@ open class ActivitiesController {
     }
 
     @POST
-    @Consumes(JSON_TYPE)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Cacheable("statements")
     fun getActivity(@Context request: HttpServletRequest, @Context context: SecurityContext,
                     activityIdStr: String) : Response {

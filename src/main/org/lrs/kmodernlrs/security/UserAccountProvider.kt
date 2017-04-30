@@ -1,6 +1,8 @@
 package org.lrs.kmodernlrs.security
 
 import org.lrs.kmodernlrs.services.UserAccountService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -9,6 +11,8 @@ import java.time.LocalDate
 class UserAccountProvider : AccountProvider {
 
 	@Autowired lateinit var accountService: UserAccountService
+
+	val log: Logger = LoggerFactory.getLogger(UserAccountProvider::class.java)
 	
 	override fun getUserAccount(username: String) : UserAccount? =
 			accountService.getUserAccountByUsername(username)

@@ -1,5 +1,6 @@
 package org.lrs.kmodernlrs.event
 
+import org.lrs.kmodernlrs.models.Entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable
@@ -13,8 +14,8 @@ data class XapiEvent(
         var method: String? = "", /* GET, PUT, POST */
         var source: String = "",
         @Id
-        var id: String = UUID.randomUUID().toString()
-    ) : Serializable {
+        override var id: String = UUID.randomUUID().toString()
+    ) : Serializable, Entity {
 
     companion object {
         private val serialVersionUID:Long = 1
