@@ -1,4 +1,4 @@
-package org.lrs.kmodernlrs.apps
+package org.lrs.kmodernlrs.security
 
 //import org.springframework.context.ApplicationContext
 import org.springframework.beans.factory.annotation.Value

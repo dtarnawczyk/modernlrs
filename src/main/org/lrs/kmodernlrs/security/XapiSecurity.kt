@@ -1,4 +1,4 @@
-package org.lrs.kmodernlrs.apps
+package org.lrs.kmodernlrs.security
 
 import org.lrs.kmodernlrs.ApiEndpoints
 import org.lrs.kmodernlrs.filters.HeaderFilter
