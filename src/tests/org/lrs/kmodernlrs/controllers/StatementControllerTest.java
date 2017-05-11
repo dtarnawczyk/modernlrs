@@ -113,7 +113,7 @@ public class StatementControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(statementJson))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     private Statement createMockStatement() {

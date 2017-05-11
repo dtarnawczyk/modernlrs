@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/base.xml"/>
-	<logger name="file" level="WARN" additivity="false">
+	<logger name="org.lrs.kmodernlrs" level="WARN" additivity="false">
 		<appender-ref ref="FILE"/>
 	</logger>
-	<logger name="stdout" level="WARN" additivity="false">
+	<logger name="org.lrs.kmodernlrs" level="WARN" additivity="false">
 		<appender-ref ref="CONSOLE"/>
 	</logger>
 </configuration>

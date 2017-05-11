@@ -90,7 +90,6 @@ dependencies {
     compile ('commons-codec:commons-codec:1.10')
     compile ('org.webjars:angularjs:1.6.1')
     compile ('org.webjars:bootstrap:3.3.7')
-    compile ('net.sf.ehcache:ehcache:2.10.3')
     dev ('org.springframework.boot:spring-boot-devtools')
     testCompile ('org.springframework.boot:spring-boot-starter-test')
     testCompile ('org.jetbrains.kotlin:kotlin-test-junit:1.1.1')

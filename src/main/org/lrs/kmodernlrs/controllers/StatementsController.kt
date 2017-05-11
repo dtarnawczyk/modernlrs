@@ -96,7 +96,7 @@ open class StatementsController {
 							.entity("Statement with id: $statementId already exists!").build())
 				} else {
 					registerStatement(request, context, statement)
-					return Response.status(HttpServletResponse.SC_OK).build()
+					return Response.status(HttpServletResponse.SC_CREATED).build()
 				}
 			} else {
 				throw WebApplicationException(Response.status(HttpServletResponse.SC_CONFLICT).build())
