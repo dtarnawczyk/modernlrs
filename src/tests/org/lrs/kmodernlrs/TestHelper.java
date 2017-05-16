@@ -1,7 +1,7 @@
 package org.lrs.kmodernlrs;
 
 import org.apache.commons.codec.binary.Base64;
-import org.lrs.kmodernlrs.security.UserAccount;
+import org.lrs.kmodernlrs.controllers.security.UserAccount;
 
 public class TestHelper {
     public static String createBasicAuthHash(String userName, String password) {

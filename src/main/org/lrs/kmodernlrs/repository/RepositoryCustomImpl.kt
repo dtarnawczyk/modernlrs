@@ -1,6 +1,7 @@
 package org.lrs.kmodernlrs.repository
 
-import org.lrs.kmodernlrs.models.Entity
+import org.lrs.kmodernlrs.domain.Entity
+import org.lrs.kmodernlrs.domain.repository.RepositoryCustom
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

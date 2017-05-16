@@ -1,7 +1,7 @@
 package org.lrs.kmodernlrs.repository
 
 //import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.lrs.kmodernlrs.models.Statement
+import org.lrs.kmodernlrs.domain.Statement
 import org.springframework.data.mongodb.repository.MongoRepository
 
 //import org.springframework.stereotype.Repository

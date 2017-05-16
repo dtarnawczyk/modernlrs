@@ -2,12 +2,11 @@ package org.lrs.kmodernlrs.controllers
 
 //import javax.ws.rs.Produces
 import com.google.gson.Gson
-import org.lrs.kmodernlrs.ApiEndpoints
 import org.lrs.kmodernlrs.event.XapiEvent
 import org.lrs.kmodernlrs.event.XapiEventData
 import org.lrs.kmodernlrs.gson.GsonFactoryProvider
-import org.lrs.kmodernlrs.models.Activity
-import org.lrs.kmodernlrs.security.UserAccount
+import org.lrs.kmodernlrs.domain.Activity
+import org.lrs.kmodernlrs.controllers.security.UserAccount
 import org.lrs.kmodernlrs.services.ActivitiesService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

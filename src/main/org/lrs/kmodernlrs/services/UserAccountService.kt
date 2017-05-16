@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.services
 
-import org.lrs.kmodernlrs.security.UserAccount
+import org.lrs.kmodernlrs.controllers.security.UserAccount
 
 interface UserAccountService {
     fun createUserAccount(user: UserAccount)

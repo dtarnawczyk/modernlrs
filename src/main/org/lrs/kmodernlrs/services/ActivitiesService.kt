@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.services
 
-import org.lrs.kmodernlrs.models.Activity
+import org.lrs.kmodernlrs.domain.Activity
 
 interface ActivitiesService {
 

@@ -1,9 +1,9 @@
 package org.lrs.kmodernlrs.services
 
 //import org.lrs.kmodernlrs.repository.RepositoryCustomImpl
-import org.lrs.kmodernlrs.models.Actor
-import org.lrs.kmodernlrs.models.Entity
-import org.lrs.kmodernlrs.repository.RepositoryCustom
+import org.lrs.kmodernlrs.domain.Actor
+import org.lrs.kmodernlrs.domain.Entity
+import org.lrs.kmodernlrs.domain.repository.RepositoryCustom
 import org.lrs.kmodernlrs.util.InverseFunctionalIdentifierHelper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

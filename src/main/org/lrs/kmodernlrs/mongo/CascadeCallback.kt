@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.mongo
 
-import org.lrs.kmodernlrs.models.XapiObject
+import org.lrs.kmodernlrs.domain.XapiObject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoOperations
@@ -38,9 +38,9 @@ class CascadeCallback(var source: Any?, mongoOperations: MongoOperations) : Fiel
                 if ((objectType != null) && (objectType.equals("activity", true))) {
                     val definitionField: Field = ReflectionUtils.findField(XapiObject::class.java, "definition")
                     ReflectionUtils.makeAccessible(definitionField)
-                    val definition: org.lrs.kmodernlrs.models.Activity?
+                    val definition: org.lrs.kmodernlrs.domain.Activity?
                                 = ReflectionUtils.getField(definitionField, fieldValue)
-                                as? org.lrs.kmodernlrs.models.Activity
+                                as? org.lrs.kmodernlrs.domain.Activity
                     if(definition != null) {
                         val idField: Field = ReflectionUtils.findField(XapiObject::class.java, "id")
                         ReflectionUtils.makeAccessible(idField)

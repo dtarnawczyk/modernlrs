@@ -7,11 +7,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.lrs.kmodernlrs.Application
-import org.lrs.kmodernlrs.models.Actor
-import org.lrs.kmodernlrs.models.Statement
-import org.lrs.kmodernlrs.models.Verb
-import org.lrs.kmodernlrs.models.XapiObject
+import org.lrs.kmodernlrs.domain.Actor
+import org.lrs.kmodernlrs.domain.Statement
+import org.lrs.kmodernlrs.domain.Verb
+import org.lrs.kmodernlrs.domain.XapiObject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

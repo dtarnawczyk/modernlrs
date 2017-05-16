@@ -1,8 +1,8 @@
 package org.lrs.kmodernlrs.services
 
-import org.lrs.kmodernlrs.models.Entity
-import org.lrs.kmodernlrs.models.Statement
-import org.lrs.kmodernlrs.repository.RepositoryCustom
+import org.lrs.kmodernlrs.domain.Entity
+import org.lrs.kmodernlrs.domain.Statement
+import org.lrs.kmodernlrs.domain.repository.RepositoryCustom
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.services
 
-import org.lrs.kmodernlrs.models.Actor
+import org.lrs.kmodernlrs.domain.Actor
 
 interface AgentsService {
 

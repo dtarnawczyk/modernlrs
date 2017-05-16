@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.event
 
-import org.lrs.kmodernlrs.models.Entity
+import org.lrs.kmodernlrs.domain.Entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable

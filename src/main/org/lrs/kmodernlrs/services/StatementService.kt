@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.services
 
-import org.lrs.kmodernlrs.models.Statement
+import org.lrs.kmodernlrs.domain.Statement
 
 interface StatementService {
 

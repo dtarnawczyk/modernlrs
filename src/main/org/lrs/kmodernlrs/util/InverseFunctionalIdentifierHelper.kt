@@ -1,6 +1,6 @@
 package org.lrs.kmodernlrs.util
 
-import org.lrs.kmodernlrs.models.Actor
+import org.lrs.kmodernlrs.domain.Actor
 import java.util.*
 
 object InverseFunctionalIdentifierHelper {

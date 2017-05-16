@@ -1,11 +1,11 @@
 package org.lrs.kmodernlrs.controllers
 
 import org.lrs.kmodernlrs.event.XapiEvent
-import org.lrs.kmodernlrs.models.Activity
-import org.lrs.kmodernlrs.models.Actor
-import org.lrs.kmodernlrs.models.Statement
-import org.lrs.kmodernlrs.security.UserAccount
-import org.lrs.kmodernlrs.security.UserAccountProvider
+import org.lrs.kmodernlrs.domain.Activity
+import org.lrs.kmodernlrs.domain.Actor
+import org.lrs.kmodernlrs.domain.Statement
+import org.lrs.kmodernlrs.controllers.security.UserAccount
+import org.lrs.kmodernlrs.controllers.security.UserAccountProvider
 import org.lrs.kmodernlrs.services.ActivitiesService
 import org.lrs.kmodernlrs.services.AgentsService
 import org.lrs.kmodernlrs.services.EventService

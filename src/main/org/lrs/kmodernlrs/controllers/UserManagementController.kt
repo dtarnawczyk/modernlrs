@@ -1,7 +1,7 @@
 package org.lrs.kmodernlrs.controllers
 
-import org.lrs.kmodernlrs.security.UserAccount
-import org.lrs.kmodernlrs.security.UserAccountProvider
+import org.lrs.kmodernlrs.controllers.security.UserAccount
+import org.lrs.kmodernlrs.controllers.security.UserAccountProvider
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
